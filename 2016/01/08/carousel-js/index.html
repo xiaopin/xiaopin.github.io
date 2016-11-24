@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>JavaScript广告轮播插件 | 吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用示例12345678910111213141516171819202122232425262728293031323334&amp;lt;html&amp;gt;	&amp;lt;head&amp;gt;		&amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;	&amp;lt;/head&amp;gt;	&amp;lt;body&amp;gt;		&amp;lt;div&amp;gt;			&amp;lt;div id=&quot;adprev&quot;&amp;gt;Prev&amp;lt;/div&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript广告轮播插件">
+<meta property="og:url" content="http://www.0daybug.com/2016/01/08/carousel-js/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="使用示例12345678910111213141516171819202122232425262728293031323334&amp;lt;html&amp;gt;	&amp;lt;head&amp;gt;		&amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;	&amp;lt;/head&amp;gt;	&amp;lt;body&amp;gt;		&amp;lt;div&amp;gt;			&amp;lt;div id=&quot;adprev&quot;&amp;gt;Prev&amp;lt;/div&amp;gt;">
+<meta property="og:updated_time" content="2016-11-24T10:49:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript广告轮播插件">
+<meta name="twitter:description" content="使用示例12345678910111213141516171819202122232425262728293031323334&amp;lt;html&amp;gt;	&amp;lt;head&amp;gt;		&amp;lt;title&amp;gt;&amp;lt;/title&amp;gt;	&amp;lt;/head&amp;gt;	&amp;lt;body&amp;gt;		&amp;lt;div&amp;gt;			&amp;lt;div id=&quot;adprev&quot;&amp;gt;Prev&amp;lt;/div&amp;gt;">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="#" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="null" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-carousel-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript广告轮播插件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"adprev"</span>&gt;</span>Prev<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"adnexa"</span>&gt;</span>Next<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"pageControl"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"adCarousel"</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">				<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">	new AdCarousel(&#123;</div><div class="line">        pageUlId : 'pageControl',</div><div class="line">        pageSelectClass : 'thistitle',</div><div class="line">        prevButtonId : 'adprev',</div><div class="line">        nextButtonId : 'adnext',</div><div class="line">        imageCarouselId : 'adCarousel',</div><div class="line">        speed : 20,</div><div class="line">        scrollDuration : 2000,</div><div class="line">        autoScroll : true,</div><div class="line">        direction : 'horizontal',</div><div class="line">    &#125;);</div><div class="line">	<span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="插件源码"><a href="#插件源码" class="headerlink" title="插件源码"></a>插件源码</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*!</span></div><div class="line"> * 广告幻灯片轮播插件</div><div class="line"> * @author xiaopin</div><div class="line"> * @version 1.0</div><div class="line"> * @example</div><div class="line"> *  new AdCarousel(&#123;</div><div class="line"> *      pageUlId : 'pageControl', // 页码ul标签的id</div><div class="line"> *      pageSelectClass : 'page-selected', // 页码被选中的样式类</div><div class="line"> *      pageAttribute : 'data-page',</div><div class="line"> *      prevButtonId : 'prev', // 上一页按钮的id</div><div class="line"> *      nextButtonId : 'next', // 下一页按钮的id</div><div class="line"> *      imageCarouselId : 'adCarousel', // 广告图片的ul标签id</div><div class="line"> *      speed : 20, // 滚动速度,数值越大,速度越慢</div><div class="line"> *      scrollDuration : 2000, // 滚动间隔时间</div><div class="line"> *      autoScroll : true,</div><div class="line"> *      direction : 'horizontal' // 滚动方向(vertical|horizontal)</div><div class="line"> *      perMoveDistance : 50 // 每次移动的距离</div><div class="line"> *  &#125;);</div><div class="line"> */</div><div class="line">; (<span class="function"><span class="keyword">function</span>(<span class="params">window</span>) </span>&#123;</div><div class="line">    <span class="built_in">window</span>.AdCarousel = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> timer = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">var</span> currentImageIndex = <span class="number">0</span>;</div><div class="line">        <span class="keyword">var</span> adImageCount = <span class="number">0</span>;</div><div class="line">        <span class="keyword">var</span> currentPageLi = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">var</span> allPages = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">var</span> config = &#123;</div><div class="line">            <span class="attr">pageUlId</span>: <span class="string">"pageControl"</span>,</div><div class="line">            <span class="attr">pageSelectClass</span>: <span class="string">"page-selected"</span>,</div><div class="line">            <span class="attr">pageAttribute</span>: <span class="string">"data-page"</span>,</div><div class="line">            <span class="attr">prevButtonId</span>: <span class="string">"prev"</span>,</div><div class="line">            <span class="attr">nextButtonId</span>: <span class="string">"next"</span>,</div><div class="line">            <span class="attr">imageCarouselId</span>: <span class="string">"adCarousel"</span>,</div><div class="line">            <span class="attr">speed</span>: <span class="number">20</span>,</div><div class="line">            <span class="attr">scrollDuration</span>: <span class="number">2000</span>,</div><div class="line">            <span class="attr">autoScroll</span>: <span class="literal">true</span>,</div><div class="line">            <span class="attr">direction</span>: <span class="string">"horizontal"</span>,</div><div class="line">            <span class="attr">perMoveDistance</span>: <span class="number">50</span>,</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">            extend(config, options);</div><div class="line">            <span class="keyword">if</span> (config.autoScroll) &#123;</div><div class="line">                <span class="keyword">this</span>.startScroll()</div><div class="line">            &#125;</div><div class="line">            adImageCount = children(<span class="built_in">document</span>.getElementById(config.imageCarouselId), <span class="string">"LI"</span>).length;</div><div class="line">            <span class="keyword">var</span> prevButton = <span class="built_in">document</span>.getElementById(config.prevButtonId);</div><div class="line">            bindEvent(prevButton, <span class="string">"click"</span>,</div><div class="line">            <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                self.previousImage()</div><div class="line">            &#125;);</div><div class="line">            <span class="keyword">var</span> nextButton = <span class="built_in">document</span>.getElementById(config.nextButtonId);</div><div class="line">            bindEvent(nextButton, <span class="string">"click"</span>,</div><div class="line">            <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                self.nextImage(<span class="literal">true</span>)</div><div class="line">            &#125;);</div><div class="line">            <span class="keyword">var</span> pageUl = <span class="built_in">document</span>.getElementById(config.pageUlId);</div><div class="line">            allPages = children(pageUl, <span class="string">"LI"</span>);</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> allPages) &#123;</div><div class="line">                <span class="keyword">var</span> li = allPages[i];</div><div class="line">                <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</div><div class="line">                    currentPageLi = li;</div><div class="line">                    li.className = config.pageSelectClass</div><div class="line">                &#125;</div><div class="line">                li.setAttribute(config.pageAttribute, i);</div><div class="line">                bindEvent(li, <span class="string">"click"</span>,</div><div class="line">                <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                    pageClicked.call(self, <span class="keyword">this</span>)</div><div class="line">                &#125;)</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.startScroll = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">            <span class="keyword">var</span> ad = <span class="built_in">document</span>.getElementById(config.imageCarouselId);</div><div class="line">            <span class="keyword">if</span> (!ad || children(ad, <span class="string">"LI"</span>).length == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (timer != <span class="literal">null</span>) &#123;</div><div class="line">                clearInterval(timer)</div><div class="line">            &#125;</div><div class="line">            timer = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                self.nextImage()</div><div class="line">            &#125;,</div><div class="line">            config.scrollDuration)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.previousImage = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> index = currentImageIndex - <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (index &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            currentPageHighlight(index);</div><div class="line">            imageScrollAnimate.call(<span class="keyword">this</span>, index)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">this</span>.nextImage = <span class="function"><span class="keyword">function</span>(<span class="params">stop</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> index = currentImageIndex + <span class="number">1</span>;</div><div class="line">            <span class="keyword">if</span> (index &gt;= adImageCount) &#123;</div><div class="line">                <span class="keyword">if</span> (stop === <span class="literal">true</span>) &#123;</div><div class="line">                    <span class="keyword">return</span></div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    index = <span class="number">0</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            currentPageHighlight(index);</div><div class="line">            imageScrollAnimate.call(<span class="keyword">this</span>, index)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> pageClicked = <span class="function"><span class="keyword">function</span>(<span class="params">li</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> index = li.getAttribute(config.pageAttribute);</div><div class="line">            currentPageHighlight(index);</div><div class="line">            imageScrollAnimate.call(<span class="keyword">this</span>, index)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> currentPageHighlight = <span class="function"><span class="keyword">function</span>(<span class="params">index</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt;= allPages.length) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">var</span> li = allPages[index];</div><div class="line">            <span class="keyword">if</span> (currentPageLi != <span class="literal">null</span>) &#123;</div><div class="line">                currentPageLi.className = <span class="string">""</span></div><div class="line">            &#125;</div><div class="line">            li.className = config.pageSelectClass;</div><div class="line">            currentPageLi = li</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> imageScrollAnimate = <span class="function"><span class="keyword">function</span>(<span class="params">targetIndex</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">            <span class="keyword">var</span> moveDistance = config.perMoveDistance * (targetIndex &gt; currentImageIndex ? <span class="number">1</span> : <span class="number">-1</span>);</div><div class="line">            <span class="keyword">var</span> ad = <span class="built_in">document</span>.getElementById(config.imageCarouselId);</div><div class="line">            targetIndex = <span class="built_in">parseInt</span>(targetIndex);</div><div class="line">            <span class="keyword">if</span> (!ad || <span class="built_in">isNaN</span>(targetIndex) || targetIndex &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (timer != <span class="literal">null</span>) &#123;</div><div class="line">                clearInterval(timer)</div><div class="line">            &#125;</div><div class="line">            currentImageIndex = targetIndex;</div><div class="line">            <span class="keyword">var</span> attr = getScrollAttribute();</div><div class="line">            <span class="keyword">var</span> targetValue = targetIndex * getScrollDistance();</div><div class="line">            timer = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="keyword">var</span> val = <span class="built_in">parseInt</span>(elementStyle(ad, attr));</div><div class="line">                val = (<span class="built_in">isNaN</span>(val) ? <span class="number">0</span> : <span class="built_in">Math</span>.abs(val)) + moveDistance;</div><div class="line">                <span class="keyword">if</span> (moveDistance &gt; <span class="number">0</span> &amp;&amp; val &gt; targetValue) &#123;</div><div class="line">                    val = targetValue</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (moveDistance &lt; <span class="number">0</span> &amp;&amp; val &lt; targetValue) &#123;</div><div class="line">                        val = targetValue</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (val == targetValue) &#123;</div><div class="line">                    clearInterval(timer);</div><div class="line">                    val = targetValue;</div><div class="line">                    <span class="keyword">if</span> (config.autoScroll) &#123;</div><div class="line">                        timer = setInterval(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                            self.nextImage()</div><div class="line">                        &#125;,</div><div class="line">                        config.scrollDuration)</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">var</span> style = attr + <span class="string">":-"</span> + val + <span class="string">"px"</span>;</div><div class="line">                ad.setAttribute(<span class="string">"style"</span>, style)</div><div class="line">            &#125;,</div><div class="line">            config.speed)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> isEmptyObject = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> obj) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> elementStyle = <span class="function"><span class="keyword">function</span>(<span class="params">obj, style</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span>(obj) !== <span class="string">"object"</span> || obj == <span class="literal">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (obj.currentStyle) &#123;</div><div class="line">                    <span class="keyword">return</span> obj.currentStyle[style]</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="built_in">window</span>.getComputedStyle(obj, <span class="literal">null</span>)[style]</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> extend = <span class="function"><span class="keyword">function</span>(<span class="params">obj, ext</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span> || isEmptyObject(ext)) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> ext) &#123;</div><div class="line">                obj[prop] = ext[prop]</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> bindEvent = <span class="function"><span class="keyword">function</span>(<span class="params">obj, event, callback</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> obj !== <span class="string">"object"</span> || obj == <span class="literal">null</span> || <span class="keyword">typeof</span> event != <span class="string">"string"</span> || <span class="keyword">typeof</span> callback != <span class="string">"function"</span>) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (obj.addEventListener) &#123;</div><div class="line">                event = event.replace(<span class="regexp">/^on/i</span>, <span class="string">""</span>).toLowerCase();</div><div class="line">                obj.addEventListener(event, callback)</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (obj.attachEvent) &#123;</div><div class="line">                    <span class="keyword">if</span> (!<span class="regexp">/^on/i</span>.test(event)) &#123;</div><div class="line">                        event = (<span class="string">"on"</span> + event).toLowerCase()</div><div class="line">                    &#125;</div><div class="line">                    obj.attachEvent(event, callback)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> getScrollAttribute = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (config.direction == <span class="string">"horizontal"</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="string">"left"</span></div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (config.direction == <span class="string">"vertical"</span>) &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="string">"top"</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="string">""</span></div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> getScrollDistance = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (config.distance === <span class="literal">undefined</span>) &#123;</div><div class="line">                <span class="keyword">var</span> ad = <span class="built_in">document</span>.getElementById(config.imageCarouselId);</div><div class="line">                <span class="keyword">var</span> images = children(ad, <span class="string">"LI"</span>);</div><div class="line">                <span class="keyword">if</span> (images.length) &#123;</div><div class="line">                    <span class="keyword">var</span> img = images[<span class="number">0</span>];</div><div class="line">                    config.distance = img.offsetWidth</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> config.distance</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">var</span> children = <span class="function"><span class="keyword">function</span>(<span class="params">obj, childTagName</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> elements = [];</div><div class="line">            childTagName = childTagName ? childTagName.toUpperCase() : <span class="string">""</span>;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> obj === <span class="string">"object"</span> &amp;&amp; obj != <span class="literal">null</span>) &#123;</div><div class="line">                <span class="keyword">var</span> length = obj.childNodes.length;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">                    <span class="keyword">var</span> child = obj.childNodes[i];</div><div class="line">                    <span class="keyword">if</span> (child.nodeType == <span class="number">1</span>) &#123;</div><div class="line">                        <span class="keyword">if</span> (childTagName != <span class="string">""</span> &amp;&amp; child.tagName != childTagName) &#123;</div><div class="line">                            <span class="keyword">continue</span></div><div class="line">                        &#125;</div><div class="line">                        elements.push(child)</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> elements</div><div class="line">        &#125;;</div><div class="line">        init.call(<span class="keyword">this</span>, options)</div><div class="line">    &#125;</div><div class="line">&#125; (<span class="built_in">window</span>));</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/08/carousel-js/" class="archive-article-date">
+  	<time datetime="2016-01-08T06:43:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/01/12/textlength-js/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JavaScript实时统计输入框字符数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/18/zh2tw-js/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript简体繁体互相转换</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 吴品诚
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接1</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接2</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接3</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接4</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接5</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接6</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

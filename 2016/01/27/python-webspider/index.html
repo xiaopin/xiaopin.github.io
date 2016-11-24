@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>Python网页爬虫 | 吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在自学Python，感谢廖雪峰前辈的Python教程。看了这教程，算是对Python语法有了一点基础，越发地迷上Python，想继续深入学习Python，在网上找了下资料，发现鱼C网站有Python视频教程，更难能可贵的是居然有百度网盘的分享地址，鱼C的教程我并不陌生，之前就看过鱼C出品的汇编语言教程，觉得挺不错的。所以就想着保存一份到自己的网盘上，但是10页数据一共97个视频，难道你还要一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python网页爬虫">
+<meta property="og:url" content="http://www.0daybug.com/2016/01/27/python-webspider/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="最近在自学Python，感谢廖雪峰前辈的Python教程。看了这教程，算是对Python语法有了一点基础，越发地迷上Python，想继续深入学习Python，在网上找了下资料，发现鱼C网站有Python视频教程，更难能可贵的是居然有百度网盘的分享地址，鱼C的教程我并不陌生，之前就看过鱼C出品的汇编语言教程，觉得挺不错的。所以就想着保存一份到自己的网盘上，但是10页数据一共97个视频，难道你还要一">
+<meta property="og:updated_time" content="2016-11-24T10:49:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python网页爬虫">
+<meta name="twitter:description" content="最近在自学Python，感谢廖雪峰前辈的Python教程。看了这教程，算是对Python语法有了一点基础，越发地迷上Python，想继续深入学习Python，在网上找了下资料，发现鱼C网站有Python视频教程，更难能可贵的是居然有百度网盘的分享地址，鱼C的教程我并不陌生，之前就看过鱼C出品的汇编语言教程，觉得挺不错的。所以就想着保存一份到自己的网盘上，但是10页数据一共97个视频，难道你还要一">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="null" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="#" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="null" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-python-webspider" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python网页爬虫
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近在自学Python，感谢<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000" target="_blank" rel="external">廖雪峰前辈的Python教程</a>。看了这教程，算是对Python语法有了一点基础，越发地迷上Python，想继续深入学习Python，在网上找了下资料，发现鱼C网站有Python视频教程，更难能可贵的是居然有百度网盘的分享地址，鱼C的教程我并不陌生，之前就看过鱼C出品的汇编语言教程，觉得挺不错的。所以就想着保存一份到自己的网盘上，但是10页数据一共97个视频，难道你还要一个一个点击进入，再点击查看百度网盘的下载地址吗？想想我都觉得要疯了，所以用Python写了这个小脚本，负责抓取所有的百度网盘链接和提取密码，然后调用Mac平台的open命令打开Safari，剩下的事情就简单多了，直接copy提取密码，Command+V然后回车，进去后再保存到自己的网盘。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="comment">#coding:UTF-8</span></div><div class="line"> </div><div class="line"><span class="keyword">import</span> urllib</div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebSpider</span><span class="params">(object)</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="keyword">pass</span></div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">startRun</span><span class="params">(self, baseUrl, startPage, endPage)</span>:</span></div><div class="line">		<span class="keyword">for</span> page <span class="keyword">in</span> range(startPage, endPage+<span class="number">1</span>):</div><div class="line">			url = baseUrl + str(page)</div><div class="line">			links = self.getPageLinksWithUrl(url)</div><div class="line">			<span class="keyword">print</span> len(links)</div><div class="line">			<span class="keyword">for</span> link <span class="keyword">in</span> links:</div><div class="line">				bdInfo = self.getBaiduYunInfo(link)</div><div class="line">				<span class="keyword">if</span> bdInfo == <span class="keyword">None</span>:</div><div class="line">					<span class="keyword">print</span> <span class="string">'The url is parse error: %s'</span> % link</div><div class="line">					<span class="keyword">continue</span></div><div class="line">				<span class="keyword">print</span> bdInfo</div><div class="line">				bdUrl = bdInfo[<span class="number">0</span>]</div><div class="line">				self.openSafari(bdUrl)</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getPageLinksWithUrl</span><span class="params">(self, url)</span>:</span></div><div class="line">		html = self.getHtmlWithUrl(url)</div><div class="line">		links = self.getLinksWithHtml(html)</div><div class="line">		<span class="keyword">return</span> links</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getHtmlWithUrl</span><span class="params">(self, url)</span>:</span></div><div class="line">		fp = urllib.urlopen(url)</div><div class="line">		html = fp.read()</div><div class="line">		<span class="keyword">return</span> html</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getLinksWithHtml</span><span class="params">(self, html)</span>:</span></div><div class="line">		links = []</div><div class="line">		pattern = re.compile(<span class="string">'&lt;div\\s*class=[\'\"](article|tagleft)[\'\"]&gt;\\s*&lt;h2&gt;\\s*&lt;a\\s*href=[\'"]([^"\']*?)[\'"]\\s+rel="bookmark"'</span>)</div><div class="line">		items = re.findall(pattern, html)</div><div class="line">		<span class="keyword">for</span> item <span class="keyword">in</span> items:</div><div class="line">			links.append(item[<span class="number">1</span>])</div><div class="line">		<span class="comment"># remove repeat</span></div><div class="line">		links = list(set(links))</div><div class="line">		<span class="keyword">return</span> links</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">saveLinksToFile</span><span class="params">(self, file)</span>:</span></div><div class="line">		<span class="keyword">pass</span></div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getBaiduYunInfo</span><span class="params">(self, url)</span>:</span></div><div class="line">		html = self.getHtmlWithUrl(url)</div><div class="line">		pattern = re.compile(<span class="string">'&lt;p\\s+class=[\'\"]part[\'\"]\\s+id=[\'\"]download_button_part[\'\"]&gt;(.*?)&lt;/p&gt;'</span>)</div><div class="line">		items = re.findall(pattern, html)</div><div class="line">		<span class="keyword">if</span> len(items) == <span class="number">0</span>:</div><div class="line">			<span class="comment"># fenye</span></div><div class="line">			paging = re.compile(<span class="string">'&lt;div\\s+class=[\'\"]fenye[\'\"]&gt;(.*?)&lt;/div&gt;'</span>)</div><div class="line">			fenye = re.findall(paging, html)</div><div class="line">			<span class="keyword">if</span> len(fenye) == <span class="number">0</span>:</div><div class="line">				<span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">			pagecount = len(fenye[<span class="number">0</span>].split(<span class="string">'&lt;/a&gt;'</span>)) - <span class="number">1</span></div><div class="line">			<span class="keyword">if</span> pagecount &lt;= <span class="number">0</span>:</div><div class="line">				<span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">			pageUrl = <span class="string">r'%s/%d'</span> % (url, pagecount)</div><div class="line">			<span class="keyword">return</span> self.getBaiduYunInfo(pageUrl)</div><div class="line">		_, bdInfo = items[<span class="number">0</span>].split(<span class="string">'|'</span>)</div><div class="line">		<span class="keyword">return</span> self.parseBaiduYunATag(bdInfo)</div><div class="line">		</div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">parseBaiduYunATag</span><span class="params">(self, string)</span>:</span></div><div class="line">		pattern = re.compile(<span class="string">'(href="([^\'\"]*)"|：(\\w&#123;4&#125;))'</span>)</div><div class="line">		items = re.findall(pattern, string)</div><div class="line">		bdUrl = items[<span class="number">0</span>][<span class="number">1</span>]</div><div class="line">		bdPassword = items[<span class="number">1</span>][<span class="number">2</span>]</div><div class="line">		<span class="keyword">return</span> (bdUrl, bdPassword)</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">openSafari</span><span class="params">(self, url)</span>:</span></div><div class="line">		<span class="keyword">if</span> sys.platform != <span class="string">'darwin'</span>:</div><div class="line">			<span class="keyword">return</span></div><div class="line">		cmd = <span class="string">r'open %s'</span> % url</div><div class="line">		os.system(cmd)</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">	url = <span class="string">r"http://blog.fishc.com/category/python/page/"</span></div><div class="line">	spider = WebSpider()</div><div class="line">	spider.startRun(url, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	main()</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/27/python-webspider/" class="archive-article-date">
+  	<time datetime="2016-01-27T09:43:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/11/23/hexo-repository/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          用一个仓库管理hexo博客源码与站点文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/01/12/textlength-js/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JavaScript实时统计输入框字符数</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 吴品诚
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接1</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接2</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接3</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接4</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接5</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接6</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
