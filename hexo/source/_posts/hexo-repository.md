@@ -64,6 +64,12 @@ deploy:
 
 配置好后只需执行`hexo g -d`即可生成静态文件并上传到GitHub上。
 
+### 添加README.md
+
+将README.md文件放到`hexo/source/`目录下，此时部署的话，你会发现hexo把README.md解析成了HTML了。这里采取修改后缀名的方式解决，将`README.md`重命名为`README.mdown`。
+
+如果需要自定义域名，在`hexo/source/`目录下，新建一个`CNAME`文件，文件内容为你的域名（如：0daybug.com）。
+
 
 #### 附上.gitignore的内容
 
