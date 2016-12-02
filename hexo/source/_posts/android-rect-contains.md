@@ -5,7 +5,7 @@ tags:
 	- Android
 ---
 
-最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该点做处的区域。
+最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该坐标点所处的区域。
 
 > 需要注意的是，Android中的`Rect`和iOS中的`CGRect`的概念有点不一样，iOS中的CGRect通过`CGRectMake(x, y, width, height)`方法进行创建，而Android中的Rect通过`public Rect(int left, int top, int right, int bottom)`初始化。iOS中的是`x`、`y`、`width`、`height`，对应的是视图的`x坐标点`、`y坐标点`、`视图的宽度值`、`视图的高度值`；而Android中的是`left`、`top`、`right`、`bottom`对应的是视图的`视图左边距坐标点`、`视图顶部边距的坐标点`、`视图右边距的坐标点`、`视图底部边距的坐标点`。Android中的Rect更类似于iOS中的UIEdgeInsets的概念。
 

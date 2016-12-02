@@ -2,6 +2,7 @@
 title: 用一个仓库管理hexo博客源码与站点文件
 date: 2016-11-23 21:43:41
 tags:
+	- 随记
 ---
 
 在GitHub上创建一个新仓库，注意命名为`username.github.io`即可。
