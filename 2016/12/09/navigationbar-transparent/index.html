@@ -6,24 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>用一个仓库管理hexo博客源码与站点文件 | 吴品诚的技术博客</title>
+  <title>iOS导航栏透明效果 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在GitHub上创建一个新仓库，注意命名为username.github.io即可。
-将仓库克隆到本地12$ cd ~/Documents$ git clone https://github.com/xiaopin/xiaopin.github.io.git
-创建hexo分支用于管理博客源码1234567$ git clone https://github.com/xiaopin/xiaopin.">
+  <meta name="description" content="你可以直接将下面的代码粘贴到viewDidLoad里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的viewWillAppear:方法中将导航栏设置成透明，在viewWillDisappear:中恢复导航栏样式。
+废话不多说，直接上代码。
+12345678// 去除导航栏底部黑色线条UIIm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用一个仓库管理hexo博客源码与站点文件">
-<meta property="og:url" content="http://www.0daybug.com/2016/11/23/hexo-repository/index.html">
+<meta property="og:title" content="iOS导航栏透明效果">
+<meta property="og:url" content="http://www.0daybug.com/2016/12/09/navigationbar-transparent/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="在GitHub上创建一个新仓库，注意命名为username.github.io即可。
-将仓库克隆到本地12$ cd ~/Documents$ git clone https://github.com/xiaopin/xiaopin.github.io.git
-创建hexo分支用于管理博客源码1234567$ git clone https://github.com/xiaopin/xiaopin.">
-<meta property="og:updated_time" content="2016-12-02T13:57:05.000Z">
+<meta property="og:description" content="你可以直接将下面的代码粘贴到viewDidLoad里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的viewWillAppear:方法中将导航栏设置成透明，在viewWillDisappear:中恢复导航栏样式。
+废话不多说，直接上代码。
+12345678// 去除导航栏底部黑色线条UIIm">
+<meta property="og:image" content="http://www.0daybug.com/images/20161209/default.png">
+<meta property="og:image" content="http://www.0daybug.com/images/20161209/transparent.png">
+<meta property="og:image" content="http://www.0daybug.com/images/20161209/transparent2.png">
+<meta property="og:updated_time" content="2016-12-28T12:47:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="用一个仓库管理hexo博客源码与站点文件">
-<meta name="twitter:description" content="在GitHub上创建一个新仓库，注意命名为username.github.io即可。
-将仓库克隆到本地12$ cd ~/Documents$ git clone https://github.com/xiaopin/xiaopin.github.io.git
-创建hexo分支用于管理博客源码1234567$ git clone https://github.com/xiaopin/xiaopin.">
+<meta name="twitter:title" content="iOS导航栏透明效果">
+<meta name="twitter:description" content="你可以直接将下面的代码粘贴到viewDidLoad里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的viewWillAppear:方法中将导航栏设置成透明，在viewWillDisappear:中恢复导航栏样式。
+废话不多说，直接上代码。
+12345678// 去除导航栏底部黑色线条UIIm">
+<meta name="twitter:image" content="http://www.0daybug.com/images/20161209/default.png">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -151,7 +155,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-hexo-repository" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-navigationbar-transparent" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -161,7 +165,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      用一个仓库管理hexo博客源码与站点文件
+      iOS导航栏透明效果
     </h1>
   
 
@@ -169,30 +173,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在GitHub上创建一个新仓库，注意命名为<code>username.github.io</code>即可。</p>
-<h3 id="将仓库克隆到本地"><a href="#将仓库克隆到本地" class="headerlink" title="将仓库克隆到本地"></a>将仓库克隆到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/Documents</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div></pre></td></tr></table></figure>
-<h3 id="创建hexo分支用于管理博客源码"><a href="#创建hexo分支用于管理博客源码" class="headerlink" title="创建hexo分支用于管理博客源码"></a>创建hexo分支用于管理博客源码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">$ <span class="built_in">cd</span> xiaopin.github.io/</div><div class="line">$ git checkout -b hexo</div><div class="line">$ touch .gitignore</div><div class="line">$ git add .gitignore</div><div class="line">$ git commit -m “add .gitignore“</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
-<h3 id="在hexo分支下创建站点"><a href="#在hexo分支下创建站点" class="headerlink" title="在hexo分支下创建站点"></a>在hexo分支下创建站点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ mkdir hexo</div><div class="line">$ <span class="built_in">cd</span> hexo/</div><div class="line">$ hexo init</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<h3 id="安装主题并通过git子模块来管理主题"><a href="#安装主题并通过git子模块来管理主题" class="headerlink" title="安装主题并通过git子模块来管理主题"></a>安装主题并通过git子模块来管理主题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ../</div><div class="line">$ git submodule add https://github.com/litten/hexo-theme-yilia.git hexo/themes/yilia</div></pre></td></tr></table></figure>
-<h3 id="将hexo源码与主题提交到GitHub仓库"><a href="#将hexo源码与主题提交到GitHub仓库" class="headerlink" title="将hexo源码与主题提交到GitHub仓库"></a>将hexo源码与主题提交到GitHub仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git add .</div><div class="line">$ git commit -m <span class="string">"add hexo source and yilia theme"</span></div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
-<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>安装hexo-deployer-git<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure></p>
-<p>修改配置_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
-<p>配置好后只需执行<code>hexo g -d</code>即可生成静态文件并上传到GitHub上。</p>
-<h3 id="添加README-md"><a href="#添加README-md" class="headerlink" title="添加README.md"></a>添加README.md</h3><p>将README.md文件放到<code>hexo/source/</code>目录下，此时部署的话，你会发现hexo把README.md解析成了HTML了。这里采取修改后缀名的方式解决，将<code>README.md</code>重命名为<code>README.mdown</code>。</p>
-<p>如果需要自定义域名，在<code>hexo/source/</code>目录下，新建一个<code>CNAME</code>文件，文件内容为你的域名（如：0daybug.com）。</p>
-<h4 id="附上-gitignore的内容"><a href="#附上-gitignore的内容" class="headerlink" title="附上.gitignore的内容"></a>附上.gitignore的内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.DS_Store</div><div class="line">Thumbs.db</div><div class="line">db.json</div><div class="line">*.log</div><div class="line">node_modules/</div><div class="line">public/</div><div class="line">.deploy*/</div></pre></td></tr></table></figure>
+        <p>你可以直接将下面的代码粘贴到<code>viewDidLoad</code>里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的<code>viewWillAppear:</code>方法中将导航栏设置成透明，在<code>viewWillDisappear:</code>中恢复导航栏样式。</p>
+<p>废话不多说，直接上代码。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 去除导航栏底部黑色线条</span></div><div class="line"><span class="built_in">UIImage</span> *shadowImage = [<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[<span class="keyword">self</span>.navigationController.navigationBar setShadowImage:shadowImage];</div><div class="line"><span class="comment">// 设置透明</span></div><div class="line">[<span class="keyword">self</span> setAutomaticallyAdjustsScrollViewInsets:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">UINavigationBar</span> *navigationBar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">[navigationBar setBarTintColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[navigationBar setBackgroundImage:[<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forBarPosition:<span class="built_in">UIBarPositionAny</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是iOS导航栏的默认效果，半透明。</p>
+<p><img src="/images/20161209/default.png" alt="默认效果"></p>
+<p>这是将UINavigationBar的tintColor和背景图片设置为<code>[UIColor clearColor]</code>之后的效果，可以看到导航栏确实是变成完全透明的了，但是导航栏底部会有一个分割线。</p>
+<p><img src="/images/20161209/transparent.png" alt="透明效果"></p>
+<p>这是设置了<code>UINavigationBar</code>的<code>shadowImage</code>之后的效果，可以看到底部分割线已经不见了，整个导航栏完全透明了，堪称<code>perfect</code>。</p>
+<p><img src="/images/20161209/transparent2.png" alt="透明效果"></p>
+<h3 id="附上将UIColor转成UIImage的代码"><a href="#附上将UIColor转成UIImage的代码" class="headerlink" title="附上将UIColor转成UIImage的代码"></a>附上将UIColor转成UIImage的代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color;</div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> pc_imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/23/hexo-repository/" class="archive-article-date">
-  	<time datetime="2016-11-23T13:43:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
+      <a href="/2016/12/09/navigationbar-transparent/" class="archive-article-date">
+  	<time datetime="2016-12-09T09:04:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随记/">随记</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
@@ -205,18 +207,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/12/02/android-rect-contains/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/12/28/uiswitchsize/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Android判断点击区域
+          修改UISwitch大小
         
       </div>
     </a>
   
   
-    <a href="/2016/01/27/python-webspider/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Python网页爬虫</div>
+    <a href="/2016/12/08/ios-calendar-later/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS获取一年后的时间</div>
       <i class="icon-circle-right"></i>
     </a>
   
