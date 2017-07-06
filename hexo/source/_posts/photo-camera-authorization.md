@@ -8,9 +8,22 @@ tags:
 ## 摄像头权限判断
 
 #### 判断设备是否支持摄像头
+
+- 方式一
 ``` ObjC
 if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 	// 不支持摄像头
+}
+```
+
+- 方式二
+``` ObjC
+// 前摄像头是否可用
+BOOL isFrontCameraAvailable = [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront];
+// 后摄像头是否可用
+BOOL isRearCameraAvailable = [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear];
+if (!isFrontCameraAvailable && !isRearCameraAvailable) {
+    // 不支持摄像头
 }
 ```
 
