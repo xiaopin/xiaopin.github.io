@@ -16,7 +16,7 @@ NSDateComponents *components = [[NSDateComponents alloc] init];
 [components setMonth:0];
 [components setDay:0];
 // laterDate则为一年后的时间
-NSDate *laterDate = [calendar dateByAddingComponents:components toDate:date options:NSCalendarWrapComponents];
+NSDate *laterDate = [calendar dateByAddingComponents:components toDate:date options:NSCalendarMatchStrictly];
 ```
 
 善于使用`NSDateComponents`提供的属性，可以计算出你想要的任何时间，N年前、N年后、N个月前、N个月后、N天前、N天后...
