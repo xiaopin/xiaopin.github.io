@@ -22,4 +22,4 @@ if let document = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userD
 }
 ```
 
-有关`File Sharing`请参考：[https://support.apple.com/en-us/HT201301](https://support.apple.com/en-us/HT201301)
+有关`File Sharing`请参考：[https://support.apple.com/zh-cn/HT201301](https://support.apple.com/zh-cn/HT201301)
