@@ -20,6 +20,7 @@ open func setAlternateIconName(_ alternateIconName: String?, completionHandler: 
 - 在Info.plist中声明了主图标和备用图标，只能使用声明过的图标，并且iPhone和iPad需要分别声明
 - `UIApplication.shared.supportsAlternateIcons`返回true时才能修改图标
 - 备用图标不能放在`Assets.xcassets`，必须是直接拖到Xcode左侧的项目导航栏上
+- 图标修改成功后，系统会自动弹出一个弹窗进行提示
 
 ## 下面让我们搞起来吧～～～
 
@@ -27,6 +28,7 @@ open func setAlternateIconName(_ alternateIconName: String?, completionHandler: 
 ### 1. 把备用图标拖入项目中
 
 看起来应该是这样的
+
 ![](/images/201801/alternateicon.png)
 
 
@@ -134,3 +136,7 @@ open func setAlternateIconName(_ alternateIconName: String?, completionHandler: 
     }
 }
 ```
+
+### 4. No Demo No BB
+
+最后附上[Demo](https://github.com/xiaopin/AlternateIconDemo.git)
