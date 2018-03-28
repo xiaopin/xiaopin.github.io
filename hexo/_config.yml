@@ -69,5 +69,6 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/xiaopin/xiaopin.github.io.git
-  branch: master
+  repo: 
+    github: https://github.com/xiaopin/xiaopin.github.io.git,master
+    gitee: https://gitee.com/xiaopin/xiaopin.git,master
