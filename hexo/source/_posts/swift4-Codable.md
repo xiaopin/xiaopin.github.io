@@ -170,6 +170,97 @@ struct DataModel: Codable {
 针对上面的情况，我给KeyedDecodingContainer扩展了几个方法，已可满足目前项目的需求，后期可视情况再新增:
 
 ```Swift
+// MARK: - 强制解码,如果key不存在则抛出异常`DecodingError.keyNotFound`
+extension KeyedDecodingContainer {
+    
+    /// 解码CGFloat
+    func decodeCGFloat(_ key: K) throws -> CGFloat {
+        do {
+            let d = try decodeDouble(key)
+            return CGFloat(d)
+        } catch {
+            throw error
+        }
+    }
+    
+    /// 解码Double
+    func decodeDouble(_ key: K) throws -> Double {
+        do {
+            return try decode(Double.self, forKey: key)
+        } catch {
+            if let i = try? decode(Int.self, forKey: key) {
+                return Double(i)
+            }
+            if let s = try? decode(String.self, forKey: key), let d = Double(s) {
+                return d
+            }
+            if let b = try? decode(Bool.self, forKey: key) {
+                return b ? 1.0 : 0.0
+            }
+            throw error
+        }
+    }
+    
+    /// 解码Int
+    func decodeInt(_ key: K) throws -> Int {
+        do {
+            return try decode(Int.self, forKey: key)
+        } catch {
+            if let d = try? decode(Double.self, forKey: key) {
+                return Int(d)
+            }
+            if let s = try? decode(String.self, forKey: key), let i = Int(s) {
+                return i
+            }
+            if let b = try? decode(Bool.self, forKey: key) {
+                return b ? 1 : 0
+            }
+            throw error
+        }
+    }
+    
+    /// 解码String
+    func decodeString(_ key: K) throws -> String {
+        do {
+            return try decode(String.self, forKey: key)
+        } catch {
+            if let i = try? decode(Int.self, forKey: key) {
+                return String(i)
+            }
+            if let d = try? decode(Double.self, forKey: key) {
+                return String(d)
+            }
+            if let b = try? decode(Bool.self, forKey: key) {
+                return b ? "true" : "false"
+            }
+            throw error
+        }
+    }
+    
+    /// 解码Bool
+    func decodeBool(_ key: K) throws -> Bool {
+        do {
+            return try decode(Bool.self, forKey: key)
+        } catch {
+            if let s = try? decode(String.self, forKey: key) {
+                if s.isEmpty || s == "0" || s.lowercased() == "false" {
+                    return false
+                }
+                return true
+            }
+            if let i = try? decode(Int.self, forKey: key) {
+                return (i == 0) ? false : true
+            }
+            if let d = try? decode(Double.self, forKey: key) {
+                return (d == 0.0) ? false : true
+            }
+            throw error
+        }
+    }
+    
+}
+
+// MARK: - 忽略`DecodingError.keyNotFound`异常信息,当key不存在时返回`nil`
 extension KeyedDecodingContainer {
     
     /// 解码CGFloat数据
