@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="吴品诚的技术博客">
+<meta property="og:url" content="http://www.0daybug.com/page/2/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="吴品诚的技术博客">
+<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-UITableViewCell-copy-menu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/26/UITableViewCell-copy-menu/">UITableViewCell长按拷贝菜单选项</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>运营推广人员向我们反馈说需要一个能方便拷贝会员手机号码的功能，方便进行其他操作。由于会员信息是采用UITableView来进行展示的，而系统已经为我们准备好了UITableViewCell长按功能菜单的API，我们只需实现对应的代理方法即可。</p>
+</blockquote>
+<p>要实现该功能，主要步骤为：</p>
+<ul>
+<li>遵守<code>UITableViewDelegate</code>协议；</li>
+<li>实现<code>- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath</code>方法并返回YES；</li>
+<li>实现<code>- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action决定对应的菜单按钮是否需要显示；</li>
+<li>实现<code>- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action判断用户做出了什么操作。</li>
+</ul>
+<p>具体实现代码：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView shouldShowMenuForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    <span class="keyword">return</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span> &amp;&amp; action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView performAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        [[<span class="built_in">UIPasteboard</span> generalPasteboard] setString:<span class="string">@"需要拷贝的内容"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后来一张效果图:</p>
+<p><img src="/images/201710/UITableViewCell-copy.png" alt="效果图"></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/26/UITableViewCell-copy-menu/" class="archive-article-date">
+  	<time datetime="2017-10-26T01:14:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-NSPhotoLibraryAddUsageDescription" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/">iOS11保存图片应用闪退</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天产品经理向我反馈在iOS11上点击保存图片后App闪退了，通过调试发现控制台输出了如下错误信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[access] This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app&apos;s Info.plist must contain an NSPhotoLibraryAddUsageDescription key with a string value explaining to the user how the app uses this data.</div></pre></td></tr></table></figure>
+<p>根据控制台输出的错误日志，已经很明确知道原因所在了，那就是Info.plist中缺少了一个<code>NSPhotoLibraryAddUsageDescription</code>的键值对。打开Info.plist，点击<code>+</code>添加一个键值对，在Key中输入<code>Privacy - Photo Library Additions Usage Description</code>，Value类型为<code>String</code>并输入相应的提示语即可。</p>
+<p>你也可以直接以<code>Source Code</code>方式打开Info.plist文件，然后复制以下内容并粘贴到Info.plist中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;NSPhotoLibraryAddUsageDescription&lt;/key&gt;</div><div class="line">&lt;string&gt;此App需要您的授权才能保存图片&lt;/string&gt;</div></pre></td></tr></table></figure></p>
+<p>iOS11中新增了以下的Key：</p>
+<ul>
+<li>NFCReaderUsageDescription</li>
+<li>NSFaceIDUsageDescription</li>
+<li>NSPhotoLibraryAddUsageDescription</li>
+</ul>
+<p>如果你的App使用到了NFC、FaceID、保存图片的功能，记得添加相应的Key。</p>
+<p>注意：</p>
+<ul>
+<li>iOS10上图库的访问和写入权限依然依赖于<code>NSPhotoLibraryUsageDescription</code>Key，如果在iOS10上只添加了<code>NSPhotoLibraryAddUsageDescription</code>而没有添加<code>NSPhotoLibraryUsageDescription</code>，当访问图库或者保存图片时应用依然会发生Crash</li>
+<li>iOS11上只要添加了<code>NSPhotoLibraryAddUsageDescription</code>即具备图库的访问和写入权限，无需增加<code>NSPhotoLibraryUsageDescription</code></li>
+<li>iOS11上即使不添加<code>NSPhotoLibraryUsageDescription</code>和<code>NSPhotoLibraryAddUsageDescription</code>也可以通过<code>UIImagePickerController</code>来访问图库(其他API方式未测试，真机和模拟器均可访问到图库数据)，也不知道是否是Bug，居然不需要申请权限就可以访问系统图片。</li>
+</ul>
+<p>综上所述，如果App需要兼容iOS10，则添加<code>NSPhotoLibraryUsageDescription</code>和<code>NSPhotoLibraryAddUsageDescription</code>，如果只兼容iOS11则只添加<code>NSPhotoLibraryAddUsageDescription</code>即可。</p>
+<p>有关Key的说明请参考这里：<br><a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/" class="archive-article-date">
+  	<time datetime="2017-10-09T03:12:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-file-sharing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/iOS-file-sharing/">iOS添加文件共享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于iOS的沙盒机制，导致应用不能访问沙盒目录以外的文件目录。所以如果我们需要将音视频文件拷贝到App上，只能拷贝到App的<code>Documents</code>目录<br>如果我们的App需要支持从PC将文件拷贝到App的Documents目录并展示出来，则需要在Info.plist中添加<code>UIFileSharingEnabled</code>(Application supports iTunes file sharing)键，并将键值设置为<code>YES</code>。</p>
+<p>添加了UIFileSharingEnabled键值后就可以通过iTunes来管理共享文件了，可以从PC拷贝到App，也可以从App拷贝到PC上，也可以通过iTunes删除App上的文件(选中需要删除的文件，按下键盘的<code>delete</code>键即可)。</p>
+<p>App可以通过访问Documents目录来获取需要关心的文件，过滤掉无关文件。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> document = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> files = <span class="keyword">try</span>? <span class="type">FileManager</span>.<span class="keyword">default</span>.contentsOfDirectory(atPath: document) &#123;</div><div class="line">        <span class="keyword">for</span> file <span class="keyword">in</span> files &#123;</div><div class="line">            <span class="comment">// 可以通过后缀名来获取你关心的文件类型</span></div><div class="line">            <span class="built_in">print</span>(file)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有关<code>File Sharing</code>请参考：<a href="https://support.apple.com/zh-cn/HT201301" target="_blank" rel="external">https://support.apple.com/zh-cn/HT201301</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/09/iOS-file-sharing/" class="archive-article-date">
+  	<time datetime="2017-10-09T01:36:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-tableHeaderView-frame" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/10/tableHeaderView-frame/">UITableView动态修改tableHeaderView的高度</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候我们会用表格的头部视图来做一些简单的UI展示，如果遇到高度固定的情况还好，并无任何问题。但是如果遇到高度需要动态调整的时候，那就有点蛋疼了，因为你不能通过直接修改tableHeaderView的frame属性来达到效果。直接修改frame会导致UI有时候正常有时候又不正常，完全把控不了。</p>
+<p>那么我们该如何解决这个问题呢，主要有以下几步：</p>
+<ol>
+<li><p>先取出UITableView的tableHeaderView</p>
+</li>
+<li><p>将tableHeaderView从父视图移除并将UITableView的tableHeaderView设置为nil</p>
+</li>
+<li><p>更新tableHeaderView的frame</p>
+</li>
+<li><p>重新给UITableView的tableHeaderView赋值</p>
+</li>
+</ol>
+<p>演示代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *tableHeaderView = <span class="keyword">self</span>.tableView.tableHeaderView;</div><div class="line"><span class="built_in">CGRect</span> frame = tableHeaderView.frame;</div><div class="line">[tableHeaderView removeFromSuperview];</div><div class="line"><span class="keyword">self</span>.tableView.tableHeaderView = <span class="literal">nil</span>;</div><div class="line">frame.size.height = <span class="number">100.0</span>; <span class="comment">// 新高度</span></div><div class="line">tableHeaderView.frame = frame;</div><div class="line"><span class="keyword">self</span>.tableView.tableHeaderView = tableHeaderView;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/10/tableHeaderView-frame/" class="archive-article-date">
+  	<time datetime="2017-08-10T08:16:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-break-multilayer-nested-loop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/01/iOS-break-multilayer-nested-loop/">Objective-C/Swift退出多层循环</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果有多层嵌套的情况下，有时候我们需要在某处直接退出多层循环，在Objective-C下并没有比较好的方式实现；而在Swfit中可以通过标签语句来比较优雅地实现，首先需要使用标签标识不同的循环体，形式如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">LabelName</span>: <span class="keyword">while</span> condition &#123;</div><div class="line">	statements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift退出多层循环示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arr = [[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>]]</div><div class="line">for1: <span class="keyword">for</span> items <span class="keyword">in</span> arr &#123;</div><div class="line">    for2: <span class="keyword">for</span> item <span class="keyword">in</span> items &#123;</div><div class="line">        <span class="built_in">print</span>(item)</div><div class="line">        <span class="keyword">if</span> item == <span class="number">3</span> &#123;</div><div class="line">            <span class="keyword">break</span> for1</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>break for1</code>即可退出最外层循环，控制台将依次打印<code>1、2、3</code>。</p>
+<p>说完了Swift，下面来说说Objective-C下如何实现这种操作。Objective-C既不支持标签语句，也没有类似PHP中<code>break 2</code>这种黑科技，但是Objective-C是C的超集，而C语言提供了强大的<code>goto</code>语句，虽然很多人都不建议使用goto，但是既然存在就必然有它存在的道理，是不？针对这种情况，goto就很适合。但是还是强烈建议你谨慎使用goto，除非你清楚你的代码在干什么。</p>
+<p>Objective-C退出多层循环示例代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span>&lt;<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *&gt; *items = @[@[<span class="string">@"1"</span>,<span class="string">@"2"</span>], @[<span class="string">@"3"</span>,<span class="string">@"4"</span>], @[<span class="string">@"5"</span>,<span class="string">@"6"</span>]];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *array <span class="keyword">in</span> items) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *item <span class="keyword">in</span> array) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, item);</div><div class="line">        <span class="keyword">if</span> ([item intValue] == <span class="number">3</span>) &#123;</div><div class="line">            <span class="comment">// 跳出外层循环</span></div><div class="line">            <span class="keyword">goto</span> finally;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">finally: &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"goto label."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台还是会依次打印出1、2、3的值，并且当item的intValue等于3的时候跳出多层for循环，直接执行finally语句块内的代码。</p>
+<blockquote>
+<p>使用goto时需要注意：goto语句只能在函数内部进行转移，不能够跨越函数；label代码块的定义位置。</p>
+</blockquote>
+<p>goto语句使用的一般格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">goto label;</div><div class="line">label: &#123; statements &#125;</div><div class="line">或者</div><div class="line">label: &#123; statements &#125;</div><div class="line">goto label;</div></pre></td></tr></table></figure></p>
+<p>前一种定义方式参见上面的示例，后一种定义方式的代码示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">first: &#123;</div><div class="line">    i++;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, i);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 代码执行到这里时i等于1，控制台输出1</span></div><div class="line"><span class="keyword">if</span> (i &lt; <span class="number">3</span>) &#123;</div><div class="line">    <span class="keyword">goto</span> first;</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"--end--"</span>);</div><div class="line"><span class="comment">// 控制台将输出1、2、3、--end--</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/01/iOS-break-multilayer-nested-loop/" class="archive-article-date">
+  	<time datetime="2017-08-01T07:44:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/24/iOS-screenshot/">iOS截屏分享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在把玩<code>支付宝</code>和<code>小米商城</code>App时发现了个好玩的东西，在支付宝首页中截屏，则会在屏幕右侧弹出一个小窗口来展示首页截屏图片，点击图片就会进入求助反馈页面，再点击意见反馈，截屏的图片就会自动被选上作为反馈图片使用；而小米商城的做法则更好玩，在任意页面中进行截屏，则会在屏幕右下角中弹出一个<code>分享截图给好友</code>的提示框，点击则会弹出分享页面，在此可以看到我们刚才截取的屏幕图片，接下来你就可以把截屏图片分享给你的微信朋友、QQ好友、发到朋友圈、发微博等等，任君选择。</p>
+<p>查了下资料，发现苹果在iOS7中新增了<code>UIApplicationUserDidTakeScreenshotNotification</code>通知，只要注册了这个通知，在用户截屏的时候App就会收到截屏的通知，接下来就可以做你想做的事情了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// This notification is posted after the user takes a screenshot (for example by pressing both the home and lock screen buttons)</span></div><div class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSNotificationName</span> <span class="keyword">const</span> <span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0);</div></pre></td></tr></table></figure>
+<p>下面我们自己来撸一个自己的截屏分享功能。打开首页控制器，重写viewDidAppear和viewDidDisappear方法。因为我们只需要在首页中进行截屏分享，在其他页面截屏时不处理，所以我们在viewDidAppear方法中注册通知并且在viewDidDisappear方法中移除通知。</p>
+<p>示例中通过<code>[UIApplication sharedApplication].keyWindow</code>来获取截屏图片，因为如果App中存在导航栏/TabBar的情况下，只有通过keyWindow生成的图片才能包含导航栏/TabBar，如果你仅仅想分享首页内容，不包含导航栏/TabBar的话，那你也可以直接用首页控制器的<code>self.view</code>来生成截屏图片，甚至如果你想分享一个长图片，如:首页是一个滚动视图，那么你完全可以通过滚动视图来生成一个长图片然后进行分享，这个完全可以根据你的需求来决定。</p>
+<blockquote>
+<p>自己生成的截屏图片有一点很遗憾，就是生成的图片并不能包含顶部状态栏内容，支付宝和小米商城都有这个问题，这个应该是没辙了。或许只能去系统相册拿图片了，这个你就自己去测试吧。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidAppear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidAppear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(userDidTakeScreenshotNotification:) name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span> name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userDidTakeScreenshotNotification:(<span class="built_in">NSNotification</span> *)sender &#123;</div><div class="line">    <span class="built_in">UIWindow</span> *window = [<span class="built_in">UIApplication</span> sharedApplication].keyWindow;</div><div class="line">    <span class="built_in">UIImage</span> *screenshotImage = [<span class="built_in">UIImage</span> snapshotImageWithView:window];</div><div class="line">    <span class="comment">// <span class="doctag">TODO:</span> 将screenshotImage进行分享，可以调用友盟SDK或自己集成第三方SDK实现，这里就不做演示了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面附上从UIView获取图片的代码:</p>
+<p>Objectie-C版本</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  通过视图获取视图快照</div><div class="line"> *</div><div class="line"> *  @param view 需要生成快照的视图</div><div class="line"> *</div><div class="line"> *  @return 快照图片</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)snapshotImageWithView:(<span class="built_in">UIView</span> * __<span class="keyword">nonnull</span>)view &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nil</span> == view) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">YES</span>, [<span class="built_in">UIScreen</span> mainScreen].scale);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    [view.layer renderInContext:context];</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift版本</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIImage</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 获取视图快照图片</span></div><div class="line">    <span class="comment">/// 必须在主线程上执行</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameter view: 需要生成快照的视图</span></div><div class="line">    <span class="comment">/// - Returns: 快照图片</span></div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">snapshot</span><span class="params">(<span class="number">_</span> view: UIView)</span></span> -&gt; <span class="type">UIImage</span>? &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">Thread</span>.isMainThread &#123;</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"UIImage.\(#function) must be called from main thread only."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="type">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">true</span>, <span class="type">UIScreen</span>.main.scale)</div><div class="line">        <span class="keyword">defer</span> &#123; <span class="type">UIGraphicsEndImageContext</span>() &#125;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> context = <span class="type">UIGraphicsGetCurrentContext</span>() <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        view.layer.render(<span class="keyword">in</span>: context)</div><div class="line">        <span class="keyword">return</span> <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/24/iOS-screenshot/" class="archive-article-date">
+  	<time datetime="2017-07-24T02:36:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-reloadData-completion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/reloadData-completion/">UICollectionView监听reloadData完成状态</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>如果你只想知道代码的正确使用姿势，请直接看文章底部的示例代码。</p>
+</blockquote>
+<p>有时候我们需要在UICollectionView执行了reloadData方法后，监听reloadData的完成状态以便执行某些回调操作。如果我们紧跟着reloadData代码，在其后面继续编写我们的回调操作，这个时候你会发现程序的运行结果与我们的预期有出入，并非是我们所期望的结果。</p>
+<p>最近在撸一个图片轮播的功能，用UICollectionView来做，因为UICollectionView本身就支持横向滚动，并且有很好的重用机制，也不用我们自己计算上一页下一页然后将视图挪来挪去的。由于要做一个无限滚动的功能，所以做法就是在<code>- (NSInteger)collectionView:numberOfItemsInSection:</code>方法中返回<code>图片个数x基数(如:100)</code>的总数，然后将UICollectionView滚动至第<code>图片个数x基数x0.5</code>个Cell，这样便可以左右无限滑动了，问题的关键就在于如何在realoadData完成之后滚动到指定的IndexPath上。如果你直接像下面这样写代码，你会惊讶地发现，UICollectionView并没有滚动到指定的IndexPath，而是仍然显示第一个Cell。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[collectionView reloadData];</div><div class="line"><span class="comment">// 在这里继续编写你的特定代码</span></div><div class="line"><span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div></pre></td></tr></table></figure>
+<p>UICollectionView有一个方法<code>-performBatchUpdates:completion:</code>，其定义如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)performBatchUpdates:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))updates completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion; <span class="comment">// allows multiple insert/delete/reload/move calls to be animated simultaneously. Nestable.</span></div></pre></td></tr></table></figure>
+<p>根据方法名和注释很容易明白这个接口是用来批量操作更新UICollectionView的，把你需要插入/删除/重新加载/移动UICollectionViewCell的代码统统放到<code>updates</code>这个block中，并且在当这些更新操作完成时系统会回调<code>completion</code>这个block。</p>
+<p>看到这里，你是不是很激动，是不是已经想到该如何写代码了，是不是像下面这样:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 错误的使用姿势</span></div><div class="line">[collectionView performBatchUpdates:^&#123;</div><div class="line">    [collectionView reloadData];</div><div class="line">&#125; completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"*************reloadData执行完毕*********"</span>);</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>如果你是这样子写的代码，很好，和我想法一致，虽然程序<code>有可能</code>运行很正常，为什么说有可能呢，因为当<code>[collectionView reloadData]</code>之后，如果展示的数据并没有发生改变，数据未增加也未减少，那么此时程序就能够正常运行；但是如果执行realodData后，数据源返回的数据有所改变，需要展示的数据条目增多或减少了，那么这个时候程序就会Crash了，并且控制台会打印如下的错误信息：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">2017-07-14 11:22:57.054 Demo[9368:620226] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Invalid update: invalid number of sections.  The number of sections contained in the collection view after the update (0) must be equal to the number of sections contained in the collection view before the update (2), plus or minus the number of sections inserted or deleted (0 inserted, 0 deleted).'</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000109a9fb0b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x000000010c770141 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000109aa3cf2 +[NSException raise:format:arguments:] + 98</div><div class="line">	3   Foundation                          0x000000010a9f13b6 -[NSAssertionHandler handleFailureInMethod:object:file:lineNumber:description:] + 193</div><div class="line">	4   UIKit                               0x000000010dec753d -[UICollectionView _endItemAnimationsWithInvalidationContext:tentativelyForReordering:animator:] + 15364</div><div class="line">	5   UIKit                               0x000000010ded0259 -[UICollectionView _endUpdatesWithInvalidationContext:tentativelyForReordering:animator:] + 71</div><div class="line">	6   UIKit                               0x000000010ded05a0 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:animator:] + 437</div><div class="line">	7   UIKit                               0x000000010ded03c8 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:] + 91</div><div class="line">	8   UIKit                               0x000000010ded034a -[UICollectionView _performBatchUpdates:completion:invalidationContext:] + 74</div><div class="line">	9   UIKit                               0x000000010ded029f -[UICollectionView performBatchUpdates:completion:] + 53</div><div class="line">	10  VBemall                             0x00000001082da642 __31-[VBHomeController viewDidLoad]_block_invoke + 194</div><div class="line">	11  libdispatch.dylib                   0x000000010f6aa05c _dispatch_client_callout + 8</div><div class="line">	12  libdispatch.dylib                   0x000000010f686c6e _dispatch_continuation_pop + 1020</div><div class="line">	13  libdispatch.dylib                   0x000000010f69b9fc _dispatch_source_latch_and_call + 230</div><div class="line">	14  libdispatch.dylib                   0x000000010f6944f1 _dispatch_source_invoke + 1167</div><div class="line">	15  libdispatch.dylib                   0x000000010f68b69a _dispatch_main_queue_callback_4CF + 1066</div><div class="line">	16  CoreFoundation                      0x0000000109a64909 __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9</div><div class="line">	17  CoreFoundation                      0x0000000109a2aae4 __CFRunLoopRun + 2164</div><div class="line">	18  CoreFoundation                      0x0000000109a2a016 CFRunLoopRunSpecific + 406</div><div class="line">	19  GraphicsServices                    0x0000000111ae5a24 GSEventRunModal + 62</div><div class="line">	20  UIKit                               0x000000010d57c0d4 UIApplicationMain + 159</div><div class="line">	21  VBemall                             0x00000001082da1ef main + 111</div><div class="line">	22  libdyld.dylib                       0x000000010f6f665d start + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure>
+<p>看来是不能这样子用了，不能直接在<code>updates</code>这个block中执行reloadData方法。</p>
+<p>然后我尝试了将reloadData放到block外，发现能够程序能够正常按照我们的预期运行了，代码如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 代码的正确使用姿势</span></div><div class="line">[collectionView reloadData];</div><div class="line">[collectionView performBatchUpdates:<span class="literal">nil</span> completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">	<span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">	[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>ps: UITableView在iOS11也引入了<code>-performBatchUpdates:completion:</code>这个接口，使用上应该也是和UICollectionView一样一样的。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/14/reloadData-completion/" class="archive-article-date">
+  	<time datetime="2017-07-14T02:42:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-UIScrollView-current-page" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/13/UIScrollView-current-page/">UIScrollView计算当前滚动页码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们需要在UIScrollView滚动时根据滚动偏移量实时计算当前滚动到第几页，需要实现<code>scrollViewDidScroll(_:)</code>这个代理方法，记得开启分页功能<code>scrollView.isPagingEnabled = true</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="number">_</span> scrollView: UIScrollView)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> pageWidth = scrollView.bounds.width</div><div class="line">    <span class="keyword">let</span> offsetX = scrollView.contentOffset.x</div><div class="line">    <span class="keyword">let</span> currentPage = <span class="type">Int</span>(floor((offsetX - pageWidth / <span class="number">2</span>) / pageWidth)) + <span class="number">1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/13/UIScrollView-current-page/" class="archive-article-date">
+  	<time datetime="2017-07-13T03:32:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS11-contentInsetAdjustmentBehavior" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/">UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在iOS11中，苹果对UIScrollView新增了<code>contentInsetAdjustmentBehavior</code>属性来取代之前的UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性。</p>
+</blockquote>
+<p>在iOS11之前的项目中，如果我们需要将滚动视图的内容布局从屏幕左上角开始，也就是内容穿透UINavigationBar的效果，只需要设置UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性为<code>NO</code>即可，告诉系统不要自动调整滚动视图的<code>contentInset</code>。但是在iOS11中，你将发现尽管将automaticallyAdjustsScrollViewInsets设置为NO了，但是滚动视图的内容还是往下偏移了64pt，从导航栏底部开始显示，通过查看automaticallyAdjustsScrollViewInsets的声明发现在iOS11中该属性已经被废弃以及被UIScrollView的<code>contentInsetAdjustmentBehavior</code>属性所替代了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>) <span class="built_in">BOOL</span> automaticallyAdjustsScrollViewInsets API_DEPRECATED_WITH_REPLACEMENT(<span class="string">"Use UIScrollView's contentInsetAdjustmentBehavior instead"</span>, ios(<span class="number">7.0</span>,<span class="number">11.0</span>),tvos(<span class="number">7.0</span>,<span class="number">11.0</span>)); <span class="comment">// Defaults to YES</span></div></pre></td></tr></table></figure>
+<p>我们再看下contentInsetAdjustmentBehavior的声明</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>) <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span> contentInsetAdjustmentBehavior API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
+<p>contentInsetAdjustmentBehavior对应的是一个UIScrollViewContentInsetAdjustmentBehavior枚举类型的值，该枚举定义如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span>) &#123;</div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAutomatic</span>, <span class="comment">// Similar to .scrollableAxes, but will also adjust the top &amp; bottom contentInset when the scroll view is owned by a view controller with automaticallyAdjustsScrollViewContentInset = YES inside a navigation controller, regardless of whether the scroll view is scrollable</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentScrollableAxes</span>, <span class="comment">// Edges for scrollable axes are adjusted (i.e., contentSize.width/height &gt; frame.size.width/height or alwaysBounceHorizontal/Vertical = YES)</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>, <span class="comment">// contentInset is not adjusted</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAlways</span>, <span class="comment">// contentInset is always adjusted by the scroll view's safeAreaInsets</span></div><div class="line">&#125; API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
+<p>通过查看UIScrollViewContentInsetAdjustmentBehavior的定义，我们很容易知道想要实现前面所说的效果，只需将滚动设置的contentInsetAdjustmentBehavior属性设置为对应的UIScrollViewContentInsetAdjustmentNever即可。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    scrollView.contentInsetAdjustmentBehavior = <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">	<span class="keyword">self</span>.automaticallyAdjustsScrollViewInsets = <span class="literal">NO</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在iOS11之前，系统会通过动态调整UIScrollView的contentInset属性来实现视图内容的偏移，但是在iOS11中，系统不再调整UIScrollView的contentInset，而是通过<code>contentInsetAdjustmentBehavior</code>和<code>adjustedContentInset</code>来配合完成。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/" class="archive-article-date">
+  	<time datetime="2017-07-06T06:51:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macos-window-center" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/macos-window-center/">macOS应用窗口居中显示</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>调整窗口大小或居中显示，必须将NSWindow的<code>restorable</code>属性设置为NO，否则无效果。</p>
+</blockquote>
+<p>应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的windowDidLoad方法进行设置：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setRestorable:<span class="literal">NO</span>];</div><div class="line">  [<span class="keyword">self</span>.window setFrame:<span class="built_in">NSMakeRect</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">800.0</span>, <span class="number">600.0</span>) display:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window center];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
+  	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 吴品诚
+    	</div>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备15020585号-1</a>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 13.33px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 13.33px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://onevcat.com/#blog">王巍博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtang.com/">唐巧博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰的官方网站</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.skyfox.org/">天狐博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.kittenyang.com/">Kitten博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.limboy.me/">李忠(蘑菇街)博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://blog.sunnyyoung.net/">Sunnyyoung博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://objccn.io/">ObjC中国</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://nshipster.cn/">NSHipster</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://es6.ruanyifeng.com/">阮一峰ECMAScript6入门</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://git-scm.com/book/zh/v2/">Git Document</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://tinypng.com/">图片在线压缩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cockos.com/licecap/">屏幕录制GIF</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/">Apple Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/app-store/review/guidelines/cn/">App Store 审核指南</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developers.google.cn/">Google Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.iconfont.cn/">阿里巴巴矢量图标库</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.nsdateformatter.com/">NSDate日期格式</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/support/app-store/">iOS版本分布情况</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213">iOS符号表</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6">iPhone尺寸</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是吴品诚，我喂自己袋盐......</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

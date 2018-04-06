@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="吴品诚的技术博客">
+<meta property="og:url" content="http://www.0daybug.com/page/3/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="吴品诚的技术博客">
+<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-macos-titlebar-hide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/macos-titlebar-hide/">隐藏NSWindow的titleBar</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>新建一个macOS应用项目，编译运行后默认出现的界面是如下图所示的样子：</p>
+<p><img src="/images/201703/titlebar-default.png" alt="默认效果"></p>
+<p>有时候我们需要去掉titleBar，类似QQ登录界面那种，此时我们可以在继承自NSWindowController的自定义类的-windowDidLoad方法中通过下面的代码实现效果：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setTitleVisibility:<span class="built_in">NSWindowTitleHidden</span>];</div><div class="line">  [<span class="keyword">self</span>.window setTitlebarAppearsTransparent:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window setStyleMask:<span class="built_in">NSWindowStyleMaskFullSizeContentView</span>|<span class="built_in">NSWindowStyleMaskTitled</span>|<span class="built_in">NSWindowStyleMaskClosable</span>|<span class="built_in">NSWindowStyleMaskMiniaturizable</span>|<span class="built_in">NSWindowStyleMaskResizable</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们也可以直接在IB中进行设置，打开Storyboard并选中NSWindowController中的NSWindow，展开右侧工具栏并切换至属性面板，勾选上<code>Full Size Content View</code>选项即可。如果在IB中进行设置，则无需在代码中调用<code>-setStyleMask:</code>方法。</p>
+<p>最终效果如下图所示：</p>
+<p><img src="/images/201703/titlebar-hide.png" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/macos-titlebar-hide/" class="archive-article-date">
+  	<time datetime="2017-03-27T06:46:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Swift3-Playground-UI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/Swift3-Playground-UI/">Xcode8 Swift3通过Playground运行UI</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们都知道在Playground上能够一边写代码一边预览代码运行效果（所见即所得），如果我们需要在Playground上调试UI，就得借助于PlaygroundSupport系统库了。</p>
+<p>1、导入PlaygroundSupport库</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> PlaygroundSupport</div></pre></td></tr></table></figure>
+<p>2、创建UIView，在这一步你可以创建你自己想要的视图</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">100</span>, height: <span class="number">50</span>)</div><div class="line"><span class="keyword">let</span> view = <span class="type">UIView</span>(frame: frame)</div><div class="line">view.backgroundColor = <span class="type">UIColor</span>.purple</div></pre></td></tr></table></figure>
+<p>3、将UIView赋值给liveView</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="type">PlaygroundPage</span>.current.liveView = view</div></pre></td></tr></table></figure>
+<p>4、Xcode打开UI测试界面：</p>
+<blockquote>
+<p>View —&gt; Assistant Editor —&gt; Show Assistant Editor</p>
+<p>快捷键：<code>Option</code>+<code>Command</code>+<code>Enter</code></p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/Swift3-Playground-UI/" class="archive-article-date">
+  	<time datetime="2017-03-27T06:28:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-cellLayoutMarginsFollowReadableWidth" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/22/cellLayoutMarginsFollowReadableWidth/">UITableView在iPad iOS9下cell宽度显示不全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UITableView在iOS9后新增了一个属性<code>cellLayoutMarginsFollowReadableWidth</code>，该属性会影响UITableViewCell在iPad下的显示，且该属性默认为<code>YES</code>。</p>
+<p>当你发现在iPad下UITableViewCell不能占满整个UITableView的宽度时，只需将该属性设置为NO即可。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span>.tableView setCellLayoutMarginsFollowReadableWidth:<span class="literal">NO</span>];</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/22/cellLayoutMarginsFollowReadableWidth/" class="archive-article-date">
+  	<time datetime="2017-03-22T09:22:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-photo-camera-authorization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/22/photo-camera-authorization/">iOS判断相册、摄像头权限</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="摄像头权限判断"><a href="#摄像头权限判断" class="headerlink" title="摄像头权限判断"></a>摄像头权限判断</h2><h4 id="判断设备是否支持摄像头"><a href="#判断设备是否支持摄像头" class="headerlink" title="判断设备是否支持摄像头"></a>判断设备是否支持摄像头</h4><ul>
+<li><p>方式一</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (![<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypeCamera</span>]) &#123;</div><div class="line">	<span class="comment">// 不支持摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方式二</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 前摄像头是否可用</span></div><div class="line"><span class="built_in">BOOL</span> isFrontCameraAvailable = [<span class="built_in">UIImagePickerController</span> isCameraDeviceAvailable:<span class="built_in">UIImagePickerControllerCameraDeviceFront</span>];</div><div class="line"><span class="comment">// 后摄像头是否可用</span></div><div class="line"><span class="built_in">BOOL</span> isRearCameraAvailable = [<span class="built_in">UIImagePickerController</span> isCameraDeviceAvailable:<span class="built_in">UIImagePickerControllerCameraDeviceRear</span>];</div><div class="line"><span class="keyword">if</span> (!isFrontCameraAvailable &amp;&amp; !isRearCameraAvailable) &#123;</div><div class="line">    <span class="comment">// 不支持摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="判断用户是否授权访问摄像头"><a href="#判断用户是否授权访问摄像头" class="headerlink" title="判断用户是否授权访问摄像头"></a>判断用户是否授权访问摄像头</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;AVFoundation/AVFoundation.h&gt;</span></span></div><div class="line"><span class="built_in">AVAuthorizationStatus</span> status = [<span class="built_in">AVCaptureDevice</span> authorizationStatusForMediaType:<span class="built_in">AVMediaTypeVideo</span>];</div><div class="line"><span class="keyword">if</span> (status == <span class="built_in">AVAuthorizationStatusDenied</span> || status == <span class="built_in">AVAuthorizationStatusRestricted</span>) &#123;</div><div class="line">	<span class="comment">// 没有授权访问摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="判断系统相册权限"><a href="#判断系统相册权限" class="headerlink" title="判断系统相册权限"></a>判断系统相册权限</h2><h4 id="判断相册是否可用的"><a href="#判断相册是否可用的" class="headerlink" title="判断相册是否可用的"></a>判断相册是否可用的</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypePhotoLibrary</span>]</div><div class="line">[<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypeSavedPhotosAlbum</span>]</div></pre></td></tr></table></figure>
+<h4 id="判断是否授权访问相册"><a href="#判断是否授权访问相册" class="headerlink" title="判断是否授权访问相册"></a>判断是否授权访问相册</h4><h6 id="PhotoKit，iOS8之后新增的Framework，推荐使用该方式"><a href="#PhotoKit，iOS8之后新增的Framework，推荐使用该方式" class="headerlink" title="PhotoKit，iOS8之后新增的Framework，推荐使用该方式"></a>PhotoKit，iOS8之后新增的Framework，推荐使用该方式</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Photos/Photos.h&gt;</span></span></div><div class="line">PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == PHAuthorizationStatusDenied || status == PHAuthorizationStatusRestricted) &#123;</div><div class="line">	<span class="comment">// 没有授权访问相册</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h6 id="如果需要兼容iOS7，可以使用AssetsLibrary库进行判断"><a href="#如果需要兼容iOS7，可以使用AssetsLibrary库进行判断" class="headerlink" title="如果需要兼容iOS7，可以使用AssetsLibrary库进行判断"></a>如果需要兼容iOS7，可以使用AssetsLibrary库进行判断</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;AssetsLibrary/AssetsLibrary.h&gt;</span></span></div><div class="line">ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == ALAuthorizationStatusDenied || status == ALAuthorizationStatusRestricted) &#123;</div><div class="line">    <span class="comment">// 没有授权访问相册</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="访问相册示例代码"><a href="#访问相册示例代码" class="headerlink" title="访问相册示例代码"></a>访问相册示例代码</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Photos/Photos.h&gt;</span></span></div><div class="line"></div><div class="line">PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == PHAuthorizationStatusDenied || status == PHAuthorizationStatusRestricted) &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *controller = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="string">@"没有授权访问系统相册"</span> message:<span class="string">@"是否立即前往设置页面打开授权？"</span> preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</div><div class="line">    [controller addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"取消"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:<span class="literal">nil</span>]];</div><div class="line">    [controller addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"前往设置"</span> style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        <span class="comment">// 打开App系统设置页面</span></div><div class="line">        <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="built_in">UIApplicationOpenSettingsURLString</span>];</div><div class="line">        <span class="keyword">if</span> ([[<span class="built_in">UIApplication</span> sharedApplication] canOpenURL:url]) &#123;</div><div class="line">            [[<span class="built_in">UIApplication</span> sharedApplication] openURL:url];</div><div class="line">        &#125;</div><div class="line">    &#125;]];</div><div class="line">    [<span class="keyword">self</span> presentViewController:controller animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (status == PHAuthorizationStatusNotDetermined) &#123;</div><div class="line">    <span class="comment">// 第一次使用，用户还未决定是否授权，此时应该请求用户授权获取权限</span></div><div class="line">    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) &#123;</div><div class="line">       <span class="comment">// 授权回调</span></div><div class="line">    &#125;];</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (status == PHAuthorizationStatusAuthorized) &#123;</div><div class="line">    <span class="comment">// 用户已授权访问,做你想做的事</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/22/photo-camera-authorization/" class="archive-article-date">
+  	<time datetime="2017-03-22T06:30:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-uiswitchsize" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/28/uiswitchsize/">修改UISwitch大小</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>UISwitch大小是不能修改的，iOS7开始，系统将UISwitch大小固定为51x31。</p>
+</blockquote>
+<p>尽管UISwitch不能通过修改<code>frame</code>的方式修改大小，但是可以通过<code>transform</code>来进行缩放，变相达到我们想要的效果。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UISwitch</span> *aSwitch = [[<span class="built_in">UISwitch</span> alloc] init];</div><div class="line">[aSwitch setFrame:<span class="built_in">CGRectMake</span>(<span class="number">100.0</span>, <span class="number">100.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)];</div><div class="line">[aSwitch setTransform:<span class="built_in">CGAffineTransformMakeScale</span>(<span class="number">0.5</span>, <span class="number">0.5</span>)];</div><div class="line">[<span class="keyword">self</span>.view addSubview:aSwitch];</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/28/uiswitchsize/" class="archive-article-date">
+  	<time datetime="2016-12-28T12:51:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-navigationbar-transparent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/09/navigationbar-transparent/">iOS导航栏透明效果</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>你可以直接将下面的代码粘贴到<code>viewDidLoad</code>里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的<code>viewWillAppear:</code>方法中将导航栏设置成透明，在<code>viewWillDisappear:</code>中恢复导航栏样式。</p>
+<p>废话不多说，直接上代码。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 去除导航栏底部黑色线条</span></div><div class="line"><span class="built_in">UIImage</span> *shadowImage = [<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[<span class="keyword">self</span>.navigationController.navigationBar setShadowImage:shadowImage];</div><div class="line"><span class="comment">// 设置透明</span></div><div class="line">[<span class="keyword">self</span> setAutomaticallyAdjustsScrollViewInsets:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">UINavigationBar</span> *navigationBar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">[navigationBar setBarTintColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[navigationBar setBackgroundImage:[<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forBarPosition:<span class="built_in">UIBarPositionAny</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是iOS导航栏的默认效果，半透明。</p>
+<p><img src="/images/20161209/default.png" alt="默认效果"></p>
+<p>这是将UINavigationBar的tintColor和背景图片设置为<code>[UIColor clearColor]</code>之后的效果，可以看到导航栏确实是变成完全透明的了，但是导航栏底部会有一个分割线。</p>
+<p><img src="/images/20161209/transparent.png" alt="透明效果"></p>
+<p>这是设置了<code>UINavigationBar</code>的<code>shadowImage</code>之后的效果，可以看到底部分割线已经不见了，整个导航栏完全透明了，堪称<code>perfect</code>。</p>
+<p><img src="/images/20161209/transparent2.png" alt="透明效果"></p>
+<h3 id="附上将UIColor转成UIImage的代码"><a href="#附上将UIColor转成UIImage的代码" class="headerlink" title="附上将UIColor转成UIImage的代码"></a>附上将UIColor转成UIImage的代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color;</div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> pc_imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/09/navigationbar-transparent/" class="archive-article-date">
+  	<time datetime="2016-12-09T09:04:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ios-calendar-later" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/ios-calendar-later/">iOS获取一年后的时间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。<br>当<code>数值&gt;0</code>时，获取之后的时间，如果<code>数值&lt;0</code>则为获取之前的时间。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDate</span> *date = [<span class="built_in">NSDate</span> date];</div><div class="line"><span class="built_in">NSCalendar</span> *calendar = [<span class="built_in">NSCalendar</span> currentCalendar];</div><div class="line"><span class="built_in">NSDateComponents</span> *components = [[<span class="built_in">NSDateComponents</span> alloc] init];</div><div class="line">[components setYear:<span class="number">1</span>];</div><div class="line">[components setMonth:<span class="number">0</span>];</div><div class="line">[components setDay:<span class="number">0</span>];</div><div class="line"><span class="comment">// laterDate则为一年后的时间</span></div><div class="line"><span class="built_in">NSDate</span> *laterDate = [calendar dateByAddingComponents:components toDate:date options:<span class="built_in">NSCalendarMatchStrictly</span>];</div></pre></td></tr></table></figure>
+<p>善于使用<code>NSDateComponents</code>提供的属性，可以计算出你想要的任何时间，N年前、N年后、N个月前、N个月后、N天前、N天后…</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> year;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> month;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> day;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> hour;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> minute;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> second;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/ios-calendar-later/" class="archive-article-date">
+  	<time datetime="2016-12-08T05:50:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-android-rect-contains" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/android-rect-contains/">Android判断点击区域</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该坐标点所处的区域。</p>
+<blockquote>
+<p>需要注意的是，Android中的<code>Rect</code>和iOS中的<code>CGRect</code>的概念有点不一样，iOS中的CGRect通过<code>CGRectMake(x, y, width, height)</code>方法进行创建，而Android中的Rect通过<code>public Rect(int left, int top, int right, int bottom)</code>初始化。iOS中的是<code>x</code>、<code>y</code>、<code>width</code>、<code>height</code>，对应的是视图的<code>x坐标点</code>、<code>y坐标点</code>、<code>视图的宽度值</code>、<code>视图的高度值</code>；而Android中的是<code>left</code>、<code>top</code>、<code>right</code>、<code>bottom</code>对应的是视图的<code>视图左边距坐标点</code>、<code>视图顶部边距的坐标点</code>、<code>视图右边距的坐标点</code>、<code>视图底部边距的坐标点</code>。Android中的Rect更类似于iOS中的UIEdgeInsets的概念。</p>
+</blockquote>
+<h2 id="下面附上源码"><a href="#下面附上源码" class="headerlink" title="下面附上源码"></a>下面附上源码</h2><h4 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"com.example.wupincheng.myapplication.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/main_button"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"800dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Button"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="Activity代码"><a href="#Activity代码" class="headerlink" title="Activity代码"></a>Activity代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">                <span class="comment">/**</span></div><div class="line">                // 水平N等分,通过将count设置为不同的数值就可达到将View按照水平方向平分为N分</div><div class="line">                int count = 3;</div><div class="line">                int averageWidth = view.getWidth() / count;</div><div class="line">                int height = view.getHeight();</div><div class="line"></div><div class="line">                for (int i=0; i&lt;count; i++) &#123;</div><div class="line">                    int left = averageWidth * i;</div><div class="line">                    Rect rect = new Rect(left, 0, left+averageWidth, height);</div><div class="line">                    if (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println("点击按钮第"+i+"块区域");</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                 */</div><div class="line"></div><div class="line">                <span class="comment">// 十字四等分</span></div><div class="line">                <span class="keyword">int</span> averageWidth = view.getWidth() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">int</span> averageHeight = view.getHeight() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++) &#123;</div><div class="line">                    <span class="keyword">int</span> left = averageWidth * (i%<span class="number">2</span>);</div><div class="line">                    <span class="keyword">int</span> top = averageHeight * (i/<span class="number">2</span>);</div><div class="line">                    Rect rect = <span class="keyword">new</span> Rect(left, top, left+averageWidth, top+averageHeight);</div><div class="line">                    <span class="keyword">if</span> (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println(<span class="string">"点击按钮第"</span>+i+<span class="string">"块区域"</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View view, MotionEvent motionEvent)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (motionEvent.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">                    x = (<span class="keyword">int</span>)motionEvent.getX();</div><div class="line">                    y = (<span class="keyword">int</span>)motionEvent.getY();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/android-rect-contains/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/autolayout-vfl/">通过VFL(Visual Format Language)使用AutoLayout</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
+<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
+<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
+<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hexo-repository" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/23/hexo-repository/">用一个仓库管理hexo博客源码与站点文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在GitHub上创建一个新仓库，注意命名为<code>username.github.io</code>即可。</p>
+<h3 id="将仓库克隆到本地"><a href="#将仓库克隆到本地" class="headerlink" title="将仓库克隆到本地"></a>将仓库克隆到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/Documents</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div></pre></td></tr></table></figure>
+<h3 id="创建hexo分支用于管理博客源码"><a href="#创建hexo分支用于管理博客源码" class="headerlink" title="创建hexo分支用于管理博客源码"></a>创建hexo分支用于管理博客源码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">$ <span class="built_in">cd</span> xiaopin.github.io/</div><div class="line">$ git checkout -b hexo</div><div class="line">$ touch .gitignore</div><div class="line">$ git add .gitignore</div><div class="line">$ git commit -m “add .gitignore“</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
+<h3 id="在hexo分支下创建站点"><a href="#在hexo分支下创建站点" class="headerlink" title="在hexo分支下创建站点"></a>在hexo分支下创建站点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ mkdir hexo</div><div class="line">$ <span class="built_in">cd</span> hexo/</div><div class="line">$ hexo init</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
+<h3 id="安装主题并通过git子模块来管理主题"><a href="#安装主题并通过git子模块来管理主题" class="headerlink" title="安装主题并通过git子模块来管理主题"></a>安装主题并通过git子模块来管理主题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ../</div><div class="line">$ git submodule add https://github.com/litten/hexo-theme-yilia.git hexo/themes/yilia</div></pre></td></tr></table></figure>
+<h3 id="将hexo源码与主题提交到GitHub仓库"><a href="#将hexo源码与主题提交到GitHub仓库" class="headerlink" title="将hexo源码与主题提交到GitHub仓库"></a>将hexo源码与主题提交到GitHub仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git add .</div><div class="line">$ git commit -m <span class="string">"add hexo source and yilia theme"</span></div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>安装hexo-deployer-git<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure></p>
+<p>修改配置_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
+<p>配置好后只需执行<code>hexo g -d</code>即可生成静态文件并上传到GitHub上。</p>
+<h3 id="添加README-md"><a href="#添加README-md" class="headerlink" title="添加README.md"></a>添加README.md</h3><p>将README.md文件放到<code>hexo/source/</code>目录下，此时部署的话，你会发现hexo把README.md解析成了HTML了。这里采取修改后缀名的方式解决，将<code>README.md</code>重命名为<code>README.mdown</code>。</p>
+<p>如果需要自定义域名，在<code>hexo/source/</code>目录下，新建一个<code>CNAME</code>文件，文件内容为你的域名（如：0daybug.com）。</p>
+<h4 id="附上-gitignore的内容"><a href="#附上-gitignore的内容" class="headerlink" title="附上.gitignore的内容"></a>附上.gitignore的内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.DS_Store</div><div class="line">Thumbs.db</div><div class="line">db.json</div><div class="line">*.log</div><div class="line">node_modules/</div><div class="line">public/</div><div class="line">.deploy*/</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/23/hexo-repository/" class="archive-article-date">
+  	<time datetime="2016-11-23T13:43:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随记/">随记</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 吴品诚
+    	</div>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备15020585号-1</a>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 13.33px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 13.33px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://onevcat.com/#blog">王巍博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtang.com/">唐巧博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰的官方网站</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.skyfox.org/">天狐博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.kittenyang.com/">Kitten博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.limboy.me/">李忠(蘑菇街)博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://blog.sunnyyoung.net/">Sunnyyoung博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://objccn.io/">ObjC中国</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://nshipster.cn/">NSHipster</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://es6.ruanyifeng.com/">阮一峰ECMAScript6入门</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://git-scm.com/book/zh/v2/">Git Document</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://tinypng.com/">图片在线压缩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cockos.com/licecap/">屏幕录制GIF</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/">Apple Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/app-store/review/guidelines/cn/">App Store 审核指南</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developers.google.cn/">Google Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.iconfont.cn/">阿里巴巴矢量图标库</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.nsdateformatter.com/">NSDate日期格式</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/support/app-store/">iOS版本分布情况</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213">iOS符号表</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6">iPhone尺寸</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是吴品诚，我喂自己袋盐......</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

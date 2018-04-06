@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>SafariServices框架 | 吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。
+SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SafariServices框架">
+<meta property="og:url" content="http://www.0daybug.com/2018/03/14/iOS-SafariServices/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。
+SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过S">
+<meta property="og:image" content="http://www.0daybug.com/images/201802/SafariServices.gif">
+<meta property="og:updated_time" content="2018-04-05T12:55:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SafariServices框架">
+<meta name="twitter:description" content="相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。
+SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过S">
+<meta name="twitter:image" content="http://www.0daybug.com/images/201802/SafariServices.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-iOS-SafariServices" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SafariServices框架
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。</p>
+<p>SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过SFSafariViewControllerDelegate可以添加自定的分享功能(UIActivity)。</p>
+<h3 id="SFSafariViewController"><a href="#SFSafariViewController" class="headerlink" title="SFSafariViewController"></a><strong><em>SFSafariViewController</em></strong></h3><p>一个特殊的UIViewController，为我们使用Safari的UI框架加载网页内容，同时还能享受到Safari的一些便利性：</p>
+<ul>
+<li>高度一致的用户体验性</li>
+<li>和Safari共享Cookie</li>
+<li>密码、证书自动填充</li>
+<li>Safari阅读器(可选是否默认进入阅读器模式)</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SFSafariViewController *safariVC;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    SFSafariViewControllerConfiguration *configuration = [[SFSafariViewControllerConfiguration alloc] init];</div><div class="line">    configuration.entersReaderIfAvailable = <span class="literal">NO</span>;</div><div class="line">    configuration.barCollapsingEnabled = <span class="literal">YES</span>;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url configuration:configuration];</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url];</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    safariVC.dismissButtonStyle = SFSafariViewControllerDismissButtonStyleClose;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">    safariVC.preferredBarTintColor = [<span class="built_in">UIColor</span> orangeColor];</div><div class="line">    safariVC.preferredControlTintColor = [<span class="built_in">UIColor</span> redColor];</div><div class="line">&#125;</div><div class="line"><span class="comment">// [self.navigationController pushViewController:safariVC animated:true];</span></div><div class="line">[<span class="keyword">self</span> presentViewController:safariVC animated:<span class="literal">true</span> completion:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<p>SFSafariViewController在push和present上有些许区别。</p>
+<ul>
+<li>push方式<ol>
+<li>点击左上角的按钮并不会关闭网页，需要自行处理</li>
+<li>不支持屏幕左侧滑动返回上一页的手势</li>
+</ol>
+</li>
+<li>present方式<ol>
+<li>点击左上角按钮会关闭网页返回上一个页面</li>
+<li>支持屏幕左侧滑动返回上一页的手势</li>
+</ol>
+</li>
+</ul>
+<h3 id="SFSafariViewControllerConfiguration"><a href="#SFSafariViewControllerConfiguration" class="headerlink" title="SFSafariViewControllerConfiguration"></a><strong><em>SFSafariViewControllerConfiguration</em></strong></h3><p>iOS11新增的配置类，目前的可配置选项仅有两个：</p>
+<ul>
+<li>entersReaderIfAvailable<ol>
+<li>在当前网页支持阅读器时是否自动进入阅读器模式浏览网页</li>
+<li>默认NO</li>
+</ol>
+</li>
+<li>barCollapsingEnabled<ol>
+<li>当拖动网页进行滚动时，是否折叠导航栏和隐藏底部工具栏</li>
+<li>默认YES</li>
+</ol>
+</li>
+</ul>
+<h3 id="SSReadingList"><a href="#SSReadingList" class="headerlink" title="SSReadingList"></a><strong><em>SSReadingList</em></strong></h3><p>添加URL链接到Safari浏览器的阅读列表。需要注意一点的是相同的URL可以添加多次，系统并不会过滤相同的URL。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SSReadingList *readingList = [SSReadingList defaultReadingList];</div><div class="line">[readingList addReadingListItemWithURL:url title:<span class="string">@"我的博客"</span> previewText:<span class="string">@"记录日常开发生涯中的点滴"</span> error:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<h3 id="SFContentBlockerManager"><a href="#SFContentBlockerManager" class="headerlink" title="SFContentBlockerManager"></a><strong><em>SFContentBlockerManager</em></strong></h3><p>Content Blocker，据说是一个Browser Extension之类的玩意，和广告过滤的作用类似，目前功能不明，更多信息可以看<a href="https://webkit.org/blog/3476/content-blockers-first-look/" target="_blank" rel="external">这里</a>。</p>
+<h3 id="效果演示"><a href="#效果演示" class="headerlink" title="效果演示"></a>效果演示</h3><p><img src="/images/201802/SafariServices.gif" alt="GIF"></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/14/iOS-SafariServices/" class="archive-article-date">
+  	<time datetime="2018-03-14T07:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/03/26/swift4-Codable/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Swift4之Codable协议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/26/iOS-compile-MobileVLCKit.framework/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS编译MobileVLCKit.framework</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 吴品诚
+    	</div>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备15020585号-1</a>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 13.33px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 13.33px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://onevcat.com/#blog">王巍博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtang.com/">唐巧博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰的官方网站</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.skyfox.org/">天狐博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.kittenyang.com/">Kitten博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.limboy.me/">李忠(蘑菇街)博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://blog.sunnyyoung.net/">Sunnyyoung博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://objccn.io/">ObjC中国</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://nshipster.cn/">NSHipster</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://es6.ruanyifeng.com/">阮一峰ECMAScript6入门</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://git-scm.com/book/zh/v2/">Git Document</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://tinypng.com/">图片在线压缩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cockos.com/licecap/">屏幕录制GIF</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/">Apple Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/app-store/review/guidelines/cn/">App Store 审核指南</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developers.google.cn/">Google Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.iconfont.cn/">阿里巴巴矢量图标库</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.nsdateformatter.com/">NSDate日期格式</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/support/app-store/">iOS版本分布情况</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213">iOS符号表</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6">iPhone尺寸</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是吴品诚，我喂自己袋盐......</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
