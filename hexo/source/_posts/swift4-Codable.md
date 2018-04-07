@@ -46,6 +46,11 @@ public typealias Codable = Decodable & Encodable
 ```
 
 
+## 源码
+
+可以在Swift源码目录[/stdlib/public/SDK/Foundation/JSONEncoder.swift](https://github.com/apple/swift/blob/master/stdlib/public/SDK/Foundation/JSONEncoder.swift)看到苹果这该功能的实现。
+
+
 ## JSON转Model
 
 最理想的情况下，当然是服务器返回的JSON数据中key和我们Model中定义的key保持一致，那么我们只需要将Model声明为遵守Codable协议即可。
@@ -68,6 +73,8 @@ let model = try? JSONDecoder().decode(Person.self, from: data)
 
 ## 自定义键值
 
+- CodingKey协议
+
 当然了，大多数情况下我们都会遇到服务器返回的Key与Model属性名称不一致的情况，此时我们就需要自己定义映射关系了。Codable也为我们提供了解决方案，我们只需要定义一个名称为`CodingKeys`的嵌套枚举，关联值类型为String，并遵守CodingKey协议即可。
 
 假设我们需要给Person增加一个学校信息，服务器返回的Key为`school_name`，而我们Model中则为`schoolName`，我们只需简单修改Person的定义即可:
@@ -88,6 +95,17 @@ struct Person: Codable {
 通过CodingKeys这个枚举，我们便可轻易完成JSON Key和Model之间的映射关系。
 
 默认情况下，编译器会为我们自动生成CodingKeys，并提供`init(from decoder: Decoder) throws`和`func encode(to encoder: Encoder) throws`的默认实现。
+
+
+- `keyDecodingStrategy`属性
+
+随着Swift4.1的更新，Apple给JSONDecoder/JSONEncoder扩展了一个keyDecodingStrategy属性，为我们带来更加方便的自定义键值映射功能。
+
+keyDecodingStrategy是一个枚举值，有个case是`convertFromSnakeCase`，可以在对象/结构体的`Camel Case`格式的属性名和JSON的`Snake Case`格式的key之间转换（即在Decoder时会自动将JSON中的school_name映射成Person中的schoolName），这个是核心功能内置的，就不需要我们额外写代码处理了。上面加上的枚举CodingKeys也可以去掉了，只需要在JSONDecoder这个实例设置这个属性就行。
+```Swift
+let decoder = JSONDecoder()
+decoder.keyDecodingStrategy = .convertFromSnakeCase
+```
 
 
 ## 枚举
