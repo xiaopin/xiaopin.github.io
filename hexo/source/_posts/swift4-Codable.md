@@ -137,9 +137,111 @@ struct Person: Codable {
 
 ## 日期处理
 
-先安利一个网站[www.nsdateformatter.com](http://www.nsdateformatter.com)
+> 安利一个网站[www.nsdateformatter.com](http://www.nsdateformatter.com)，你可以查看各种日期格式的字符串表示。
 
-这里暂不做介绍，毕竟我也没研究透。
+JSON 没有数据类型表示日期格式，因此需要客户端和服务端对序列化进行约定。
+
+JSONDecoder提供了一个枚举类型来处理日期格式，其定义如下:
+
+```Swift
+/// The strategy to use for decoding `Date` values.
+public enum DateDecodingStrategy {
+
+    /// Defer to `Date` for decoding. This is the default strategy.
+    case deferredToDate
+
+    /// Decode the `Date` as a UNIX timestamp from a JSON number.
+    case secondsSince1970
+
+    /// Decode the `Date` as UNIX millisecond timestamp from a JSON number.
+    case millisecondsSince1970
+
+    /// Decode the `Date` as an ISO-8601-formatted string (in RFC 3339 format).
+    case iso8601
+
+    /// Decode the `Date` as a string parsed by the given formatter.
+    case formatted(DateFormatter)
+
+    /// Decode the `Date` as a custom value decoded by the given closure.
+    case custom((Decoder) throws -> Date)
+}
+```
+
+可以看到JSONDecoder内置了几种日期处理方式，前四种没什么可说的，直接赋值拿来用就行了，着重说一下`.formatted(DateFormatter)`和`.custom((Decoder) throws -> Date)`。
+
+- .formatted(DateFormatter)
+
+当服务器返回的是一个非标准格式的日期字符串时，我们可以提供一个`DateFormatter`来指定日期格式
+
+```Swift
+let decoder = JSONDecoder()
+let formatter = DateFormatter()
+formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+formatter.timeZone = TimeZone(abbreviation: "UTC")
+decoder.dateDecodingStrategy = .formatted(formatter)
+```
+
+- .custom((Decoder) throws -> Date)
+
+当DateFormatter也不能满足我们的需求时，我们可以自己指定如何解析。
+
+```Swift
+let decoder = JSONDecoder()
+decoder.dateDecodingStrategy = .custom({ (decoder) -> Date in
+    let container = try decoder.singleValueContainer()
+    if let str = try? container.decode(String.self) {
+        // 如有必要,这里还可以判断字符串是否为时间戳,最终转换成Date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        if let date = formatter.date(from: str) {
+            return date
+        }
+    }
+    if let double = try? container.decode(Double.self) {
+        // 可根据服务器返回的时间戳是相对于1970.1.1 00:00:00还是2001.1.1 00:00:00进行相应的转换
+        return Date(timeIntervalSinceReferenceDate: double)
+    }
+    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date.")
+})
+...
+```
+
+我们可以进一步优化代码，通过给`JSONDecoder.DateDecodingStrategy`扩展一个`customDateConvert()`方法，之后在多个地方进行日期的转换也将变得很简单。
+
+```Swift
+decoder.dateDecodingStrategy = .customDateConvert()
+```
+
+```Swift
+extension JSONDecoder.DateDecodingStrategy {
+    
+    /// 自定义解析日期
+    /// 使用方式: JSONDecoder().dateDecodingStrategy = .customDateConvert()
+    ///
+    /// - Returns: .custom((Decoder) -> Date)
+    static func customDateConvert() -> JSONDecoder.DateDecodingStrategy {
+        return .custom({ (decoder) -> Date in
+            let container = try decoder.singleValueContainer()
+            if let str = try? container.decode(String.self) {
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone(abbreviation: "UTC")
+                for dateFormat in ["yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"] {
+                    formatter.dateFormat = dateFormat
+                    guard let date = formatter.date(from: str) else { continue }
+                    return date
+                }
+            }
+            if let double = try? container.decode(Double.self) {
+                // 根据服务器返回的时间戳是相对于1970.1.1 00:00:00还是2001.1.1 00:00:00进行相应的转换
+                return Date(timeIntervalSince1970: double)
+            }
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date.")
+        })
+    }
+    
+}
+```
 
 
 ## 自定义解析
@@ -274,6 +376,15 @@ extension KeyedDecodingContainer {
             }
             throw error
         }
+    }
+    
+    /// 解码Date
+    func decodeDate(_ key: K) throws -> Date {
+        guard let date = try decodeDateIfPresent(key) else {
+            let context = DecodingError.Context(codingPath: [key], debugDescription: "No value associated with key `\(key)`")
+            throw DecodingError.keyNotFound(key, context)
+        }
+        return date
     }
     
 }
@@ -427,10 +538,86 @@ extension KeyedDecodingContainer {
         }
     }
     
+    /// 解码Date
+    func decodeDateIfPresent(_ key: K) throws -> Date? {
+        do {
+            return try decodeIfPresent(Date.self, forKey: key)
+        } catch {
+            if let s = try? decode(String.self, forKey: key) {
+                let formatter = DateFormatter()
+                formatter.timeZone = TimeZone(abbreviation: "UTC")
+                for dateFormat in ["yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"] {
+                    formatter.dateFormat = dateFormat
+                    guard let date = formatter.date(from: s) else { continue }
+                    return date
+                }
+            }
+            throw error
+        }
+    }
+    
 }
 ```
 
 有了这些扩展方法，我们就事半功倍了。
 
-更多信息请参考：[Using JSON with Custom Types](https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types)
+
+## 有趣的发现
+
+前提条件:
+- 定义了`JSONDecoder.DateDecodingStrategy`的`customDateConvert()`扩展方法
+- 定义了`KeyedDecodingContainer`的扩展方法`decodeDate(_:)`和`decodeDateIfPresent(_:)`
+
+伪代码(详细代码请看上面):
+```Swift
+extension JSONDecoder.DateDecodingStrategy {
+    static func customDateConvert() -> JSONDecoder.DateDecodingStrategy {
+        ...
+    }
+}
+
+extension KeyedDecodingContainer {
+    func decodeDate(_ key: K) throws -> Date {...}
+    func decodeDateIfPresent(_ key: K) throws -> Date? {
+        do {
+            return try decodeIfPresent(Date.self, forKey: key)
+        } catch {...}
+    }
+}
+```
+
+下面是测试代码:
+```Swift
+struct DataModel: Codable {
+    var time: Date
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        time = try container.decodeDate(.time)
+    }
+}
+
+do {
+    let data = "{\"time\":\"2018-04-11 17:34:23\"}".data(using: .utf8)!
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .customDateConvert()
+    let model = try decoder.decode(DataModel.self, from: data)
+} catch {
+    print(error)
+}
+```
+
+从测试代码中我们可以看到，不仅仅实现了`init(from:)`方法，并且还指定了`dateDecodingStrategy`属性。
+
+在初始化方法中我们调用了上面的扩展方法`decodeDate(_:)`来获取日期数据，而其内部是通过调用`decodeDateIfPresent(_:)`来获取日期，这看似正常，并没什么问题。关键在于`decodeDateIfPresent(_:)`中首先尝试通过系统方法去获取Date，即`try decodeIfPresent(Date.self, forKey: key)`，该行代码会导致JSONDecoder使用我们的`customDateConvert()`来解码日期。
+
+也就是形成了这么一条调用链: `decodeDate(_:)` -> `decodeDateIfPresent(_:)` -> `customDateConvert()`
+
+
+## 更多信息请参考：
+
+- [Using JSON with Custom Types](https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types)
+- [Swift4 终极解析方案：进阶篇](https://juejin.im/entry/59c9bc826fb9a00a5e35eaaa)
+- [Swift 4 JSON 解析指南](https://segmentfault.com/a/1190000009929819)
+- [https://stackoverflow.com/questions/44682626/swifts-jsondecoder-with-multiple-date-formats-in-a-json-string](https://stackoverflow.com/questions/44682626/swifts-jsondecoder-with-multiple-date-formats-in-a-json-string)
 
