@@ -138,6 +138,171 @@
       <div class="body-wrap">
         
   
+    <article id="post-UIScrollView-current-page" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/13/UIScrollView-current-page/">UIScrollView计算当前滚动页码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们需要在UIScrollView滚动时根据滚动偏移量实时计算当前滚动到第几页，需要实现<code>scrollViewDidScroll(_:)</code>这个代理方法，记得开启分页功能<code>scrollView.isPagingEnabled = true</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="number">_</span> scrollView: UIScrollView)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> pageWidth = scrollView.bounds.width</div><div class="line">    <span class="keyword">let</span> offsetX = scrollView.contentOffset.x</div><div class="line">    <span class="keyword">let</span> currentPage = <span class="type">Int</span>(floor((offsetX - pageWidth / <span class="number">2</span>) / pageWidth)) + <span class="number">1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/13/UIScrollView-current-page/" class="archive-article-date">
+  	<time datetime="2017-07-13T03:32:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS11-contentInsetAdjustmentBehavior" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/">UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在iOS11中，苹果对UIScrollView新增了<code>contentInsetAdjustmentBehavior</code>属性来取代之前的UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性。</p>
+</blockquote>
+<p>在iOS11之前的项目中，如果我们需要将滚动视图的内容布局从屏幕左上角开始，也就是内容穿透UINavigationBar的效果，只需要设置UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性为<code>NO</code>即可，告诉系统不要自动调整滚动视图的<code>contentInset</code>。但是在iOS11中，你将发现尽管将automaticallyAdjustsScrollViewInsets设置为NO了，但是滚动视图的内容还是往下偏移了64pt，从导航栏底部开始显示，通过查看automaticallyAdjustsScrollViewInsets的声明发现在iOS11中该属性已经被废弃以及被UIScrollView的<code>contentInsetAdjustmentBehavior</code>属性所替代了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>) <span class="built_in">BOOL</span> automaticallyAdjustsScrollViewInsets API_DEPRECATED_WITH_REPLACEMENT(<span class="string">"Use UIScrollView's contentInsetAdjustmentBehavior instead"</span>, ios(<span class="number">7.0</span>,<span class="number">11.0</span>),tvos(<span class="number">7.0</span>,<span class="number">11.0</span>)); <span class="comment">// Defaults to YES</span></div></pre></td></tr></table></figure>
+<p>我们再看下contentInsetAdjustmentBehavior的声明</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>) <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span> contentInsetAdjustmentBehavior API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
+<p>contentInsetAdjustmentBehavior对应的是一个UIScrollViewContentInsetAdjustmentBehavior枚举类型的值，该枚举定义如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span>) &#123;</div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAutomatic</span>, <span class="comment">// Similar to .scrollableAxes, but will also adjust the top &amp; bottom contentInset when the scroll view is owned by a view controller with automaticallyAdjustsScrollViewContentInset = YES inside a navigation controller, regardless of whether the scroll view is scrollable</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentScrollableAxes</span>, <span class="comment">// Edges for scrollable axes are adjusted (i.e., contentSize.width/height &gt; frame.size.width/height or alwaysBounceHorizontal/Vertical = YES)</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>, <span class="comment">// contentInset is not adjusted</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAlways</span>, <span class="comment">// contentInset is always adjusted by the scroll view's safeAreaInsets</span></div><div class="line">&#125; API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
+<p>通过查看UIScrollViewContentInsetAdjustmentBehavior的定义，我们很容易知道想要实现前面所说的效果，只需将滚动设置的contentInsetAdjustmentBehavior属性设置为对应的UIScrollViewContentInsetAdjustmentNever即可。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    scrollView.contentInsetAdjustmentBehavior = <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">	<span class="keyword">self</span>.automaticallyAdjustsScrollViewInsets = <span class="literal">NO</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在iOS11之前，系统会通过动态调整UIScrollView的contentInset属性来实现视图内容的偏移，但是在iOS11中，系统不再调整UIScrollView的contentInset，而是通过<code>contentInsetAdjustmentBehavior</code>和<code>adjustedContentInset</code>来配合完成。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/" class="archive-article-date">
+  	<time datetime="2017-07-06T06:51:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-macos-window-center" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/macos-window-center/">macOS应用窗口居中显示</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>调整窗口大小或居中显示，必须将NSWindow的<code>restorable</code>属性设置为NO，否则无效果。</p>
+</blockquote>
+<p>应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的windowDidLoad方法进行设置：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setRestorable:<span class="literal">NO</span>];</div><div class="line">  [<span class="keyword">self</span>.window setFrame:<span class="built_in">NSMakeRect</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">800.0</span>, <span class="number">600.0</span>) display:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window center];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
+  	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-macos-titlebar-hide" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -534,175 +699,6 @@
 
 
   
-    <article id="post-android-rect-contains" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/02/android-rect-contains/">Android判断点击区域</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该坐标点所处的区域。</p>
-<blockquote>
-<p>需要注意的是，Android中的<code>Rect</code>和iOS中的<code>CGRect</code>的概念有点不一样，iOS中的CGRect通过<code>CGRectMake(x, y, width, height)</code>方法进行创建，而Android中的Rect通过<code>public Rect(int left, int top, int right, int bottom)</code>初始化。iOS中的是<code>x</code>、<code>y</code>、<code>width</code>、<code>height</code>，对应的是视图的<code>x坐标点</code>、<code>y坐标点</code>、<code>视图的宽度值</code>、<code>视图的高度值</code>；而Android中的是<code>left</code>、<code>top</code>、<code>right</code>、<code>bottom</code>对应的是视图的<code>视图左边距坐标点</code>、<code>视图顶部边距的坐标点</code>、<code>视图右边距的坐标点</code>、<code>视图底部边距的坐标点</code>。Android中的Rect更类似于iOS中的UIEdgeInsets的概念。</p>
-</blockquote>
-<h2 id="下面附上源码"><a href="#下面附上源码" class="headerlink" title="下面附上源码"></a>下面附上源码</h2><h4 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"com.example.wupincheng.myapplication.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/main_button"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"800dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Button"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="Activity代码"><a href="#Activity代码" class="headerlink" title="Activity代码"></a>Activity代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">                <span class="comment">/**</span></div><div class="line">                // 水平N等分,通过将count设置为不同的数值就可达到将View按照水平方向平分为N分</div><div class="line">                int count = 3;</div><div class="line">                int averageWidth = view.getWidth() / count;</div><div class="line">                int height = view.getHeight();</div><div class="line"></div><div class="line">                for (int i=0; i&lt;count; i++) &#123;</div><div class="line">                    int left = averageWidth * i;</div><div class="line">                    Rect rect = new Rect(left, 0, left+averageWidth, height);</div><div class="line">                    if (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println("点击按钮第"+i+"块区域");</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                 */</div><div class="line"></div><div class="line">                <span class="comment">// 十字四等分</span></div><div class="line">                <span class="keyword">int</span> averageWidth = view.getWidth() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">int</span> averageHeight = view.getHeight() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++) &#123;</div><div class="line">                    <span class="keyword">int</span> left = averageWidth * (i%<span class="number">2</span>);</div><div class="line">                    <span class="keyword">int</span> top = averageHeight * (i/<span class="number">2</span>);</div><div class="line">                    Rect rect = <span class="keyword">new</span> Rect(left, top, left+averageWidth, top+averageHeight);</div><div class="line">                    <span class="keyword">if</span> (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println(<span class="string">"点击按钮第"</span>+i+<span class="string">"块区域"</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View view, MotionEvent motionEvent)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (motionEvent.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">                    x = (<span class="keyword">int</span>)motionEvent.getX();</div><div class="line">                    y = (<span class="keyword">int</span>)motionEvent.getY();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/02/android-rect-contains/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/02/autolayout-vfl/">通过VFL(Visual Format Language)使用AutoLayout</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
-<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
-<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
-<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
-<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo-repository" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/23/hexo-repository/">用一个仓库管理hexo博客源码与站点文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在GitHub上创建一个新仓库，注意命名为<code>username.github.io</code>即可。</p>
-<h3 id="将仓库克隆到本地"><a href="#将仓库克隆到本地" class="headerlink" title="将仓库克隆到本地"></a>将仓库克隆到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/Documents</div><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div></pre></td></tr></table></figure>
-<h3 id="创建hexo分支用于管理博客源码"><a href="#创建hexo分支用于管理博客源码" class="headerlink" title="创建hexo分支用于管理博客源码"></a>创建hexo分支用于管理博客源码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ git <span class="built_in">clone</span> https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">$ <span class="built_in">cd</span> xiaopin.github.io/</div><div class="line">$ git checkout -b hexo</div><div class="line">$ touch .gitignore</div><div class="line">$ git add .gitignore</div><div class="line">$ git commit -m “add .gitignore“</div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
-<h3 id="在hexo分支下创建站点"><a href="#在hexo分支下创建站点" class="headerlink" title="在hexo分支下创建站点"></a>在hexo分支下创建站点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ mkdir hexo</div><div class="line">$ <span class="built_in">cd</span> hexo/</div><div class="line">$ hexo init</div><div class="line">$ npm install</div></pre></td></tr></table></figure>
-<h3 id="安装主题并通过git子模块来管理主题"><a href="#安装主题并通过git子模块来管理主题" class="headerlink" title="安装主题并通过git子模块来管理主题"></a>安装主题并通过git子模块来管理主题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ../</div><div class="line">$ git submodule add https://github.com/litten/hexo-theme-yilia.git hexo/themes/yilia</div></pre></td></tr></table></figure>
-<h3 id="将hexo源码与主题提交到GitHub仓库"><a href="#将hexo源码与主题提交到GitHub仓库" class="headerlink" title="将hexo源码与主题提交到GitHub仓库"></a>将hexo源码与主题提交到GitHub仓库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ git add .</div><div class="line">$ git commit -m <span class="string">"add hexo source and yilia theme"</span></div><div class="line">$ git push origin hexo</div></pre></td></tr></table></figure>
-<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>安装hexo-deployer-git<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install hexo-deployer-git --save</div></pre></td></tr></table></figure></p>
-<p>修改配置_config.yml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">  type: git</div><div class="line">  repo: https://github.com/xiaopin/xiaopin.github.io.git</div><div class="line">  branch: master</div></pre></td></tr></table></figure></p>
-<p>配置好后只需执行<code>hexo g -d</code>即可生成静态文件并上传到GitHub上。</p>
-<h3 id="添加README-md"><a href="#添加README-md" class="headerlink" title="添加README.md"></a>添加README.md</h3><p>将README.md文件放到<code>hexo/source/</code>目录下，此时部署的话，你会发现hexo把README.md解析成了HTML了。这里采取修改后缀名的方式解决，将<code>README.md</code>重命名为<code>README.mdown</code>。</p>
-<p>如果需要自定义域名，在<code>hexo/source/</code>目录下，新建一个<code>CNAME</code>文件，文件内容为你的域名（如：0daybug.com）。</p>
-<h4 id="附上-gitignore的内容"><a href="#附上-gitignore的内容" class="headerlink" title="附上.gitignore的内容"></a>附上.gitignore的内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.DS_Store</div><div class="line">Thumbs.db</div><div class="line">db.json</div><div class="line">*.log</div><div class="line">node_modules/</div><div class="line">public/</div><div class="line">.deploy*/</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/23/hexo-repository/" class="archive-article-date">
-  	<time datetime="2016-11-23T13:43:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随记/">随记</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -717,7 +713,7 @@
     	<div class="footer-left">
     		&copy; 2018 吴品诚
     	</div>
-      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备15020585号-1</a>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18042388号-1</a>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
       	</div>
@@ -769,7 +765,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 16.67px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 13.33px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 13.33px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
     			</div>
     	</section>
     

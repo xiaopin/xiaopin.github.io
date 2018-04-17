@@ -6,24 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>macOS应用窗口居中显示 | 吴品诚的技术博客</title>
+  <title>iOS从通讯录中复制粘贴电话号码携带特殊字符 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
+  <meta name="description" content="在做收货地址的功能，其中有个场景就是用户先从手机通讯录中拷贝了某个电话号码，然后将其粘贴到输入框中。一切看似正常，但是这里有个问题，从通讯录中拷贝的电话号码，自带了特殊的不可见unicode字符，如果你不打断点查看变量值，压根不会看到这些特殊字符。
+特殊字符这些特殊字符在OC和Swift中有不同的表现形式:
+Objective-C:1phone	__NSCFString *	@&amp;quot;\U00">
 <meta property="og:type" content="article">
-<meta property="og:title" content="macOS应用窗口居中显示">
-<meta property="og:url" content="http://www.0daybug.com/2017/03/27/macos-window-center/index.html">
+<meta property="og:title" content="iOS从通讯录中复制粘贴电话号码携带特殊字符">
+<meta property="og:url" content="http://www.0daybug.com/2018/03/30/iOS-copy-paste-phone-from-contacts/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
-<meta property="og:updated_time" content="2018-04-05T12:55:06.000Z">
+<meta property="og:description" content="在做收货地址的功能，其中有个场景就是用户先从手机通讯录中拷贝了某个电话号码，然后将其粘贴到输入框中。一切看似正常，但是这里有个问题，从通讯录中拷贝的电话号码，自带了特殊的不可见unicode字符，如果你不打断点查看变量值，压根不会看到这些特殊字符。
+特殊字符这些特殊字符在OC和Swift中有不同的表现形式:
+Objective-C:1phone	__NSCFString *	@&amp;quot;\U00">
+<meta property="og:updated_time" content="2018-04-17T12:00:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="macOS应用窗口居中显示">
-<meta name="twitter:description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
+<meta name="twitter:title" content="iOS从通讯录中复制粘贴电话号码携带特殊字符">
+<meta name="twitter:description" content="在做收货地址的功能，其中有个场景就是用户先从手机通讯录中拷贝了某个电话号码，然后将其粘贴到输入框中。一切看似正常，但是这里有个问题，从通讯录中拷贝的电话号码，自带了特殊的不可见unicode字符，如果你不打断点查看变量值，压根不会看到这些特殊字符。
+特殊字符这些特殊字符在OC和Swift中有不同的表现形式:
+Objective-C:1phone	__NSCFString *	@&amp;quot;\U00">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -143,7 +143,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-macos-window-center" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-iOS-copy-paste-phone-from-contacts" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -153,7 +153,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      macOS应用窗口居中显示
+      iOS从通讯录中复制粘贴电话号码携带特殊字符
     </h1>
   
 
@@ -161,23 +161,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>调整窗口大小或居中显示，必须将NSWindow的<code>restorable</code>属性设置为NO，否则无效果。</p>
-</blockquote>
-<p>应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的windowDidLoad方法进行设置：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setRestorable:<span class="literal">NO</span>];</div><div class="line">  [<span class="keyword">self</span>.window setFrame:<span class="built_in">NSMakeRect</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">800.0</span>, <span class="number">600.0</span>) display:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window center];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>在做收货地址的功能，其中有个场景就是用户先从手机<code>通讯录</code>中拷贝了某个电话号码，然后将其粘贴到输入框中。一切看似正常，但是这里有个问题，从通讯录中拷贝的电话号码，自带了特殊的不可见unicode字符，如果你不打断点查看变量值，压根不会看到这些特殊字符。</p>
+<h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>这些特殊字符在OC和Swift中有不同的表现形式:</p>
+<p>Objective-C:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phone	__NSCFString *	@&quot;\U0000202d(888) 555-5512\U0000202c&quot;	0x000060000065b7b0</div></pre></td></tr></table></figure></p>
+<p>Swift:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phone	String	&quot;\u&#123;e2&#125;(888) 555-5512\u&#123;e2&#125;&quot;</div></pre></td></tr></table></figure></p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>Swift:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeSpecialCharactersForPhoneNumber</span><span class="params">(<span class="number">_</span> phone: String)</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">    <span class="keyword">var</span> result = phone</div><div class="line">    [<span class="string">"+86"</span>,<span class="string">"+"</span>,<span class="string">"-"</span>,<span class="string">"("</span>,<span class="string">")"</span>,<span class="string">" "</span>].forEach &#123;</div><div class="line">        result = result.replacingOccurrences(of: $<span class="number">0</span>, with: <span class="string">""</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 过滤`通讯录`拷贝的特殊字符</span></div><div class="line">    result = result.replacingOccurrences(of: <span class="string">"\\p&#123;Cf&#125;"</span>, with: <span class="string">""</span>, options: .regularExpression)</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Objective-C</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[phone stringByReplacingOccurrencesOfString:<span class="string">@"\\p&#123;Cf&#125;"</span> withString:<span class="string">@""</span> options:<span class="built_in">NSRegularExpressionSearch</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, phone.length)]</div></pre></td></tr></table></figure>
+<p>参考: <a href="https://stackoverflow.com/questions/47623828/ios-copy-paste-phone-from-contacts-to-uitextfield-adds-strange-unicode-character" target="_blank" rel="external">https://stackoverflow.com/questions/47623828/ios-copy-paste-phone-from-contacts-to-uitextfield-adds-strange-unicode-character</a></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
-  	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+      <a href="/2018/03/30/iOS-copy-paste-phone-from-contacts/" class="archive-article-date">
+  	<time datetime="2018-03-30T09:16:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-30</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
@@ -190,18 +194,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/10/iOS-waterfall-layout/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性
+          UICollectionView瀑布流布局
         
       </div>
     </a>
   
   
-    <a href="/2017/03/27/macos-titlebar-hide/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">隐藏NSWindow的titleBar</div>
+    <a href="/2018/03/29/swift-substr/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Swift截取子字符串</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -6,24 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>macOS应用窗口居中显示 | 吴品诚的技术博客</title>
+  <title>Swift选项集合(OptionSet) | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
+  <meta name="description" content="Objective-C中的NS_OPTION宏对于iOS开发者来说，NS_OPTION这个宏应该都不会陌生吧，这个宏给我们的开发带来了极大的便利。
+123456789typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) &amp;#123;    UIViewAutoresizingNone                 = 0,    UIViewAut">
 <meta property="og:type" content="article">
-<meta property="og:title" content="macOS应用窗口居中显示">
-<meta property="og:url" content="http://www.0daybug.com/2017/03/27/macos-window-center/index.html">
+<meta property="og:title" content="Swift选项集合(OptionSet)">
+<meta property="og:url" content="http://www.0daybug.com/2018/04/13/swift-OptionSet/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
-<meta property="og:updated_time" content="2018-04-05T12:55:06.000Z">
+<meta property="og:description" content="Objective-C中的NS_OPTION宏对于iOS开发者来说，NS_OPTION这个宏应该都不会陌生吧，这个宏给我们的开发带来了极大的便利。
+123456789typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) &amp;#123;    UIViewAutoresizingNone                 = 0,    UIViewAut">
+<meta property="og:updated_time" content="2018-04-17T12:00:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="macOS应用窗口居中显示">
-<meta name="twitter:description" content="调整窗口大小或居中显示，必须将NSWindow的restorable属性设置为NO，否则无效果。
-
-应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的wind">
+<meta name="twitter:title" content="Swift选项集合(OptionSet)">
+<meta name="twitter:description" content="Objective-C中的NS_OPTION宏对于iOS开发者来说，NS_OPTION这个宏应该都不会陌生吧，这个宏给我们的开发带来了极大的便利。
+123456789typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing) &amp;#123;    UIViewAutoresizingNone                 = 0,    UIViewAut">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -143,7 +140,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-macos-window-center" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-swift-OptionSet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -153,7 +150,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      macOS应用窗口居中显示
+      Swift选项集合(OptionSet)
     </h1>
   
 
@@ -161,23 +158,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>调整窗口大小或居中显示，必须将NSWindow的<code>restorable</code>属性设置为NO，否则无效果。</p>
-</blockquote>
-<p>应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的windowDidLoad方法进行设置：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setRestorable:<span class="literal">NO</span>];</div><div class="line">  [<span class="keyword">self</span>.window setFrame:<span class="built_in">NSMakeRect</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">800.0</span>, <span class="number">600.0</span>) display:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window center];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <h3 id="Objective-C中的NS-OPTION宏"><a href="#Objective-C中的NS-OPTION宏" class="headerlink" title="Objective-C中的NS_OPTION宏"></a>Objective-C中的NS_OPTION宏</h3><p>对于iOS开发者来说，<code>NS_OPTION</code>这个宏应该都不会陌生吧，这个宏给我们的开发带来了极大的便利。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">UIViewAutoresizing</span>) &#123;</div><div class="line">    <span class="built_in">UIViewAutoresizingNone</span>                 = <span class="number">0</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleLeftMargin</span>   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleWidth</span>        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleRightMargin</span>  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleTopMargin</span>    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleHeight</span>       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleBottomMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Objective-C中可以通过<code>|</code>来组合选项，通过<code>&amp;</code>来判断给定的选项中是否包含某个成员。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIViewAutoresizing</span> autoresizing = <span class="built_in">UIViewAutoresizingFlexibleWidth</span> | <span class="built_in">UIViewAutoresizingFlexibleHeight</span>;</div><div class="line"><span class="keyword">if</span> (autoresizing &amp; <span class="built_in">UIViewAutoresizingFlexibleWidth</span>) &#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>|=</code>来追加选项。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">autoresizing |= <span class="built_in">UIViewAutoresizingFlexibleLeftMargin</span>;</div></pre></td></tr></table></figure>
+<h3 id="OptionSet协议"><a href="#OptionSet协议" class="headerlink" title="OptionSet协议"></a>OptionSet协议</h3><p>Swift使用struct来遵从<code>OptionSet</code>协议，以引入选项集合，而非enum。为什么这样处理呢？当枚举成员互斥的时候，比如说，一次只有一个选项可以被选择的情况下，枚举是非常好的。但是和 C 不同，在 Swift 中，你无法把多个枚举成员组合成一个值，而 C 中的枚举对编译器来说就是整型，可以接受任意整数值。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Hobbies</span>: <span class="title">OptionSet</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> rawValue: <span class="type">UInt</span></div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="keyword">none</span>         = <span class="type">Hobbies</span>(rawValue: <span class="number">0</span>) <span class="comment">// 这人很懒,居然没任何爱好😂</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> basketball   = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">0</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> football     = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">1</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> baseball     = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">2</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> swim         = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">3</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> badminton    = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">4</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> all: <span class="type">Hobbies</span> = [.basketball, .football, .baseball, .swim, .badminton]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和C一样，Swift中的选项集合结构体使用了高效的位域来表示，但是这个结构体本身表现为一个集合，它的成员则为被选择的选项。这允许你使用标准的集合运算来维护位域，比如使用<code>contains(_:)</code>来检验集合中是否有某个成员，或者是用<code>union(_:)</code>来组合两个位域，通过<code>remove(_:)</code>来移除某个成员。另外，由于OptionSet继承于ExpressibleByArrayLiteral，你可以使用数组字面量来生成一个选项集合。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hobbies: <span class="type">Hobbies</span> = [.football, .swim]</div><div class="line"><span class="number">_</span> = hobbies.<span class="built_in">contains</span>(.football) <span class="comment">// true</span></div><div class="line"><span class="number">_</span> = hobbies.<span class="built_in">contains</span>(.baseball) <span class="comment">// false</span></div><div class="line"><span class="comment">// 增加`.badminton`选项</span></div><div class="line">hobbies = hobbies.union(.badminton)</div><div class="line"><span class="comment">// 移除`.football`选项</span></div><div class="line">hobbies.remove(.football)</div></pre></td></tr></table></figure>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>你可以在GitHub上查看到OptionSet的源码<a href="https://github.com/apple/swift/blob/master/stdlib/public/core/OptionSet.swift" target="_blank" rel="external"><code>swift/stdlib/public/core/OptionSet.swift</code></a>，如果你有兴趣。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
-  	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+      <a href="/2018/04/13/swift-OptionSet/" class="archive-article-date">
+  	<time datetime="2018-04-13T00:46:38.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-13</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
 	</div>
 
       
@@ -190,18 +193,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/03/27/macos-titlebar-hide/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">隐藏NSWindow的titleBar</div>
+    <a href="/2018/04/10/iOS-waterfall-layout/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UICollectionView瀑布流布局</div>
       <i class="icon-circle-right"></i>
     </a>
   
