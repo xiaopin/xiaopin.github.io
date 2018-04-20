@@ -138,6 +138,136 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-change-App-icon" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>苹果在iOS10.3系统中为我们带来了更改App图标的功能， 主要接口定义如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Pass `nil` to use the primary application icon. The completion handler will be invoked asynchronously on an arbitrary background queue; be sure to dispatch back to the main queue before doing any further UI work.</span></div><div class="line"><span class="meta">@available</span>(iOS <span class="number">10.3</span>, *)</div><div class="line">open <span class="function"><span class="keyword">func</span> <span class="title">setAlternateIconName</span><span class="params">(<span class="number">_</span> alternateIconName: String?, completionHandler: <span class="params">(<span class="params">(Error?)</span></span></span></span> -&gt; <span class="type">Swift</span>.<span class="type">Void</span>)? = <span class="literal">nil</span>)</div></pre></td></tr></table></figure>
+<p>在使用该功能前，我们需要注意一下几点：</p>
+<ul>
+<li>iOS10.3或以上系统版本</li>
+<li>在Info.plist中声明了主图标和备用图标，只能使用声明过的图标，并且iPhone和iPad需要分别声明</li>
+<li><code>UIApplication.shared.supportsAlternateIcons</code>返回true时才能修改图标</li>
+<li>备用图标不能放在<code>Assets.xcassets</code>，必须是直接拖到Xcode左侧的项目导航栏上</li>
+<li>图标修改成功后，系统会自动弹出一个弹窗进行提示</li>
+</ul>
+<h2 id="下面让我们搞起来吧～～～"><a href="#下面让我们搞起来吧～～～" class="headerlink" title="下面让我们搞起来吧～～～"></a>下面让我们搞起来吧～～～</h2><h3 id="1-把备用图标拖入项目中"><a href="#1-把备用图标拖入项目中" class="headerlink" title="1. 把备用图标拖入项目中"></a>1. 把备用图标拖入项目中</h3><p>看起来应该是这样的</p>
+<p><img src="/images/201801/alternateicon.png" alt=""></p>
+<h3 id="2-在Info-plist中声明主图标和备用图标"><a href="#2-在Info-plist中声明主图标和备用图标" class="headerlink" title="2. 在Info.plist中声明主图标和备用图标"></a>2. 在Info.plist中声明主图标和备用图标</h3><p><code>CFBundleIcons</code>声明的是iPhone使用的图标，iPad需要使用<code>CFBundleIcons~ipad</code>进行声明。</p>
+<p><code>CFBundlePrimaryIcon</code>声明的就是我们App的主图标（在iOS11.2模拟器上测试，发现不添加该字段程序也能正常运行），而<code>CFBundleAlternateIcons</code>声明的就是我们的备用图标，该字段对应的值是一个字典值，字典下面又是字典:)，你可以通过添加多个字典来添加多个备用图标。</p>
+<p>下面的示例中我声明了两个备用图标。</p>
+<p>字段含义可参考官方文档: <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW10" target="_blank" rel="external">👇戳这里</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleIcons&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon60x60&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;key&gt;CFBundleIcons~ipad&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon83.5x83.5&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div></pre></td></tr></table></figure>
+<h3 id="3-万事俱备，现在开始更换图标"><a href="#3-万事俱备，现在开始更换图标" class="headerlink" title="3. 万事俱备，现在开始更换图标"></a>3. 万事俱备，现在开始更换图标</h3><p>直接上代码(点击按钮，然后生成一个随机数，根据随机数获取相应的备用图标)：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">buttonAction</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">10.3</span>, *) &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">UIApplication</span>.shared.supportsAlternateIcons &#123;</div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> random = arc4random_uniform(<span class="number">3</span>)</div><div class="line">        <span class="keyword">let</span> iPad = (<span class="type">UI_USER_INTERFACE_IDIOM</span>() == .pad)</div><div class="line">        <span class="keyword">var</span> iconName: <span class="type">String</span>? <span class="comment">// nil表示使用App原来的图标</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> random == <span class="number">1</span> &#123; <span class="comment">// 图标1</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad"</span> : <span class="string">"AppAlternateIcon"</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> random == <span class="number">2</span> &#123; <span class="comment">// 图标2</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad2"</span> : <span class="string">"AppAlternateIcon2"</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> <span class="type">UIApplication</span>.shared.alternateIconName == iconName &#123;</div><div class="line">            <span class="comment">// App图标已是当前选中的图标，无需更换</span></div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="type">UIApplication</span>.shared.setAlternateIconName(iconName, completionHandler: <span class="literal">nil</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-No-Demo-No-BB"><a href="#4-No-Demo-No-BB" class="headerlink" title="4. No Demo No BB"></a>4. No Demo No BB</h3><p>最后附上<a href="https://github.com/xiaopin/AlternateIconDemo.git" target="_blank" rel="external">Demo</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
+  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-open-QQ-chat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/16/iOS-open-QQ-chat/">iOS打开QQ临时会话窗口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>前提条件：接收临时会话的QQ号码必须开通<a href="http://shang.qq.com" target="_blank" rel="external">QQ推广</a>功能，否则不能打开临时会话窗口。</p>
+</blockquote>
+<p>公司项目在商品详情页面中，有一个客服按钮，点击后需要打开客服MM的QQ聊天窗口，在此可以向客服MM咨询商品相关的问题。这里就记录下iOS如何跳转到QQ的聊天窗口。</p>
+<ul>
+<li>在Info.plise中加入白名单</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">    &lt;string&gt;mqq&lt;/string&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>示例代码</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="type">UIApplication</span>.shared.canOpenURL(<span class="type">URL</span>(string: <span class="string">"mqq://"</span>)!) &#123;</div><div class="line">    <span class="keyword">let</span> qq = <span class="string">"12345678"</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"mqq://im/chat?chat_type=wpa&amp;uin=<span class="subst">\(qq)</span>&amp;version=1&amp;src_type=web"</span>) &#123;</div><div class="line">        <span class="keyword">if</span> #available(iOS <span class="number">10.0</span>, *) &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.open(url, options: [:], completionHandler: <span class="literal">nil</span>)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.openURL(url)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/01/16/iOS-open-QQ-chat/" class="archive-article-date">
+  	<time datetime="2018-01-16T07:03:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-UIColor2UIImage" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -617,135 +747,6 @@
 
 
   
-    <article id="post-iOS-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/24/iOS-screenshot/">iOS截屏分享</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近在把玩<code>支付宝</code>和<code>小米商城</code>App时发现了个好玩的东西，在支付宝首页中截屏，则会在屏幕右侧弹出一个小窗口来展示首页截屏图片，点击图片就会进入求助反馈页面，再点击意见反馈，截屏的图片就会自动被选上作为反馈图片使用；而小米商城的做法则更好玩，在任意页面中进行截屏，则会在屏幕右下角中弹出一个<code>分享截图给好友</code>的提示框，点击则会弹出分享页面，在此可以看到我们刚才截取的屏幕图片，接下来你就可以把截屏图片分享给你的微信朋友、QQ好友、发到朋友圈、发微博等等，任君选择。</p>
-<p>查了下资料，发现苹果在iOS7中新增了<code>UIApplicationUserDidTakeScreenshotNotification</code>通知，只要注册了这个通知，在用户截屏的时候App就会收到截屏的通知，接下来就可以做你想做的事情了。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// This notification is posted after the user takes a screenshot (for example by pressing both the home and lock screen buttons)</span></div><div class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSNotificationName</span> <span class="keyword">const</span> <span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0);</div></pre></td></tr></table></figure>
-<p>下面我们自己来撸一个自己的截屏分享功能。打开首页控制器，重写viewDidAppear和viewDidDisappear方法。因为我们只需要在首页中进行截屏分享，在其他页面截屏时不处理，所以我们在viewDidAppear方法中注册通知并且在viewDidDisappear方法中移除通知。</p>
-<p>示例中通过<code>[UIApplication sharedApplication].keyWindow</code>来获取截屏图片，因为如果App中存在导航栏/TabBar的情况下，只有通过keyWindow生成的图片才能包含导航栏/TabBar，如果你仅仅想分享首页内容，不包含导航栏/TabBar的话，那你也可以直接用首页控制器的<code>self.view</code>来生成截屏图片，甚至如果你想分享一个长图片，如:首页是一个滚动视图，那么你完全可以通过滚动视图来生成一个长图片然后进行分享，这个完全可以根据你的需求来决定。</p>
-<blockquote>
-<p>自己生成的截屏图片有一点很遗憾，就是生成的图片并不能包含顶部状态栏内容，支付宝和小米商城都有这个问题，这个应该是没辙了。或许只能去系统相册拿图片了，这个你就自己去测试吧。</p>
-</blockquote>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidAppear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidAppear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(userDidTakeScreenshotNotification:) name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span> name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userDidTakeScreenshotNotification:(<span class="built_in">NSNotification</span> *)sender &#123;</div><div class="line">    <span class="built_in">UIWindow</span> *window = [<span class="built_in">UIApplication</span> sharedApplication].keyWindow;</div><div class="line">    <span class="built_in">UIImage</span> *screenshotImage = [<span class="built_in">UIImage</span> snapshotImageWithView:window];</div><div class="line">    <span class="comment">// <span class="doctag">TODO:</span> 将screenshotImage进行分享，可以调用友盟SDK或自己集成第三方SDK实现，这里就不做演示了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>下面附上从UIView获取图片的代码:</p>
-<p>Objectie-C版本</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  通过视图获取视图快照</div><div class="line"> *</div><div class="line"> *  @param view 需要生成快照的视图</div><div class="line"> *</div><div class="line"> *  @return 快照图片</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)snapshotImageWithView:(<span class="built_in">UIView</span> * __<span class="keyword">nonnull</span>)view &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nil</span> == view) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">YES</span>, [<span class="built_in">UIScreen</span> mainScreen].scale);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    [view.layer renderInContext:context];</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Swift版本</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIImage</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 获取视图快照图片</span></div><div class="line">    <span class="comment">/// 必须在主线程上执行</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameter view: 需要生成快照的视图</span></div><div class="line">    <span class="comment">/// - Returns: 快照图片</span></div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">snapshot</span><span class="params">(<span class="number">_</span> view: UIView)</span></span> -&gt; <span class="type">UIImage</span>? &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">Thread</span>.isMainThread &#123;</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"UIImage.<span class="subst">\(#function)</span> must be called from main thread only."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="type">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">true</span>, <span class="type">UIScreen</span>.main.scale)</div><div class="line">        <span class="keyword">defer</span> &#123; <span class="type">UIGraphicsEndImageContext</span>() &#125;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> context = <span class="type">UIGraphicsGetCurrentContext</span>() <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        view.layer.render(<span class="keyword">in</span>: context)</div><div class="line">        <span class="keyword">return</span> <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/24/iOS-screenshot/" class="archive-article-date">
-  	<time datetime="2017-07-24T02:36:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-reloadData-completion" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/14/reloadData-completion/">UICollectionView监听reloadData完成状态</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>如果你只想知道代码的正确使用姿势，请直接看文章底部的示例代码。</p>
-</blockquote>
-<p>有时候我们需要在UICollectionView执行了reloadData方法后，监听reloadData的完成状态以便执行某些回调操作。如果我们紧跟着reloadData代码，在其后面继续编写我们的回调操作，这个时候你会发现程序的运行结果与我们的预期有出入，并非是我们所期望的结果。</p>
-<p>最近在撸一个图片轮播的功能，用UICollectionView来做，因为UICollectionView本身就支持横向滚动，并且有很好的重用机制，也不用我们自己计算上一页下一页然后将视图挪来挪去的。由于要做一个无限滚动的功能，所以做法就是在<code>- (NSInteger)collectionView:numberOfItemsInSection:</code>方法中返回<code>图片个数x基数(如:100)</code>的总数，然后将UICollectionView滚动至第<code>图片个数x基数x0.5</code>个Cell，这样便可以左右无限滑动了，问题的关键就在于如何在realoadData完成之后滚动到指定的IndexPath上。如果你直接像下面这样写代码，你会惊讶地发现，UICollectionView并没有滚动到指定的IndexPath，而是仍然显示第一个Cell。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[collectionView reloadData];</div><div class="line"><span class="comment">// 在这里继续编写你的特定代码</span></div><div class="line"><span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div></pre></td></tr></table></figure>
-<p>UICollectionView有一个方法<code>-performBatchUpdates:completion:</code>，其定义如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)performBatchUpdates:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))updates completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion; <span class="comment">// allows multiple insert/delete/reload/move calls to be animated simultaneously. Nestable.</span></div></pre></td></tr></table></figure>
-<p>根据方法名和注释很容易明白这个接口是用来批量操作更新UICollectionView的，把你需要插入/删除/重新加载/移动UICollectionViewCell的代码统统放到<code>updates</code>这个block中，并且在当这些更新操作完成时系统会回调<code>completion</code>这个block。</p>
-<p>看到这里，你是不是很激动，是不是已经想到该如何写代码了，是不是像下面这样:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 错误的使用姿势</span></div><div class="line">[collectionView performBatchUpdates:^&#123;</div><div class="line">    [collectionView reloadData];</div><div class="line">&#125; completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"*************reloadData执行完毕*********"</span>);</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<p>如果你是这样子写的代码，很好，和我想法一致，虽然程序<code>有可能</code>运行很正常，为什么说有可能呢，因为当<code>[collectionView reloadData]</code>之后，如果展示的数据并没有发生改变，数据未增加也未减少，那么此时程序就能够正常运行；但是如果执行realodData后，数据源返回的数据有所改变，需要展示的数据条目增多或减少了，那么这个时候程序就会Crash了，并且控制台会打印如下的错误信息：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">2017-07-14 11:22:57.054 Demo[9368:620226] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Invalid update: invalid number of sections.  The number of sections contained in the collection view after the update (0) must be equal to the number of sections contained in the collection view before the update (2), plus or minus the number of sections inserted or deleted (0 inserted, 0 deleted).'</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000109a9fb0b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x000000010c770141 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000109aa3cf2 +[NSException raise:format:arguments:] + 98</div><div class="line">	3   Foundation                          0x000000010a9f13b6 -[NSAssertionHandler handleFailureInMethod:object:file:lineNumber:description:] + 193</div><div class="line">	4   UIKit                               0x000000010dec753d -[UICollectionView _endItemAnimationsWithInvalidationContext:tentativelyForReordering:animator:] + 15364</div><div class="line">	5   UIKit                               0x000000010ded0259 -[UICollectionView _endUpdatesWithInvalidationContext:tentativelyForReordering:animator:] + 71</div><div class="line">	6   UIKit                               0x000000010ded05a0 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:animator:] + 437</div><div class="line">	7   UIKit                               0x000000010ded03c8 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:] + 91</div><div class="line">	8   UIKit                               0x000000010ded034a -[UICollectionView _performBatchUpdates:completion:invalidationContext:] + 74</div><div class="line">	9   UIKit                               0x000000010ded029f -[UICollectionView performBatchUpdates:completion:] + 53</div><div class="line">	10  VBemall                             0x00000001082da642 __31-[VBHomeController viewDidLoad]_block_invoke + 194</div><div class="line">	11  libdispatch.dylib                   0x000000010f6aa05c _dispatch_client_callout + 8</div><div class="line">	12  libdispatch.dylib                   0x000000010f686c6e _dispatch_continuation_pop + 1020</div><div class="line">	13  libdispatch.dylib                   0x000000010f69b9fc _dispatch_source_latch_and_call + 230</div><div class="line">	14  libdispatch.dylib                   0x000000010f6944f1 _dispatch_source_invoke + 1167</div><div class="line">	15  libdispatch.dylib                   0x000000010f68b69a _dispatch_main_queue_callback_4CF + 1066</div><div class="line">	16  CoreFoundation                      0x0000000109a64909 __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9</div><div class="line">	17  CoreFoundation                      0x0000000109a2aae4 __CFRunLoopRun + 2164</div><div class="line">	18  CoreFoundation                      0x0000000109a2a016 CFRunLoopRunSpecific + 406</div><div class="line">	19  GraphicsServices                    0x0000000111ae5a24 GSEventRunModal + 62</div><div class="line">	20  UIKit                               0x000000010d57c0d4 UIApplicationMain + 159</div><div class="line">	21  VBemall                             0x00000001082da1ef main + 111</div><div class="line">	22  libdyld.dylib                       0x000000010f6f665d start + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure>
-<p>看来是不能这样子用了，不能直接在<code>updates</code>这个block中执行reloadData方法。</p>
-<p>然后我尝试了将reloadData放到block外，发现能够程序能够正常按照我们的预期运行了，代码如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 代码的正确使用姿势</span></div><div class="line">[collectionView reloadData];</div><div class="line">[collectionView performBatchUpdates:<span class="literal">nil</span> completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">	<span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">	[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<p>ps: UITableView在iOS11也引入了<code>-performBatchUpdates:completion:</code>这个接口，使用上应该也是和UICollectionView一样一样的。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/14/reloadData-completion/" class="archive-article-date">
-  	<time datetime="2017-07-14T02:42:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -812,7 +813,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
     			</div>
     	</section>
     

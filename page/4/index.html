@@ -138,7 +138,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-navigationbar-transparent" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -148,7 +148,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/02/autolayout-vfl/">通过VFL(Visual Format Language)使用AutoLayout</a>
+      <a class="article-title" href="/2016/12/09/navigationbar-transparent/">iOS导航栏透明效果</a>
     </h1>
   
 
@@ -156,17 +156,75 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
-<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
-<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
-<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
-<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+        <p>你可以直接将下面的代码粘贴到<code>viewDidLoad</code>里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的<code>viewWillAppear:</code>方法中将导航栏设置成透明，在<code>viewWillDisappear:</code>中恢复导航栏样式。</p>
+<p>废话不多说，直接上代码。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 去除导航栏底部黑色线条</span></div><div class="line"><span class="built_in">UIImage</span> *shadowImage = [<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[<span class="keyword">self</span>.navigationController.navigationBar setShadowImage:shadowImage];</div><div class="line"><span class="comment">// 设置透明</span></div><div class="line">[<span class="keyword">self</span> setAutomaticallyAdjustsScrollViewInsets:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">UINavigationBar</span> *navigationBar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">[navigationBar setBarTintColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[navigationBar setBackgroundImage:[<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forBarPosition:<span class="built_in">UIBarPositionAny</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
+<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是iOS导航栏的默认效果，半透明。</p>
+<p><img src="/images/20161209/default.png" alt="默认效果"></p>
+<p>这是将UINavigationBar的tintColor和背景图片设置为<code>[UIColor clearColor]</code>之后的效果，可以看到导航栏确实是变成完全透明的了，但是导航栏底部会有一个分割线。</p>
+<p><img src="/images/20161209/transparent.png" alt="透明效果"></p>
+<p>这是设置了<code>UINavigationBar</code>的<code>shadowImage</code>之后的效果，可以看到底部分割线已经不见了，整个导航栏完全透明了，堪称<code>perfect</code>。</p>
+<p><img src="/images/20161209/transparent2.png" alt="透明效果"></p>
+<h3 id="附上将UIColor转成UIImage的代码"><a href="#附上将UIColor转成UIImage的代码" class="headerlink" title="附上将UIColor转成UIImage的代码"></a>附上将UIColor转成UIImage的代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color;</div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> pc_imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+      <a href="/2016/12/09/navigationbar-transparent/" class="archive-article-date">
+  	<time datetime="2016-12-09T09:04:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ios-calendar-later" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/08/ios-calendar-later/">iOS获取一年后的时间</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。<br>当<code>数值&gt;0</code>时，获取之后的时间，如果<code>数值&lt;0</code>则为获取之前的时间。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDate</span> *date = [<span class="built_in">NSDate</span> date];</div><div class="line"><span class="built_in">NSCalendar</span> *calendar = [<span class="built_in">NSCalendar</span> currentCalendar];</div><div class="line"><span class="built_in">NSDateComponents</span> *components = [[<span class="built_in">NSDateComponents</span> alloc] init];</div><div class="line">[components setYear:<span class="number">1</span>];</div><div class="line">[components setMonth:<span class="number">0</span>];</div><div class="line">[components setDay:<span class="number">0</span>];</div><div class="line"><span class="comment">// laterDate则为一年后的时间</span></div><div class="line"><span class="built_in">NSDate</span> *laterDate = [calendar dateByAddingComponents:components toDate:date options:<span class="built_in">NSCalendarMatchStrictly</span>];</div></pre></td></tr></table></figure>
+<p>善于使用<code>NSDateComponents</code>提供的属性，可以计算出你想要的任何时间，N年前、N年后、N个月前、N个月后、N天前、N天后…</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> year;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> month;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> day;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> hour;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> minute;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> second;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/08/ios-calendar-later/" class="archive-article-date">
+  	<time datetime="2016-12-08T05:50:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -227,6 +285,59 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/autolayout-vfl/">通过VFL(Visual Format Language)使用AutoLayout</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
+<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
+<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
+<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
@@ -581,7 +692,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
     			</div>
     	</section>
     

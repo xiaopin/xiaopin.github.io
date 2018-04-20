@@ -138,6 +138,135 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/24/iOS-screenshot/">iOS截屏分享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在把玩<code>支付宝</code>和<code>小米商城</code>App时发现了个好玩的东西，在支付宝首页中截屏，则会在屏幕右侧弹出一个小窗口来展示首页截屏图片，点击图片就会进入求助反馈页面，再点击意见反馈，截屏的图片就会自动被选上作为反馈图片使用；而小米商城的做法则更好玩，在任意页面中进行截屏，则会在屏幕右下角中弹出一个<code>分享截图给好友</code>的提示框，点击则会弹出分享页面，在此可以看到我们刚才截取的屏幕图片，接下来你就可以把截屏图片分享给你的微信朋友、QQ好友、发到朋友圈、发微博等等，任君选择。</p>
+<p>查了下资料，发现苹果在iOS7中新增了<code>UIApplicationUserDidTakeScreenshotNotification</code>通知，只要注册了这个通知，在用户截屏的时候App就会收到截屏的通知，接下来就可以做你想做的事情了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// This notification is posted after the user takes a screenshot (for example by pressing both the home and lock screen buttons)</span></div><div class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSNotificationName</span> <span class="keyword">const</span> <span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0);</div></pre></td></tr></table></figure>
+<p>下面我们自己来撸一个自己的截屏分享功能。打开首页控制器，重写viewDidAppear和viewDidDisappear方法。因为我们只需要在首页中进行截屏分享，在其他页面截屏时不处理，所以我们在viewDidAppear方法中注册通知并且在viewDidDisappear方法中移除通知。</p>
+<p>示例中通过<code>[UIApplication sharedApplication].keyWindow</code>来获取截屏图片，因为如果App中存在导航栏/TabBar的情况下，只有通过keyWindow生成的图片才能包含导航栏/TabBar，如果你仅仅想分享首页内容，不包含导航栏/TabBar的话，那你也可以直接用首页控制器的<code>self.view</code>来生成截屏图片，甚至如果你想分享一个长图片，如:首页是一个滚动视图，那么你完全可以通过滚动视图来生成一个长图片然后进行分享，这个完全可以根据你的需求来决定。</p>
+<blockquote>
+<p>自己生成的截屏图片有一点很遗憾，就是生成的图片并不能包含顶部状态栏内容，支付宝和小米商城都有这个问题，这个应该是没辙了。或许只能去系统相册拿图片了，这个你就自己去测试吧。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidAppear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidAppear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(userDidTakeScreenshotNotification:) name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span> name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userDidTakeScreenshotNotification:(<span class="built_in">NSNotification</span> *)sender &#123;</div><div class="line">    <span class="built_in">UIWindow</span> *window = [<span class="built_in">UIApplication</span> sharedApplication].keyWindow;</div><div class="line">    <span class="built_in">UIImage</span> *screenshotImage = [<span class="built_in">UIImage</span> snapshotImageWithView:window];</div><div class="line">    <span class="comment">// <span class="doctag">TODO:</span> 将screenshotImage进行分享，可以调用友盟SDK或自己集成第三方SDK实现，这里就不做演示了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面附上从UIView获取图片的代码:</p>
+<p>Objectie-C版本</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  通过视图获取视图快照</div><div class="line"> *</div><div class="line"> *  @param view 需要生成快照的视图</div><div class="line"> *</div><div class="line"> *  @return 快照图片</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)snapshotImageWithView:(<span class="built_in">UIView</span> * __<span class="keyword">nonnull</span>)view &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nil</span> == view) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">YES</span>, [<span class="built_in">UIScreen</span> mainScreen].scale);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    [view.layer renderInContext:context];</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift版本</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIImage</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 获取视图快照图片</span></div><div class="line">    <span class="comment">/// 必须在主线程上执行</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameter view: 需要生成快照的视图</span></div><div class="line">    <span class="comment">/// - Returns: 快照图片</span></div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">snapshot</span><span class="params">(<span class="number">_</span> view: UIView)</span></span> -&gt; <span class="type">UIImage</span>? &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">Thread</span>.isMainThread &#123;</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"UIImage.<span class="subst">\(#function)</span> must be called from main thread only."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="type">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">true</span>, <span class="type">UIScreen</span>.main.scale)</div><div class="line">        <span class="keyword">defer</span> &#123; <span class="type">UIGraphicsEndImageContext</span>() &#125;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> context = <span class="type">UIGraphicsGetCurrentContext</span>() <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        view.layer.render(<span class="keyword">in</span>: context)</div><div class="line">        <span class="keyword">return</span> <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/24/iOS-screenshot/" class="archive-article-date">
+  	<time datetime="2017-07-24T02:36:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-reloadData-completion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/14/reloadData-completion/">UICollectionView监听reloadData完成状态</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>如果你只想知道代码的正确使用姿势，请直接看文章底部的示例代码。</p>
+</blockquote>
+<p>有时候我们需要在UICollectionView执行了reloadData方法后，监听reloadData的完成状态以便执行某些回调操作。如果我们紧跟着reloadData代码，在其后面继续编写我们的回调操作，这个时候你会发现程序的运行结果与我们的预期有出入，并非是我们所期望的结果。</p>
+<p>最近在撸一个图片轮播的功能，用UICollectionView来做，因为UICollectionView本身就支持横向滚动，并且有很好的重用机制，也不用我们自己计算上一页下一页然后将视图挪来挪去的。由于要做一个无限滚动的功能，所以做法就是在<code>- (NSInteger)collectionView:numberOfItemsInSection:</code>方法中返回<code>图片个数x基数(如:100)</code>的总数，然后将UICollectionView滚动至第<code>图片个数x基数x0.5</code>个Cell，这样便可以左右无限滑动了，问题的关键就在于如何在realoadData完成之后滚动到指定的IndexPath上。如果你直接像下面这样写代码，你会惊讶地发现，UICollectionView并没有滚动到指定的IndexPath，而是仍然显示第一个Cell。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[collectionView reloadData];</div><div class="line"><span class="comment">// 在这里继续编写你的特定代码</span></div><div class="line"><span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div></pre></td></tr></table></figure>
+<p>UICollectionView有一个方法<code>-performBatchUpdates:completion:</code>，其定义如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)performBatchUpdates:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="keyword">void</span>))updates completion:(<span class="keyword">void</span> (^ __<span class="keyword">nullable</span>)(<span class="built_in">BOOL</span> finished))completion; <span class="comment">// allows multiple insert/delete/reload/move calls to be animated simultaneously. Nestable.</span></div></pre></td></tr></table></figure>
+<p>根据方法名和注释很容易明白这个接口是用来批量操作更新UICollectionView的，把你需要插入/删除/重新加载/移动UICollectionViewCell的代码统统放到<code>updates</code>这个block中，并且在当这些更新操作完成时系统会回调<code>completion</code>这个block。</p>
+<p>看到这里，你是不是很激动，是不是已经想到该如何写代码了，是不是像下面这样:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 错误的使用姿势</span></div><div class="line">[collectionView performBatchUpdates:^&#123;</div><div class="line">    [collectionView reloadData];</div><div class="line">&#125; completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"*************reloadData执行完毕*********"</span>);</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>如果你是这样子写的代码，很好，和我想法一致，虽然程序<code>有可能</code>运行很正常，为什么说有可能呢，因为当<code>[collectionView reloadData]</code>之后，如果展示的数据并没有发生改变，数据未增加也未减少，那么此时程序就能够正常运行；但是如果执行realodData后，数据源返回的数据有所改变，需要展示的数据条目增多或减少了，那么这个时候程序就会Crash了，并且控制台会打印如下的错误信息：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">2017-07-14 11:22:57.054 Demo[9368:620226] *** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Invalid update: invalid number of sections.  The number of sections contained in the collection view after the update (0) must be equal to the number of sections contained in the collection view before the update (2), plus or minus the number of sections inserted or deleted (0 inserted, 0 deleted).'</div><div class="line">*** First throw call stack:</div><div class="line">(</div><div class="line">	0   CoreFoundation                      0x0000000109a9fb0b __exceptionPreprocess + 171</div><div class="line">	1   libobjc.A.dylib                     0x000000010c770141 objc_exception_throw + 48</div><div class="line">	2   CoreFoundation                      0x0000000109aa3cf2 +[NSException raise:format:arguments:] + 98</div><div class="line">	3   Foundation                          0x000000010a9f13b6 -[NSAssertionHandler handleFailureInMethod:object:file:lineNumber:description:] + 193</div><div class="line">	4   UIKit                               0x000000010dec753d -[UICollectionView _endItemAnimationsWithInvalidationContext:tentativelyForReordering:animator:] + 15364</div><div class="line">	5   UIKit                               0x000000010ded0259 -[UICollectionView _endUpdatesWithInvalidationContext:tentativelyForReordering:animator:] + 71</div><div class="line">	6   UIKit                               0x000000010ded05a0 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:animator:] + 437</div><div class="line">	7   UIKit                               0x000000010ded03c8 -[UICollectionView _performBatchUpdates:completion:invalidationContext:tentativelyForReordering:] + 91</div><div class="line">	8   UIKit                               0x000000010ded034a -[UICollectionView _performBatchUpdates:completion:invalidationContext:] + 74</div><div class="line">	9   UIKit                               0x000000010ded029f -[UICollectionView performBatchUpdates:completion:] + 53</div><div class="line">	10  VBemall                             0x00000001082da642 __31-[VBHomeController viewDidLoad]_block_invoke + 194</div><div class="line">	11  libdispatch.dylib                   0x000000010f6aa05c _dispatch_client_callout + 8</div><div class="line">	12  libdispatch.dylib                   0x000000010f686c6e _dispatch_continuation_pop + 1020</div><div class="line">	13  libdispatch.dylib                   0x000000010f69b9fc _dispatch_source_latch_and_call + 230</div><div class="line">	14  libdispatch.dylib                   0x000000010f6944f1 _dispatch_source_invoke + 1167</div><div class="line">	15  libdispatch.dylib                   0x000000010f68b69a _dispatch_main_queue_callback_4CF + 1066</div><div class="line">	16  CoreFoundation                      0x0000000109a64909 __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9</div><div class="line">	17  CoreFoundation                      0x0000000109a2aae4 __CFRunLoopRun + 2164</div><div class="line">	18  CoreFoundation                      0x0000000109a2a016 CFRunLoopRunSpecific + 406</div><div class="line">	19  GraphicsServices                    0x0000000111ae5a24 GSEventRunModal + 62</div><div class="line">	20  UIKit                               0x000000010d57c0d4 UIApplicationMain + 159</div><div class="line">	21  VBemall                             0x00000001082da1ef main + 111</div><div class="line">	22  libdyld.dylib                       0x000000010f6f665d start + 1</div><div class="line">)</div><div class="line">libc++abi.dylib: terminating with uncaught exception of type NSException</div></pre></td></tr></table></figure>
+<p>看来是不能这样子用了，不能直接在<code>updates</code>这个block中执行reloadData方法。</p>
+<p>然后我尝试了将reloadData放到block外，发现能够程序能够正常按照我们的预期运行了，代码如下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 代码的正确使用姿势</span></div><div class="line">[collectionView reloadData];</div><div class="line">[collectionView performBatchUpdates:<span class="literal">nil</span> completion:^(<span class="built_in">BOOL</span> finished) &#123;</div><div class="line">	<span class="built_in">NSIndexPath</span> *indexPath = [<span class="built_in">NSIndexPath</span> indexPathForItem:<span class="number">100</span> inSection:<span class="number">0</span>];</div><div class="line">	[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionNone</span> animated:<span class="literal">NO</span>];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>ps: UITableView在iOS11也引入了<code>-performBatchUpdates:completion:</code>这个接口，使用上应该也是和UICollectionView一样一样的。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/14/reloadData-completion/" class="archive-article-date">
+  	<time datetime="2017-07-14T02:42:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-UIScrollView-current-page" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -588,117 +717,6 @@
 
 
   
-    <article id="post-navigationbar-transparent" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/navigationbar-transparent/">iOS导航栏透明效果</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>你可以直接将下面的代码粘贴到<code>viewDidLoad</code>里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的<code>viewWillAppear:</code>方法中将导航栏设置成透明，在<code>viewWillDisappear:</code>中恢复导航栏样式。</p>
-<p>废话不多说，直接上代码。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 去除导航栏底部黑色线条</span></div><div class="line"><span class="built_in">UIImage</span> *shadowImage = [<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[<span class="keyword">self</span>.navigationController.navigationBar setShadowImage:shadowImage];</div><div class="line"><span class="comment">// 设置透明</span></div><div class="line">[<span class="keyword">self</span> setAutomaticallyAdjustsScrollViewInsets:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">UINavigationBar</span> *navigationBar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">[navigationBar setBarTintColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[navigationBar setBackgroundImage:[<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forBarPosition:<span class="built_in">UIBarPositionAny</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是iOS导航栏的默认效果，半透明。</p>
-<p><img src="/images/20161209/default.png" alt="默认效果"></p>
-<p>这是将UINavigationBar的tintColor和背景图片设置为<code>[UIColor clearColor]</code>之后的效果，可以看到导航栏确实是变成完全透明的了，但是导航栏底部会有一个分割线。</p>
-<p><img src="/images/20161209/transparent.png" alt="透明效果"></p>
-<p>这是设置了<code>UINavigationBar</code>的<code>shadowImage</code>之后的效果，可以看到底部分割线已经不见了，整个导航栏完全透明了，堪称<code>perfect</code>。</p>
-<p><img src="/images/20161209/transparent2.png" alt="透明效果"></p>
-<h3 id="附上将UIColor转成UIImage的代码"><a href="#附上将UIColor转成UIImage的代码" class="headerlink" title="附上将UIColor转成UIImage的代码"></a>附上将UIColor转成UIImage的代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color;</div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> pc_imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/09/navigationbar-transparent/" class="archive-article-date">
-  	<time datetime="2016-12-09T09:04:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ios-calendar-later" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/ios-calendar-later/">iOS获取一年后的时间</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。<br>当<code>数值&gt;0</code>时，获取之后的时间，如果<code>数值&lt;0</code>则为获取之前的时间。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDate</span> *date = [<span class="built_in">NSDate</span> date];</div><div class="line"><span class="built_in">NSCalendar</span> *calendar = [<span class="built_in">NSCalendar</span> currentCalendar];</div><div class="line"><span class="built_in">NSDateComponents</span> *components = [[<span class="built_in">NSDateComponents</span> alloc] init];</div><div class="line">[components setYear:<span class="number">1</span>];</div><div class="line">[components setMonth:<span class="number">0</span>];</div><div class="line">[components setDay:<span class="number">0</span>];</div><div class="line"><span class="comment">// laterDate则为一年后的时间</span></div><div class="line"><span class="built_in">NSDate</span> *laterDate = [calendar dateByAddingComponents:components toDate:date options:<span class="built_in">NSCalendarMatchStrictly</span>];</div></pre></td></tr></table></figure>
-<p>善于使用<code>NSDateComponents</code>提供的属性，可以计算出你想要的任何时间，N年前、N年后、N个月前、N个月后、N天前、N天后…</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> year;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> month;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> day;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> hour;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> minute;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> second;</div></pre></td></tr></table></figure>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/08/ios-calendar-later/" class="archive-article-date">
-  	<time datetime="2016-12-08T05:50:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -765,7 +783,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
     			</div>
     	</section>
     

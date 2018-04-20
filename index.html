@@ -138,6 +138,185 @@
       <div class="body-wrap">
         
   
+    <article id="post-markdown-table" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/19/markdown-table/">在Markdown中创建表格</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。</p>
+<p>语法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">| Name | Score |</div><div class="line">| :- | :-: |</div><div class="line">| zhangsan | 90 |</div><div class="line">| lisi | 100 |</div></pre></td></tr></table></figure></p>
+<p>效果:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">zhangsan</td>
+<td style="text-align:center">90</td>
+</tr>
+<tr>
+<td style="text-align:center">lisi</td>
+<td style="text-align:center">100</td>
+</tr>
+</tbody>
+</table>
+<p>语法说明:</p>
+<ul>
+<li>第一行为表头，第二行为分割表头和表格内容，第三行开始每一行表示一个表格行</li>
+<li>列与列之间用<code>|</code>进行分割</li>
+<li>第二行中可以指定内容对其模式<ul>
+<li><code>-</code> 默认对其</li>
+<li><code>:-</code> 左对齐</li>
+<li><code>-:</code> 右对齐</li>
+<li><code>:-:</code> 居中对齐</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/19/markdown-table/" class="archive-article-date">
+  	<time datetime="2018-04-19T07:51:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-web-reonline" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/17/web-reonline/">博客搬迁至阿里云</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h3><p>清明假期前，收到阿里云发来的邮件，说我的域名未指向阿里云国内节点（不含香港）服务器，根据工信部相关法规规定属于空壳网站，需要我尽快处理，否则将删除网站备案接入信息，甚至网站备案号有可能会被注销。</p>
+<p><img src="/images/201804/A6E70FA52B0EF01384ABB896690F28D8.png" alt="email"></p>
+<blockquote>
+<p>我的域名之前确实是指向了国外服务器，我在 GitHub 通过 pages 服务搭建了一个 hexo 博客，并通过 CNAME 解析将域名绑定到了 GitHub pages 上</p>
+</blockquote>
+<p>收到邮件当天，我就将 hexo 博客从 GitHub 迁移到了<a href="https://gitee.com" target="_blank" rel="external">码云</a>上，后来发现码云无法绑定域名，遂将博客继续搬迁到了<a href="https://coding.net" target="_blank" rel="external">Coding</a>上，然后绑定了我的域名并修改了域名解析，将域名指向了 Coding Pages；至此，我心想Coding.net毕竟是国内公司，我把博客托管至它提供的服务器上，应该没事了吧。</p>
+<h3 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h3><p>不曾想，几个工作日后，在4月9日收到工信部备案系统发来的短信，说我的网站备案号<code>粤ICP备15020585</code>已被收回，网站信息被注销了，域名也访问不了了。</p>
+<p>容我悲伤一会 :(</p>
+<h3 id="痛定思痛"><a href="#痛定思痛" class="headerlink" title="痛定思痛"></a>痛定思痛</h3><p>发现将博客托管在第三方提供的服务器上已无望，没办法，只好花点软妹币购买阿里云的服务器了。在经过两天的思量后（其实还不是因为穷），花了RMB199软妹币购买了阿里云的<code>弹性Web托管</code>服务。</p>
+<p>接下来就是重新备案了，这个没什么好说的，先进入弹性Web托管控制台，然后去申请一个备案服务号，然后拿着这个备案服务号去申请备案，填写网站基本信息，上传资料，提交审核。一周左右，我的备案就通过了。</p>
+<h3 id="重新上线我的博客"><a href="#重新上线我的博客" class="headerlink" title="重新上线我的博客"></a>重新上线我的博客</h3><p>服务器买好了，备案也审核通过了，下面就开始将我的博客重新上线了。</p>
+<ul>
+<li>上传博客内容文件</li>
+</ul>
+<p>hexo 博客生成的静态页面，全部存储在 <code>public</code> 目录下，我们只需将该目录下的文件上传到服务器的 <code>htdocs</code> 目录下即可。除了用FTP软件上传之外，还可以通过 hexo 提供的<a href="https://hexo.io/zh-cn/docs/deployment.html#FTPSync" target="_blank" rel="external">一键部署</a>功能，将网站部署到服务器上。</p>
+<ul>
+<li>绑定域名</li>
+</ul>
+<p>进入弹性Web托管控制台，分别绑定 <code>www.0daybug.com</code>、 <code>0daybug.com</code></p>
+<ul>
+<li>域名解析</li>
+</ul>
+<p>进入域名解析控制台，添加如下两条域名解析，其中记录值为弹性Web托管中的测试域名</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">记录类型</th>
+<th style="text-align:center">主机记录</th>
+<th style="text-align:center">解析线路(isp)</th>
+<th style="text-align:center">记录值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">默认</td>
+<td style="text-align:center">ew-<strong><strong>*</strong></strong>.aliapp.com</td>
+</tr>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">www</td>
+<td style="text-align:center">默认</td>
+<td style="text-align:center">ew-<strong><strong>*</strong></strong>.aliapp.com</td>
+</tr>
+</tbody>
+</table>
+<p>至此，我的博客又重新上线了~~~</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/17/web-reonline/" class="archive-article-date">
+  	<time datetime="2018-04-17T04:31:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-swift-OptionSet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -743,136 +922,6 @@
 
 
   
-    <article id="post-iOS-change-App-icon" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>苹果在iOS10.3系统中为我们带来了更改App图标的功能， 主要接口定义如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Pass `nil` to use the primary application icon. The completion handler will be invoked asynchronously on an arbitrary background queue; be sure to dispatch back to the main queue before doing any further UI work.</span></div><div class="line"><span class="meta">@available</span>(iOS <span class="number">10.3</span>, *)</div><div class="line">open <span class="function"><span class="keyword">func</span> <span class="title">setAlternateIconName</span><span class="params">(<span class="number">_</span> alternateIconName: String?, completionHandler: <span class="params">(<span class="params">(Error?)</span></span></span></span> -&gt; <span class="type">Swift</span>.<span class="type">Void</span>)? = <span class="literal">nil</span>)</div></pre></td></tr></table></figure>
-<p>在使用该功能前，我们需要注意一下几点：</p>
-<ul>
-<li>iOS10.3或以上系统版本</li>
-<li>在Info.plist中声明了主图标和备用图标，只能使用声明过的图标，并且iPhone和iPad需要分别声明</li>
-<li><code>UIApplication.shared.supportsAlternateIcons</code>返回true时才能修改图标</li>
-<li>备用图标不能放在<code>Assets.xcassets</code>，必须是直接拖到Xcode左侧的项目导航栏上</li>
-<li>图标修改成功后，系统会自动弹出一个弹窗进行提示</li>
-</ul>
-<h2 id="下面让我们搞起来吧～～～"><a href="#下面让我们搞起来吧～～～" class="headerlink" title="下面让我们搞起来吧～～～"></a>下面让我们搞起来吧～～～</h2><h3 id="1-把备用图标拖入项目中"><a href="#1-把备用图标拖入项目中" class="headerlink" title="1. 把备用图标拖入项目中"></a>1. 把备用图标拖入项目中</h3><p>看起来应该是这样的</p>
-<p><img src="/images/201801/alternateicon.png" alt=""></p>
-<h3 id="2-在Info-plist中声明主图标和备用图标"><a href="#2-在Info-plist中声明主图标和备用图标" class="headerlink" title="2. 在Info.plist中声明主图标和备用图标"></a>2. 在Info.plist中声明主图标和备用图标</h3><p><code>CFBundleIcons</code>声明的是iPhone使用的图标，iPad需要使用<code>CFBundleIcons~ipad</code>进行声明。</p>
-<p><code>CFBundlePrimaryIcon</code>声明的就是我们App的主图标（在iOS11.2模拟器上测试，发现不添加该字段程序也能正常运行），而<code>CFBundleAlternateIcons</code>声明的就是我们的备用图标，该字段对应的值是一个字典值，字典下面又是字典:)，你可以通过添加多个字典来添加多个备用图标。</p>
-<p>下面的示例中我声明了两个备用图标。</p>
-<p>字段含义可参考官方文档: <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW10" target="_blank" rel="external">👇戳这里</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleIcons&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon60x60&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;key&gt;CFBundleIcons~ipad&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon83.5x83.5&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div></pre></td></tr></table></figure>
-<h3 id="3-万事俱备，现在开始更换图标"><a href="#3-万事俱备，现在开始更换图标" class="headerlink" title="3. 万事俱备，现在开始更换图标"></a>3. 万事俱备，现在开始更换图标</h3><p>直接上代码(点击按钮，然后生成一个随机数，根据随机数获取相应的备用图标)：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">buttonAction</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">10.3</span>, *) &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">UIApplication</span>.shared.supportsAlternateIcons &#123;</div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> random = arc4random_uniform(<span class="number">3</span>)</div><div class="line">        <span class="keyword">let</span> iPad = (<span class="type">UI_USER_INTERFACE_IDIOM</span>() == .pad)</div><div class="line">        <span class="keyword">var</span> iconName: <span class="type">String</span>? <span class="comment">// nil表示使用App原来的图标</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> random == <span class="number">1</span> &#123; <span class="comment">// 图标1</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad"</span> : <span class="string">"AppAlternateIcon"</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> random == <span class="number">2</span> &#123; <span class="comment">// 图标2</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad2"</span> : <span class="string">"AppAlternateIcon2"</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> <span class="type">UIApplication</span>.shared.alternateIconName == iconName &#123;</div><div class="line">            <span class="comment">// App图标已是当前选中的图标，无需更换</span></div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="type">UIApplication</span>.shared.setAlternateIconName(iconName, completionHandler: <span class="literal">nil</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="4-No-Demo-No-BB"><a href="#4-No-Demo-No-BB" class="headerlink" title="4. No Demo No BB"></a>4. No Demo No BB</h3><p>最后附上<a href="https://github.com/xiaopin/AlternateIconDemo.git" target="_blank" rel="external">Demo</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-open-QQ-chat" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/iOS-open-QQ-chat/">iOS打开QQ临时会话窗口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>前提条件：接收临时会话的QQ号码必须开通<a href="http://shang.qq.com" target="_blank" rel="external">QQ推广</a>功能，否则不能打开临时会话窗口。</p>
-</blockquote>
-<p>公司项目在商品详情页面中，有一个客服按钮，点击后需要打开客服MM的QQ聊天窗口，在此可以向客服MM咨询商品相关的问题。这里就记录下iOS如何跳转到QQ的聊天窗口。</p>
-<ul>
-<li>在Info.plise中加入白名单</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">    &lt;string&gt;mqq&lt;/string&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
-<ul>
-<li>示例代码</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="type">UIApplication</span>.shared.canOpenURL(<span class="type">URL</span>(string: <span class="string">"mqq://"</span>)!) &#123;</div><div class="line">    <span class="keyword">let</span> qq = <span class="string">"12345678"</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"mqq://im/chat?chat_type=wpa&amp;uin=<span class="subst">\(qq)</span>&amp;version=1&amp;src_type=web"</span>) &#123;</div><div class="line">        <span class="keyword">if</span> #available(iOS <span class="number">10.0</span>, *) &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.open(url, options: [:], completionHandler: <span class="literal">nil</span>)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.openURL(url)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/01/16/iOS-open-QQ-chat/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:03:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -939,7 +988,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
     			</div>
     	</section>
     

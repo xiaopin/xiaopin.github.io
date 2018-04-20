@@ -6,17 +6,87 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>Archives: 2016/11 | 吴品诚的技术博客</title>
+  <title>在Markdown中创建表格 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="吴品诚的技术博客">
-<meta property="og:url" content="http://www.0daybug.com/archives/2016/11/index.html">
+  <meta name="description" content="越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。
+语法:1234| Name | Score || :- | :-: || zhangsan | 90 || lisi | 100 |
+效果:
+
+
+
+Name
+Score
+
+
+
+
+zhangsan
+90
+
+
+lisi
+100
+
+
+
+语法说明:
+
+第一行为表头，第二行为分割表头和表格内容，第三行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Markdown中创建表格">
+<meta property="og:url" content="http://www.0daybug.com/2018/04/19/markdown-table/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:description" content="越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。
+语法:1234| Name | Score || :- | :-: || zhangsan | 90 || lisi | 100 |
+效果:
+
+
+
+Name
+Score
+
+
+
+
+zhangsan
+90
+
+
+lisi
+100
+
+
+
+语法说明:
+
+第一行为表头，第二行为分割表头和表格内容，第三行">
+<meta property="og:updated_time" content="2018-04-20T14:21:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="吴品诚的技术博客">
-<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:title" content="在Markdown中创建表格">
+<meta name="twitter:description" content="越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。
+语法:1234| Name | Score || :- | :-: || zhangsan | 90 || lisi | 100 |
+效果:
+
+
+
+Name
+Score
+
+
+
+
+zhangsan
+90
+
+
+lisi
+100
+
+
+
+语法说明:
+
+第一行为表头，第二行为分割表头和表格内容，第三行">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -136,54 +206,116 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-markdown-table" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/23/hexo-repository/" class="archive-article-date">
-  	<time datetime="2016-11-23T13:43:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/23/hexo-repository/">用一个仓库管理hexo博客源码与站点文件</a>
+    <h1 class="article-title" itemprop="name">
+      在Markdown中创建表格
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。</p>
+<p>语法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">| Name | Score |</div><div class="line">| :- | :-: |</div><div class="line">| zhangsan | 90 |</div><div class="line">| lisi | 100 |</div></pre></td></tr></table></figure></p>
+<p>效果:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">zhangsan</td>
+<td style="text-align:center">90</td>
+</tr>
+<tr>
+<td style="text-align:center">lisi</td>
+<td style="text-align:center">100</td>
+</tr>
+</tbody>
+</table>
+<p>语法说明:</p>
+<ul>
+<li>第一行为表头，第二行为分割表头和表格内容，第三行开始每一行表示一个表格行</li>
+<li>列与列之间用<code>|</code>进行分割</li>
+<li>第二行中可以指定内容对其模式<ul>
+<li><code>-</code> 默认对其</li>
+<li><code>:-</code> 左对齐</li>
+<li><code>-:</code> 右对齐</li>
+<li><code>:-:</code> 居中对齐</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/19/markdown-table/" class="archive-article-date">
+  	<time datetime="2018-04-19T07:51:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-19</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/随记/">随记</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/17/web-reonline/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">博客搬迁至阿里云</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -207,8 +339,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
