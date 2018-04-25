@@ -69,6 +69,13 @@ theme: yilia
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: 
-    github: https://github.com/xiaopin/xiaopin.github.io.git,master
-    coding: https://git.coding.net/xiaopin/xiaopin.coding.me.git,master
+  repo: https://github.com/xiaopin/xiaopin.github.io.git
+  branch: master
+  type: ftpsync
+  host: <host>
+  user: <user>
+  pass: <password>
+  remote: /htdocs
+  port: [port]
+  ignore: .DS_Store
+  verbose: true
