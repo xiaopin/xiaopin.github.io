@@ -39,7 +39,7 @@ hexo 博客生成的静态页面，全部存储在 `public` 目录下，我们�
 
 进入弹性Web托管控制台，分别绑定 `www.0daybug.com`、 `0daybug.com`
 
-- 域名解析
+- [域名解析](https://help.aliyun.com/knowledge_detail/39903.html?spm=5176.8848835.103.1.4acf49c3l9xrco)
 
 进入域名解析控制台，添加如下两条域名解析，其中记录值为弹性Web托管中的测试域名
 
