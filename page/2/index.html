@@ -138,6 +138,65 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-weibo-usercenter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/08/iOS-weibo-usercenter/">iOS仿新浪微博个人页面</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Demo地址：<a href="https://github.com/xiaopin/weibo-UserCenter.git" target="_blank" rel="external">https://github.com/xiaopin/weibo-UserCenter.git</a></p>
+<p>该Demo中并没有实现导航栏透明效果，也没搞下拉背景放大的效果，想研究这些的可以出门左拐去问度娘了。</p>
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/201802/weibo-preview.gif" alt="GIF"></p>
+<h2 id="UI结构说明"><a href="#UI结构说明" class="headerlink" title="UI结构说明"></a>UI结构说明</h2><p>如下图所示，我把UI分为三大部分：</p>
+<p><img src="/images/201802/weibo-UI-description.png" alt="UI说明"></p>
+<p>完整的UI层级结构树：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">UserCenterViewController.view</div><div class="line">│</div><div class="line">└── UserCenterScrollView</div><div class="line">	│</div><div class="line">	├── UserCenterHeaderView</div><div class="line">	│</div><div class="line">	├── UserCenterSegmentedView</div><div class="line">	│</div><div class="line">	└── UIPageViewController.view</div><div class="line">		│</div><div class="line">		├── HomeViewController.view</div><div class="line">		│	│</div><div class="line">		│	└── UITableView</div><div class="line">		│</div><div class="line">		├── WeiboListViewController.view</div><div class="line">		│	│</div><div class="line">		│	└── UITableView</div><div class="line">		│</div><div class="line">		└── AlbumViewController.view</div><div class="line">			│</div><div class="line">			└── UICollectionView</div></pre></td></tr></table></figure>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>我采用的是UIScrollView+UIPageViewController来实现的，UIScrollView作为最底层的容器视图，管理着头部视图、分段按钮视图、内容视图(实际上是UIPageViewController的view，由UIPageViewController来实现左右滑动切换内容视图控制器)。</p>
+<p>从上面的结构中也可以看出，实际上是UIScrollView嵌套UIScrollView的范畴了，这样就涉及到了滚动手势的处理了。<br>我是这样处理的，重写了UserCenterScrollView的<code>func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</code>方法，并通过返回true来同时使UserCenterScrollView和内容视图中的滚动视图可以同时接收到滚动手势事件，然后在UserCenterViewController定义一个标记记录UserCenterScrollView是否可以滚动，在UserCenterContentProxyViewController中也定义了一个标记用于记录内容视图是否可以滚动。通过这两个标记的配合使用来达到上面的效果。</p>
+<p>具体实现还是看代码去吧，一行代码胜于千言万语。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/02/08/iOS-weibo-usercenter/" class="archive-article-date">
+  	<time datetime="2018-02-08T06:02:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-change-App-icon" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -659,70 +718,6 @@
       
       <a href="/2017/08/10/tableHeaderView-frame/" class="archive-article-date">
   	<time datetime="2017-08-10T08:16:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-break-multilayer-nested-loop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/01/iOS-break-multilayer-nested-loop/">Objective-C/Swift退出多层循环</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如果有多层嵌套的情况下，有时候我们需要在某处直接退出多层循环，在Objective-C下并没有比较好的方式实现；而在Swfit中可以通过标签语句来比较优雅地实现，首先需要使用标签标识不同的循环体，形式如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">LabelName</span>: <span class="keyword">while</span> condition &#123;</div><div class="line">	statements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Swift退出多层循环示例代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arr = [[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>]]</div><div class="line">for1: <span class="keyword">for</span> items <span class="keyword">in</span> arr &#123;</div><div class="line">    for2: <span class="keyword">for</span> item <span class="keyword">in</span> items &#123;</div><div class="line">        <span class="built_in">print</span>(item)</div><div class="line">        <span class="keyword">if</span> item == <span class="number">3</span> &#123;</div><div class="line">            <span class="keyword">break</span> for1</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>通过<code>break for1</code>即可退出最外层循环，控制台将依次打印<code>1、2、3</code>。</p>
-<p>说完了Swift，下面来说说Objective-C下如何实现这种操作。Objective-C既不支持标签语句，也没有类似PHP中<code>break 2</code>这种黑科技，但是Objective-C是C的超集，而C语言提供了强大的<code>goto</code>语句，虽然很多人都不建议使用goto，但是既然存在就必然有它存在的道理，是不？针对这种情况，goto就很适合。但是还是强烈建议你谨慎使用goto，除非你清楚你的代码在干什么。</p>
-<p>Objective-C退出多层循环示例代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span>&lt;<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *&gt; *items = @[@[<span class="string">@"1"</span>,<span class="string">@"2"</span>], @[<span class="string">@"3"</span>,<span class="string">@"4"</span>], @[<span class="string">@"5"</span>,<span class="string">@"6"</span>]];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *array <span class="keyword">in</span> items) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *item <span class="keyword">in</span> array) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, item);</div><div class="line">        <span class="keyword">if</span> ([item intValue] == <span class="number">3</span>) &#123;</div><div class="line">            <span class="comment">// 跳出外层循环</span></div><div class="line">            <span class="keyword">goto</span> finally;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">finally: &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"goto label."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>控制台还是会依次打印出1、2、3的值，并且当item的intValue等于3的时候跳出多层for循环，直接执行finally语句块内的代码。</p>
-<blockquote>
-<p>使用goto时需要注意：goto语句只能在函数内部进行转移，不能够跨越函数；label代码块的定义位置。</p>
-</blockquote>
-<p>goto语句使用的一般格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">goto label;</div><div class="line">label: &#123; statements &#125;</div><div class="line">或者</div><div class="line">label: &#123; statements &#125;</div><div class="line">goto label;</div></pre></td></tr></table></figure></p>
-<p>前一种定义方式参见上面的示例，后一种定义方式的代码示例如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">first: &#123;</div><div class="line">    i++;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, i);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 代码执行到这里时i等于1，控制台输出1</span></div><div class="line"><span class="keyword">if</span> (i &lt; <span class="number">3</span>) &#123;</div><div class="line">    <span class="keyword">goto</span> first;</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"--end--"</span>);</div><div class="line"><span class="comment">// 控制台将输出1、2、3、--end--</span></div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/08/01/iOS-break-multilayer-nested-loop/" class="archive-article-date">
-  	<time datetime="2017-08-01T07:44:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-01</time>
 </a>
       
 	<div class="article-tag tagcloud">

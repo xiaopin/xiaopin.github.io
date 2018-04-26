@@ -6,21 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>通过VFL(Visual Format Language)使用AutoLayout | 吴品诚的技术博客</title>
+  <title>使用 unwind segues 关闭当前页面 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Apple官网关于VFL的描述:https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1
-如果需要使用AutoLayout，那么必须">
+  <meta name="description" content="我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。
+其实，我们可以不需要这么麻烦，可以通过 Unwind Segue 在 Storyboard 上拖拖线即可达到关闭控制器的效果。
+创">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过VFL(Visual Format Language)使用AutoLayout">
-<meta property="og:url" content="http://www.0daybug.com/2016/12/02/autolayout-vfl/index.html">
+<meta property="og:title" content="使用 unwind segues 关闭当前页面">
+<meta property="og:url" content="http://www.0daybug.com/2018/04/25/using-unwind-segues/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="Apple官网关于VFL的描述:https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1
-如果需要使用AutoLayout，那么必须">
-<meta property="og:updated_time" content="2018-04-05T12:55:06.000Z">
+<meta property="og:description" content="我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。
+其实，我们可以不需要这么麻烦，可以通过 Unwind Segue 在 Storyboard 上拖拖线即可达到关闭控制器的效果。
+创">
+<meta property="og:image" content="http://www.0daybug.com/images/201804/52B0EF013.png">
+<meta property="og:image" content="http://www.0daybug.com/images/201804/70FA52B0EF01384A.png">
+<meta property="og:image" content="http://www.0daybug.com/images/201804/801A47A16506.png">
+<meta property="og:image" content="http://www.0daybug.com/images/201804/968888BC3109.png">
+<meta property="og:image" content="http://www.0daybug.com/images/201804/F84E8854.png">
+<meta property="og:updated_time" content="2018-04-26T13:17:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过VFL(Visual Format Language)使用AutoLayout">
-<meta name="twitter:description" content="Apple官网关于VFL的描述:https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1
-如果需要使用AutoLayout，那么必须">
+<meta name="twitter:title" content="使用 unwind segues 关闭当前页面">
+<meta name="twitter:description" content="我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。
+其实，我们可以不需要这么麻烦，可以通过 Unwind Segue 在 Storyboard 上拖拖线即可达到关闭控制器的效果。
+创">
+<meta name="twitter:image" content="http://www.0daybug.com/images/201804/52B0EF013.png">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -140,7 +149,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-using-unwind-segues" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -150,7 +159,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      通过VFL(Visual Format Language)使用AutoLayout
+      使用 unwind segues 关闭当前页面
     </h1>
   
 
@@ -158,17 +167,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
-<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
-<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
-<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
-<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+        <p>我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。</p>
+<p>其实，我们可以不需要这么麻烦，可以通过 <a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external"><code>Unwind Segue</code></a> 在 Storyboard 上拖拖线即可达到关闭控制器的效果。</p>
+<h2 id="创建一个-Unwind-Segue"><a href="#创建一个-Unwind-Segue" class="headerlink" title="创建一个 Unwind Segue"></a>创建一个 Unwind Segue</h2><p>unwind是一个实例方法，以<code>UIStoryboardSegue</code>作为其唯一的方法参数，返回类型为<code>IBAction</code>，它对方法名称不作要求，也不需要在头文件中进行声明。</p>
+<p>需要注意的是，我们需要将 uniwnd action 定义在 UIStoryboardSegue 的 sourceViewController 上，而非当前控制器。例如 A push B 然后从 B 返回 A 这个场景，我们需要将 unwind action 定义在 A 上。</p>
+<p>但是我们可以通过扩展 UIViewController 以便所有控制器均可以使用，从而不用关心具体写在哪个控制器上。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)unwindSegue:(<span class="built_in">UIStoryboardSegue</span>*)sender &#123;</div><div class="line">    <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">unwindSegue</span><span class="params">(<span class="number">_</span> sender: UIStoryboardSegue)</span></span> &#123;</div><div class="line">        <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="将-Unwind-Segue-添加到故事板"><a href="#将-Unwind-Segue-添加到故事板" class="headerlink" title="将 Unwind Segue 添加到故事板"></a>将 Unwind Segue 添加到故事板</h2><ul>
+<li>方法1</li>
+</ul>
+<p>a. 选中退出图标，右击弹出 Segues 列表</p>
+<p><img src="/images/201804/52B0EF013.png" alt=""></p>
+<p>b. 将 <code>unwindSegue:</code> 拖线到控制器图标上</p>
+<p><img src="/images/201804/70FA52B0EF01384A.png" alt=""></p>
+<p>c. 设置一个 identifier</p>
+<p><img src="/images/201804/801A47A16506.png" alt=""></p>
+<p>经过这样的拖线绑定之后，我们就可以在代码中通过发送一个 <code>performSegue(withIdentifier:sender:)</code> 消息来关闭当前控制器。</p>
+<ul>
+<li>方法2</li>
+</ul>
+<p>a. 选中按钮，然后按住 control 拖线到退出图标上</p>
+<p><img src="/images/201804/968888BC3109.png" alt=""></p>
+<p>b. 在弹出的 Action Segues 中选择 <code>unwindSegue:</code></p>
+<p><img src="/images/201804/F84E8854.png" alt=""></p>
+<p>这样，当我们点击按钮的时候，就会自动关闭当前控制器了。</p>
+<p><a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external">Technical Note TN2298 Using Unwind Segues</a></p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
-  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+      <a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
+  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -186,18 +217,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/12/08/ios-calendar-later/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          iOS获取一年后的时间
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/02/android-rect-contains/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android判断点击区域</div>
+    <a href="/2018/04/19/markdown-table/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在Markdown中创建表格</div>
       <i class="icon-circle-right"></i>
     </a>
   

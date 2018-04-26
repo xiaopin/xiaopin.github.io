@@ -138,6 +138,70 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-break-multilayer-nested-loop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/01/iOS-break-multilayer-nested-loop/">Objective-C/Swift退出多层循环</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果有多层嵌套的情况下，有时候我们需要在某处直接退出多层循环，在Objective-C下并没有比较好的方式实现；而在Swfit中可以通过标签语句来比较优雅地实现，首先需要使用标签标识不同的循环体，形式如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">LabelName</span>: <span class="keyword">while</span> condition &#123;</div><div class="line">	statements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift退出多层循环示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arr = [[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>]]</div><div class="line">for1: <span class="keyword">for</span> items <span class="keyword">in</span> arr &#123;</div><div class="line">    for2: <span class="keyword">for</span> item <span class="keyword">in</span> items &#123;</div><div class="line">        <span class="built_in">print</span>(item)</div><div class="line">        <span class="keyword">if</span> item == <span class="number">3</span> &#123;</div><div class="line">            <span class="keyword">break</span> for1</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>break for1</code>即可退出最外层循环，控制台将依次打印<code>1、2、3</code>。</p>
+<p>说完了Swift，下面来说说Objective-C下如何实现这种操作。Objective-C既不支持标签语句，也没有类似PHP中<code>break 2</code>这种黑科技，但是Objective-C是C的超集，而C语言提供了强大的<code>goto</code>语句，虽然很多人都不建议使用goto，但是既然存在就必然有它存在的道理，是不？针对这种情况，goto就很适合。但是还是强烈建议你谨慎使用goto，除非你清楚你的代码在干什么。</p>
+<p>Objective-C退出多层循环示例代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span>&lt;<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *&gt; *items = @[@[<span class="string">@"1"</span>,<span class="string">@"2"</span>], @[<span class="string">@"3"</span>,<span class="string">@"4"</span>], @[<span class="string">@"5"</span>,<span class="string">@"6"</span>]];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *array <span class="keyword">in</span> items) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *item <span class="keyword">in</span> array) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, item);</div><div class="line">        <span class="keyword">if</span> ([item intValue] == <span class="number">3</span>) &#123;</div><div class="line">            <span class="comment">// 跳出外层循环</span></div><div class="line">            <span class="keyword">goto</span> finally;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">finally: &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"goto label."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台还是会依次打印出1、2、3的值，并且当item的intValue等于3的时候跳出多层for循环，直接执行finally语句块内的代码。</p>
+<blockquote>
+<p>使用goto时需要注意：goto语句只能在函数内部进行转移，不能够跨越函数；label代码块的定义位置。</p>
+</blockquote>
+<p>goto语句使用的一般格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">goto label;</div><div class="line">label: &#123; statements &#125;</div><div class="line">或者</div><div class="line">label: &#123; statements &#125;</div><div class="line">goto label;</div></pre></td></tr></table></figure></p>
+<p>前一种定义方式参见上面的示例，后一种定义方式的代码示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">first: &#123;</div><div class="line">    i++;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, i);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 代码执行到这里时i等于1，控制台输出1</span></div><div class="line"><span class="keyword">if</span> (i &lt; <span class="number">3</span>) &#123;</div><div class="line">    <span class="keyword">goto</span> first;</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"--end--"</span>);</div><div class="line"><span class="comment">// 控制台将输出1、2、3、--end--</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/01/iOS-break-multilayer-nested-loop/" class="archive-article-date">
+  	<time datetime="2017-08-01T07:44:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -639,60 +703,6 @@
       
       <a href="/2017/03/22/photo-camera-authorization/" class="archive-article-date">
   	<time datetime="2017-03-22T06:30:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-uiswitchsize" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/28/uiswitchsize/">修改UISwitch大小</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>UISwitch大小是不能修改的，iOS7开始，系统将UISwitch大小固定为51x31。</p>
-</blockquote>
-<p>尽管UISwitch不能通过修改<code>frame</code>的方式修改大小，但是可以通过<code>transform</code>来进行缩放，变相达到我们想要的效果。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UISwitch</span> *aSwitch = [[<span class="built_in">UISwitch</span> alloc] init];</div><div class="line">[aSwitch setFrame:<span class="built_in">CGRectMake</span>(<span class="number">100.0</span>, <span class="number">100.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)];</div><div class="line">[aSwitch setTransform:<span class="built_in">CGAffineTransformMakeScale</span>(<span class="number">0.5</span>, <span class="number">0.5</span>)];</div><div class="line">[<span class="keyword">self</span>.view addSubview:aSwitch];</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/28/uiswitchsize/" class="archive-article-date">
-  	<time datetime="2016-12-28T12:51:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-28</time>
 </a>
       
 	<div class="article-tag tagcloud">
