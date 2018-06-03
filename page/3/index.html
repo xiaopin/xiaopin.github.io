@@ -138,6 +138,122 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-file-sharing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/iOS-file-sharing/">iOS添加文件共享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由于iOS的沙盒机制，导致应用不能访问沙盒目录以外的文件目录。所以如果我们需要将音视频文件拷贝到App上，只能拷贝到App的<code>Documents</code>目录<br>如果我们的App需要支持从PC将文件拷贝到App的Documents目录并展示出来，则需要在Info.plist中添加<code>UIFileSharingEnabled</code>(Application supports iTunes file sharing)键，并将键值设置为<code>YES</code>。</p>
+<p>添加了UIFileSharingEnabled键值后就可以通过iTunes来管理共享文件了，可以从PC拷贝到App，也可以从App拷贝到PC上，也可以通过iTunes删除App上的文件(选中需要删除的文件，按下键盘的<code>delete</code>键即可)。</p>
+<p>App可以通过访问Documents目录来获取需要关心的文件，过滤掉无关文件。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> document = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> files = <span class="keyword">try</span>? <span class="type">FileManager</span>.<span class="keyword">default</span>.contentsOfDirectory(atPath: document) &#123;</div><div class="line">        <span class="keyword">for</span> file <span class="keyword">in</span> files &#123;</div><div class="line">            <span class="comment">// 可以通过后缀名来获取你关心的文件类型</span></div><div class="line">            <span class="built_in">print</span>(file)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有关<code>File Sharing</code>请参考：<a href="https://support.apple.com/zh-cn/HT201301" target="_blank" rel="external">https://support.apple.com/zh-cn/HT201301</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/09/iOS-file-sharing/" class="archive-article-date">
+  	<time datetime="2017-10-09T01:36:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-tableHeaderView-frame" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/10/tableHeaderView-frame/">UITableView动态修改tableHeaderView的高度</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候我们会用表格的头部视图来做一些简单的UI展示，如果遇到高度固定的情况还好，并无任何问题。但是如果遇到高度需要动态调整的时候，那就有点蛋疼了，因为你不能通过直接修改tableHeaderView的frame属性来达到效果。直接修改frame会导致UI有时候正常有时候又不正常，完全把控不了。</p>
+<p>那么我们该如何解决这个问题呢，主要有以下几步：</p>
+<ol>
+<li><p>先取出UITableView的tableHeaderView</p>
+</li>
+<li><p>将tableHeaderView从父视图移除并将UITableView的tableHeaderView设置为nil</p>
+</li>
+<li><p>更新tableHeaderView的frame</p>
+</li>
+<li><p>重新给UITableView的tableHeaderView赋值</p>
+</li>
+</ol>
+<p>演示代码如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *tableHeaderView = <span class="keyword">self</span>.tableView.tableHeaderView;</div><div class="line"><span class="built_in">CGRect</span> frame = tableHeaderView.frame;</div><div class="line">[tableHeaderView removeFromSuperview];</div><div class="line"><span class="keyword">self</span>.tableView.tableHeaderView = <span class="literal">nil</span>;</div><div class="line">frame.size.height = <span class="number">100.0</span>; <span class="comment">// 新高度</span></div><div class="line">tableHeaderView.frame = frame;</div><div class="line"><span class="keyword">self</span>.tableView.tableHeaderView = tableHeaderView;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/10/tableHeaderView-frame/" class="archive-article-date">
+  	<time datetime="2017-08-10T08:16:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-break-multilayer-nested-loop" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -613,123 +729,9 @@
 
 
   
-    <article id="post-cellLayoutMarginsFollowReadableWidth" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/22/cellLayoutMarginsFollowReadableWidth/">UITableView在iPad iOS9下cell宽度显示不全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>UITableView在iOS9后新增了一个属性<code>cellLayoutMarginsFollowReadableWidth</code>，该属性会影响UITableViewCell在iPad下的显示，且该属性默认为<code>YES</code>。</p>
-<p>当你发现在iPad下UITableViewCell不能占满整个UITableView的宽度时，只需将该属性设置为NO即可。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span>.tableView setCellLayoutMarginsFollowReadableWidth:<span class="literal">NO</span>];</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/22/cellLayoutMarginsFollowReadableWidth/" class="archive-article-date">
-  	<time datetime="2017-03-22T09:22:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-photo-camera-authorization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/22/photo-camera-authorization/">iOS判断相册、摄像头权限</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="摄像头权限判断"><a href="#摄像头权限判断" class="headerlink" title="摄像头权限判断"></a>摄像头权限判断</h2><h4 id="判断设备是否支持摄像头"><a href="#判断设备是否支持摄像头" class="headerlink" title="判断设备是否支持摄像头"></a>判断设备是否支持摄像头</h4><ul>
-<li><p>方式一</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (![<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypeCamera</span>]) &#123;</div><div class="line">	<span class="comment">// 不支持摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>方式二</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 前摄像头是否可用</span></div><div class="line"><span class="built_in">BOOL</span> isFrontCameraAvailable = [<span class="built_in">UIImagePickerController</span> isCameraDeviceAvailable:<span class="built_in">UIImagePickerControllerCameraDeviceFront</span>];</div><div class="line"><span class="comment">// 后摄像头是否可用</span></div><div class="line"><span class="built_in">BOOL</span> isRearCameraAvailable = [<span class="built_in">UIImagePickerController</span> isCameraDeviceAvailable:<span class="built_in">UIImagePickerControllerCameraDeviceRear</span>];</div><div class="line"><span class="keyword">if</span> (!isFrontCameraAvailable &amp;&amp; !isRearCameraAvailable) &#123;</div><div class="line">    <span class="comment">// 不支持摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="判断用户是否授权访问摄像头"><a href="#判断用户是否授权访问摄像头" class="headerlink" title="判断用户是否授权访问摄像头"></a>判断用户是否授权访问摄像头</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;AVFoundation/AVFoundation.h&gt;</span></span></div><div class="line"><span class="built_in">AVAuthorizationStatus</span> status = [<span class="built_in">AVCaptureDevice</span> authorizationStatusForMediaType:<span class="built_in">AVMediaTypeVideo</span>];</div><div class="line"><span class="keyword">if</span> (status == <span class="built_in">AVAuthorizationStatusDenied</span> || status == <span class="built_in">AVAuthorizationStatusRestricted</span>) &#123;</div><div class="line">	<span class="comment">// 没有授权访问摄像头</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="判断系统相册权限"><a href="#判断系统相册权限" class="headerlink" title="判断系统相册权限"></a>判断系统相册权限</h2><h4 id="判断相册是否可用的"><a href="#判断相册是否可用的" class="headerlink" title="判断相册是否可用的"></a>判断相册是否可用的</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypePhotoLibrary</span>]</div><div class="line">[<span class="built_in">UIImagePickerController</span> isSourceTypeAvailable:<span class="built_in">UIImagePickerControllerSourceTypeSavedPhotosAlbum</span>]</div></pre></td></tr></table></figure>
-<h4 id="判断是否授权访问相册"><a href="#判断是否授权访问相册" class="headerlink" title="判断是否授权访问相册"></a>判断是否授权访问相册</h4><h6 id="PhotoKit，iOS8之后新增的Framework，推荐使用该方式"><a href="#PhotoKit，iOS8之后新增的Framework，推荐使用该方式" class="headerlink" title="PhotoKit，iOS8之后新增的Framework，推荐使用该方式"></a>PhotoKit，iOS8之后新增的Framework，推荐使用该方式</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Photos/Photos.h&gt;</span></span></div><div class="line">PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == PHAuthorizationStatusDenied || status == PHAuthorizationStatusRestricted) &#123;</div><div class="line">	<span class="comment">// 没有授权访问相册</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h6 id="如果需要兼容iOS7，可以使用AssetsLibrary库进行判断"><a href="#如果需要兼容iOS7，可以使用AssetsLibrary库进行判断" class="headerlink" title="如果需要兼容iOS7，可以使用AssetsLibrary库进行判断"></a>如果需要兼容iOS7，可以使用AssetsLibrary库进行判断</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;AssetsLibrary/AssetsLibrary.h&gt;</span></span></div><div class="line">ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == ALAuthorizationStatusDenied || status == ALAuthorizationStatusRestricted) &#123;</div><div class="line">    <span class="comment">// 没有授权访问相册</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="访问相册示例代码"><a href="#访问相册示例代码" class="headerlink" title="访问相册示例代码"></a>访问相册示例代码</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;Photos/Photos.h&gt;</span></span></div><div class="line"></div><div class="line">PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];</div><div class="line"><span class="keyword">if</span> (status == PHAuthorizationStatusDenied || status == PHAuthorizationStatusRestricted) &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *controller = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="string">@"没有授权访问系统相册"</span> message:<span class="string">@"是否立即前往设置页面打开授权？"</span> preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</div><div class="line">    [controller addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"取消"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:<span class="literal">nil</span>]];</div><div class="line">    [controller addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"前往设置"</span> style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        <span class="comment">// 打开App系统设置页面</span></div><div class="line">        <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="built_in">UIApplicationOpenSettingsURLString</span>];</div><div class="line">        <span class="keyword">if</span> ([[<span class="built_in">UIApplication</span> sharedApplication] canOpenURL:url]) &#123;</div><div class="line">            [[<span class="built_in">UIApplication</span> sharedApplication] openURL:url];</div><div class="line">        &#125;</div><div class="line">    &#125;]];</div><div class="line">    [<span class="keyword">self</span> presentViewController:controller animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (status == PHAuthorizationStatusNotDetermined) &#123;</div><div class="line">    <span class="comment">// 第一次使用，用户还未决定是否授权，此时应该请求用户授权获取权限</span></div><div class="line">    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) &#123;</div><div class="line">       <span class="comment">// 授权回调</span></div><div class="line">    &#125;];</div><div class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (status == PHAuthorizationStatusAuthorized) &#123;</div><div class="line">    <span class="comment">// 用户已授权访问,做你想做的事</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/22/photo-camera-authorization/" class="archive-article-date">
-  	<time datetime="2017-03-22T06:30:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 

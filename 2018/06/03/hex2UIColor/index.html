@@ -6,17 +6,60 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>Tag: iOS | 吴品诚的技术博客</title>
+  <title>十六进制字符串转UIColor | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="吴品诚的技术博客">
-<meta property="og:url" content="http://www.0daybug.com/tags/iOS/index.html">
+  <meta name="description" content="支持十六进制字符串的格式有：
+
+#FFF
+#FFFF
+#FFFFFF
+#FFFFFFFF
+0xFFF
+0xFFFF
+0xFFFFFF
+0xFFFFFFFF
+可省略#、0x符号
+不区分大小写
+
+12345@interface UIColor (XP)+ (instancetype)hexColor:(NSString *)hex;@end
+123456789101112131415161718192">
+<meta property="og:type" content="article">
+<meta property="og:title" content="十六进制字符串转UIColor">
+<meta property="og:url" content="http://www.0daybug.com/2018/06/03/hex2UIColor/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:description" content="支持十六进制字符串的格式有：
+
+#FFF
+#FFFF
+#FFFFFF
+#FFFFFFFF
+0xFFF
+0xFFFF
+0xFFFFFF
+0xFFFFFFFF
+可省略#、0x符号
+不区分大小写
+
+12345@interface UIColor (XP)+ (instancetype)hexColor:(NSString *)hex;@end
+123456789101112131415161718192">
+<meta property="og:updated_time" content="2018-06-03T08:20:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="吴品诚的技术博客">
-<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:title" content="十六进制字符串转UIColor">
+<meta name="twitter:description" content="支持十六进制字符串的格式有：
+
+#FFF
+#FFFF
+#FFFFFF
+#FFFFFFFF
+0xFFF
+0xFFFF
+0xFFFFFF
+0xFFFFFFFF
+可省略#、0x符号
+不区分大小写
+
+12345@interface UIColor (XP)+ (instancetype)hexColor:(NSString *)hex;@end
+123456789101112131415161718192">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -136,346 +179,98 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-hex2UIColor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      十六进制字符串转UIColor
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>支持十六进制字符串的格式有：</p>
+<ul>
+<li>#FFF</li>
+<li>#FFFF</li>
+<li>#FFFFFF</li>
+<li>#FFFFFFFF</li>
+<li>0xFFF</li>
+<li>0xFFFF</li>
+<li>0xFFFFFF</li>
+<li>0xFFFFFFFF</li>
+<li>可省略<code>#</code>、<code>0x</code>符号</li>
+<li>不区分大小写</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex &#123;</div><div class="line">    <span class="built_in">NSString</span> *str = hex;</div><div class="line">    <span class="keyword">if</span> ([hex hasPrefix:<span class="string">@"#"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">1</span>];</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([hex.lowercaseString hasPrefix:<span class="string">@"0x"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSScanner</span> *scanner = [[<span class="built_in">NSScanner</span> alloc] initWithString:str];</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hexValue;</div><div class="line">    <span class="keyword">if</span> ([scanner scanHexInt:&amp;hexValue]) &#123;</div><div class="line">        <span class="built_in">CGFloat</span> r, g, b, a = <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">switch</span> (str.length) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF00</span>) &gt;&gt; <span class="number">8</span>)       / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F0</span>) &gt;&gt; <span class="number">4</span>)       / <span class="number">15.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x00F</span>)              / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">4</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF000</span>) &gt;&gt; <span class="number">12</span>)     / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F00</span>) &gt;&gt; <span class="number">8</span>)      / <span class="number">15.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x00F0</span>) &gt;&gt; <span class="number">4</span>)      / <span class="number">15.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000F</span>)             / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">6</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF0000</span>) &gt;&gt; <span class="number">16</span>)   / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF00</span>) &gt;&gt; <span class="number">8</span>)    / <span class="number">255.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x0000FF</span>)           / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">8</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF000000</span>) &gt;&gt; <span class="number">24</span>) / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF0000</span>) &gt;&gt; <span class="number">16</span>) / <span class="number">255.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x0000FF00</span>) &gt;&gt; <span class="number">8</span>)  / <span class="number">255.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000000FF</span>)         / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithDisplayP3Red:r green:g blue:b alpha:a];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithRed:r green:g blue:b alpha:a];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
   	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/DZNEmptyDataSet-button-frame/" class="archive-article-date">
-  	<time datetime="2018-06-03T08:00:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/DZNEmptyDataSet-button-frame/">修改DZNEmptyDataSet按钮的宽高</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/03/DZNEmptyDataSet-button-frame/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">修改DZNEmptyDataSet按钮的宽高</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
-  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/25/using-unwind-segues/">使用 unwind segues 关闭当前页面</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/10/iOS-waterfall-layout/" class="archive-article-date">
-  	<time datetime="2018-04-10T08:28:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/10/iOS-waterfall-layout/">UICollectionView瀑布流布局</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/30/iOS-copy-paste-phone-from-contacts/" class="archive-article-date">
-  	<time datetime="2018-03-30T09:16:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/30/iOS-copy-paste-phone-from-contacts/">iOS从通讯录中复制粘贴电话号码携带特殊字符</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/26/swift4-Codable/" class="archive-article-date">
-  	<time datetime="2018-03-26T08:25:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/26/swift4-Codable/">Swift4之Codable协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/iOS-SafariServices/" class="archive-article-date">
-  	<time datetime="2018-03-14T07:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/iOS-SafariServices/">SafariServices框架</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/26/iOS-compile-MobileVLCKit.framework/" class="archive-article-date">
-  	<time datetime="2018-02-26T06:45:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/26/iOS-compile-MobileVLCKit.framework/">iOS编译MobileVLCKit.framework</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/08/iOS-weibo-usercenter/" class="archive-article-date">
-  	<time datetime="2018-02-08T06:02:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/08/iOS-weibo-usercenter/">iOS仿新浪微博个人页面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/iOS/page/2/">2</a><a class="page-number" href="/tags/iOS/page/3/">3</a><a class="extend next" rel="next" href="/tags/iOS/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -499,9 +294,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

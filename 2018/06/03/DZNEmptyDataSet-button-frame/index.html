@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>Tag: iOS | 吴品诚的技术博客</title>
+  <title>修改DZNEmptyDataSet按钮的宽高 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="吴品诚的技术博客">
-<meta property="og:url" content="http://www.0daybug.com/tags/iOS/index.html">
+  <meta name="description" content="相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。
+如果数据不为空的时候还好，可谁也不能保证一定会有数据展示吧，如果没数据的时候，就会给客户呈现一个空白页面（白板），此时我们可以给用户一点提示信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修改DZNEmptyDataSet按钮的宽高">
+<meta property="og:url" content="http://www.0daybug.com/2018/06/03/DZNEmptyDataSet-button-frame/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:description" content="相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。
+如果数据不为空的时候还好，可谁也不能保证一定会有数据展示吧，如果没数据的时候，就会给客户呈现一个空白页面（白板），此时我们可以给用户一点提示信息">
+<meta property="og:updated_time" content="2018-06-03T10:25:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="吴品诚的技术博客">
-<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:title" content="修改DZNEmptyDataSet按钮的宽高">
+<meta name="twitter:description" content="相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。
+如果数据不为空的时候还好，可谁也不能保证一定会有数据展示吧，如果没数据的时候，就会给客户呈现一个空白页面（白板），此时我们可以给用户一点提示信息">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -136,346 +140,101 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-DZNEmptyDataSet-button-frame" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
-  	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
+    <h1 class="article-title" itemprop="name">
+      修改DZNEmptyDataSet按钮的宽高
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/DZNEmptyDataSet-button-frame/" class="archive-article-date">
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。</p>
+<p>如果数据不为空的时候还好，可谁也不能保证一定会有数据展示吧，如果没数据的时候，就会给客户呈现一个空白页面（白板），此时我们可以给用户一点提示信息（图片、文字），这不仅可以提升用户体验，也不至于让用户一脸懵逼。</p>
+<p><a href="https://github.com/dzenbot/DZNEmptyDataSet.git" target="_blank" rel="external">DZNEmptyDataSet</a> 就是为此而生的，只需设置好数据源和代理即可，然后根据你的需求返回对应的图片或者提示文字。</p>
+<p>但是 DZNEmptyDataSet 提供的按钮默认不能调整宽高，如果你实现了该数据源方法 <code>- (UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state</code> 并返回对应按钮背景图片后，DZNEmptyDataSet 会将按钮高度自动调整为图片的高度；即便如此，还是无法调整宽度。</p>
+<p>由于 DZNEmptyDataSet 并没有提供相应的接口给我们设置按钮的宽高，那我们只能通过曲线救国的方式来达到目的了。</p>
+<p>遵守 <code>DZNEmptyDataSetDelegate</code> 协议，实现 <code>- (void)emptyDataSetDidAppear:(UIScrollView *)scrollView</code> 方法，然后修改按钮的约束。</p>
+<blockquote>
+<p>不要在 <code>- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView</code> 这个方法里设置。宽度只能通过调整 <code>leading</code> 和 <code>trailing</code> 的约束来达到效果。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)emptyDataSetDidAppear:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</div><div class="line">    <span class="built_in">UIButton</span> *button = [scrollView valueForKeyPath:<span class="string">@"emptyDataSetView.button"</span>];</div><div class="line">    <span class="keyword">if</span> ([button isKindOfClass:[<span class="built_in">UIButton</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        <span class="comment">// Change button width</span></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSLayoutConstraint</span> *constraint <span class="keyword">in</span> button.superview.constraints) &#123;</div><div class="line">            <span class="keyword">if</span> (constraint.firstItem == button &amp;&amp; constraint.firstAttribute == <span class="built_in">NSLayoutAttributeLeading</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">130.0</span>;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (constraint.secondItem == button &amp;&amp; constraint.secondAttribute == <span class="built_in">NSLayoutAttributeTrailing</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">130.0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Change button height</span></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSLayoutConstraint</span> *constraint <span class="keyword">in</span> button.constraints) &#123;</div><div class="line">            <span class="keyword">if</span> (constraint.firstItem == button &amp;&amp; constraint.firstAttribute == <span class="built_in">NSLayoutAttributeHeight</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">40.0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/03/DZNEmptyDataSet-button-frame/" class="archive-article-date">
   	<time datetime="2018-06-03T08:00:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/DZNEmptyDataSet-button-frame/">修改DZNEmptyDataSet按钮的宽高</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
-  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/25/using-unwind-segues/">使用 unwind segues 关闭当前页面</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+  
+<nav id="article-nav">
+  
+    <a href="/2018/06/03/hex2UIColor/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          十六进制字符串转UIColor
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/25/using-unwind-segues/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">使用 unwind segues 关闭当前页面</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/10/iOS-waterfall-layout/" class="archive-article-date">
-  	<time datetime="2018-04-10T08:28:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/10/iOS-waterfall-layout/">UICollectionView瀑布流布局</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/30/iOS-copy-paste-phone-from-contacts/" class="archive-article-date">
-  	<time datetime="2018-03-30T09:16:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/30/iOS-copy-paste-phone-from-contacts/">iOS从通讯录中复制粘贴电话号码携带特殊字符</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/26/swift4-Codable/" class="archive-article-date">
-  	<time datetime="2018-03-26T08:25:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/26/swift4-Codable/">Swift4之Codable协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/14/iOS-SafariServices/" class="archive-article-date">
-  	<time datetime="2018-03-14T07:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/14/iOS-SafariServices/">SafariServices框架</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/26/iOS-compile-MobileVLCKit.framework/" class="archive-article-date">
-  	<time datetime="2018-02-26T06:45:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/26/iOS-compile-MobileVLCKit.framework/">iOS编译MobileVLCKit.framework</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/08/iOS-weibo-usercenter/" class="archive-article-date">
-  	<time datetime="2018-02-08T06:02:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/08/iOS-weibo-usercenter/">iOS仿新浪微博个人页面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/tags/iOS/page/2/">2</a><a class="page-number" href="/tags/iOS/page/3/">3</a><a class="extend next" rel="next" href="/tags/iOS/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -499,9 +258,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

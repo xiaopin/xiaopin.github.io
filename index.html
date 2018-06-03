@@ -138,6 +138,128 @@
       <div class="body-wrap">
         
   
+    <article id="post-hex2UIColor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>支持十六进制字符串的格式有：</p>
+<ul>
+<li>#FFF</li>
+<li>#FFFF</li>
+<li>#FFFFFF</li>
+<li>#FFFFFFFF</li>
+<li>0xFFF</li>
+<li>0xFFFF</li>
+<li>0xFFFFFF</li>
+<li>0xFFFFFFFF</li>
+<li>可省略<code>#</code>、<code>0x</code>符号</li>
+<li>不区分大小写</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex &#123;</div><div class="line">    <span class="built_in">NSString</span> *str = hex;</div><div class="line">    <span class="keyword">if</span> ([hex hasPrefix:<span class="string">@"#"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">1</span>];</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([hex.lowercaseString hasPrefix:<span class="string">@"0x"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSScanner</span> *scanner = [[<span class="built_in">NSScanner</span> alloc] initWithString:str];</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hexValue;</div><div class="line">    <span class="keyword">if</span> ([scanner scanHexInt:&amp;hexValue]) &#123;</div><div class="line">        <span class="built_in">CGFloat</span> r, g, b, a = <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">switch</span> (str.length) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF00</span>) &gt;&gt; <span class="number">8</span>)       / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F0</span>) &gt;&gt; <span class="number">4</span>)       / <span class="number">15.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x00F</span>)              / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">4</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF000</span>) &gt;&gt; <span class="number">12</span>)     / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F00</span>) &gt;&gt; <span class="number">8</span>)      / <span class="number">15.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x00F0</span>) &gt;&gt; <span class="number">4</span>)      / <span class="number">15.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000F</span>)             / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">6</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF0000</span>) &gt;&gt; <span class="number">16</span>)   / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF00</span>) &gt;&gt; <span class="number">8</span>)    / <span class="number">255.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x0000FF</span>)           / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">8</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF000000</span>) &gt;&gt; <span class="number">24</span>) / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF0000</span>) &gt;&gt; <span class="number">16</span>) / <span class="number">255.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x0000FF00</span>) &gt;&gt; <span class="number">8</span>)  / <span class="number">255.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000000FF</span>)         / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithDisplayP3Red:r green:g blue:b alpha:a];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithRed:r green:g blue:b alpha:a];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
+  	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-DZNEmptyDataSet-button-frame" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/DZNEmptyDataSet-button-frame/">修改DZNEmptyDataSet按钮的宽高</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。</p>
+<p>如果数据不为空的时候还好，可谁也不能保证一定会有数据展示吧，如果没数据的时候，就会给客户呈现一个空白页面（白板），此时我们可以给用户一点提示信息（图片、文字），这不仅可以提升用户体验，也不至于让用户一脸懵逼。</p>
+<p><a href="https://github.com/dzenbot/DZNEmptyDataSet.git" target="_blank" rel="external">DZNEmptyDataSet</a> 就是为此而生的，只需设置好数据源和代理即可，然后根据你的需求返回对应的图片或者提示文字。</p>
+<p>但是 DZNEmptyDataSet 提供的按钮默认不能调整宽高，如果你实现了该数据源方法 <code>- (UIImage *)buttonBackgroundImageForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state</code> 并返回对应按钮背景图片后，DZNEmptyDataSet 会将按钮高度自动调整为图片的高度；即便如此，还是无法调整宽度。</p>
+<p>由于 DZNEmptyDataSet 并没有提供相应的接口给我们设置按钮的宽高，那我们只能通过曲线救国的方式来达到目的了。</p>
+<p>遵守 <code>DZNEmptyDataSetDelegate</code> 协议，实现 <code>- (void)emptyDataSetDidAppear:(UIScrollView *)scrollView</code> 方法，然后修改按钮的约束。</p>
+<blockquote>
+<p>不要在 <code>- (void)emptyDataSetWillAppear:(UIScrollView *)scrollView</code> 这个方法里设置。宽度只能通过调整 <code>leading</code> 和 <code>trailing</code> 的约束来达到效果。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)emptyDataSetDidAppear:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</div><div class="line">    <span class="built_in">UIButton</span> *button = [scrollView valueForKeyPath:<span class="string">@"emptyDataSetView.button"</span>];</div><div class="line">    <span class="keyword">if</span> ([button isKindOfClass:[<span class="built_in">UIButton</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">        <span class="comment">// Change button width</span></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSLayoutConstraint</span> *constraint <span class="keyword">in</span> button.superview.constraints) &#123;</div><div class="line">            <span class="keyword">if</span> (constraint.firstItem == button &amp;&amp; constraint.firstAttribute == <span class="built_in">NSLayoutAttributeLeading</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">130.0</span>;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (constraint.secondItem == button &amp;&amp; constraint.secondAttribute == <span class="built_in">NSLayoutAttributeTrailing</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">130.0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Change button height</span></div><div class="line">        <span class="keyword">for</span> (<span class="built_in">NSLayoutConstraint</span> *constraint <span class="keyword">in</span> button.constraints) &#123;</div><div class="line">            <span class="keyword">if</span> (constraint.firstItem == button &amp;&amp; constraint.firstAttribute == <span class="built_in">NSLayoutAttributeHeight</span>) &#123;</div><div class="line">                constraint.constant = <span class="number">40.0</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/03/DZNEmptyDataSet-button-frame/" class="archive-article-date">
+  	<time datetime="2018-06-03T08:00:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-using-unwind-segues" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -757,190 +879,9 @@
 
 
   
-    <article id="post-iOS-SafariServices" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/14/iOS-SafariServices/">SafariServices框架</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。</p>
-<p>SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过SFSafariViewControllerDelegate可以添加自定的分享功能(UIActivity)。</p>
-<h3 id="SFSafariViewController"><a href="#SFSafariViewController" class="headerlink" title="SFSafariViewController"></a><strong><em>SFSafariViewController</em></strong></h3><p>一个特殊的UIViewController，为我们使用Safari的UI框架加载网页内容，同时还能享受到Safari的一些便利性：</p>
-<ul>
-<li>高度一致的用户体验性</li>
-<li>和Safari共享Cookie</li>
-<li>密码、证书自动填充</li>
-<li>Safari阅读器(可选是否默认进入阅读器模式)</li>
-</ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SFSafariViewController *safariVC;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    SFSafariViewControllerConfiguration *configuration = [[SFSafariViewControllerConfiguration alloc] init];</div><div class="line">    configuration.entersReaderIfAvailable = <span class="literal">NO</span>;</div><div class="line">    configuration.barCollapsingEnabled = <span class="literal">YES</span>;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url configuration:configuration];</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url];</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    safariVC.dismissButtonStyle = SFSafariViewControllerDismissButtonStyleClose;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">    safariVC.preferredBarTintColor = [<span class="built_in">UIColor</span> orangeColor];</div><div class="line">    safariVC.preferredControlTintColor = [<span class="built_in">UIColor</span> redColor];</div><div class="line">&#125;</div><div class="line"><span class="comment">// [self.navigationController pushViewController:safariVC animated:true];</span></div><div class="line">[<span class="keyword">self</span> presentViewController:safariVC animated:<span class="literal">true</span> completion:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
-<p>SFSafariViewController在push和present上有些许区别。</p>
-<ul>
-<li>push方式<ol>
-<li>点击左上角的按钮并不会关闭网页，需要自行处理</li>
-<li>不支持屏幕左侧滑动返回上一页的手势</li>
-</ol>
-</li>
-<li>present方式<ol>
-<li>点击左上角按钮会关闭网页返回上一个页面</li>
-<li>支持屏幕左侧滑动返回上一页的手势</li>
-</ol>
-</li>
-</ul>
-<h3 id="SFSafariViewControllerConfiguration"><a href="#SFSafariViewControllerConfiguration" class="headerlink" title="SFSafariViewControllerConfiguration"></a><strong><em>SFSafariViewControllerConfiguration</em></strong></h3><p>iOS11新增的配置类，目前的可配置选项仅有两个：</p>
-<ul>
-<li>entersReaderIfAvailable<ol>
-<li>在当前网页支持阅读器时是否自动进入阅读器模式浏览网页</li>
-<li>默认NO</li>
-</ol>
-</li>
-<li>barCollapsingEnabled<ol>
-<li>当拖动网页进行滚动时，是否折叠导航栏和隐藏底部工具栏</li>
-<li>默认YES</li>
-</ol>
-</li>
-</ul>
-<h3 id="SSReadingList"><a href="#SSReadingList" class="headerlink" title="SSReadingList"></a><strong><em>SSReadingList</em></strong></h3><p>添加URL链接到Safari浏览器的阅读列表。需要注意一点的是相同的URL可以添加多次，系统并不会过滤相同的URL。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SSReadingList *readingList = [SSReadingList defaultReadingList];</div><div class="line">[readingList addReadingListItemWithURL:url title:<span class="string">@"我的博客"</span> previewText:<span class="string">@"记录日常开发生涯中的点滴"</span> error:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
-<h3 id="SFContentBlockerManager"><a href="#SFContentBlockerManager" class="headerlink" title="SFContentBlockerManager"></a><strong><em>SFContentBlockerManager</em></strong></h3><p>Content Blocker，据说是一个Browser Extension之类的玩意，和广告过滤的作用类似，目前功能不明，更多信息可以看<a href="https://webkit.org/blog/3476/content-blockers-first-look/" target="_blank" rel="external">这里</a>。</p>
-<h3 id="效果演示"><a href="#效果演示" class="headerlink" title="效果演示"></a>效果演示</h3><p><img src="/images/201802/SafariServices.gif" alt="GIF"></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/03/14/iOS-SafariServices/" class="archive-article-date">
-  	<time datetime="2018-03-14T07:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-compile-MobileVLCKit.framework" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/26/iOS-compile-MobileVLCKit.framework/">iOS编译MobileVLCKit.framework</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="我的编译环境"><a href="#我的编译环境" class="headerlink" title="我的编译环境"></a>我的编译环境</h2><ul>
-<li>macOS 10.12.6</li>
-<li>Xcode9.2</li>
-</ul>
-<h2 id="编译MobileVLCKit-framework静态库"><a href="#编译MobileVLCKit-framework静态库" class="headerlink" title="编译MobileVLCKit.framework静态库"></a>编译MobileVLCKit.framework静态库</h2><ul>
-<li><p>把源码clone下来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone https://code.videolan.org/videolan/VLCKit.git</div></pre></td></tr></table></figure>
-</li>
-<li><p>开始编译MobileVLCKit,framework</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd VLCKit</div><div class="line">./buildMobileVLCKit.sh -a all</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><img src="/images/201802/vlc-compile.png" alt="图1"></p>
-<p>如上图所示，说明编译完成并且成功了。整个编译过程异常缓慢，在我的iMac上足足编译了2个小时。</p>
-<p><img src="/images/201802/vlc-build-directory.png" alt="图2"></p>
-<p>build目录下的MobileVLCKit.framework就是我们所需的静态库文件了。</p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><ul>
-<li><p>打开Xcode新建一个项目，然后把build目录下的MobileVLCKit.framework拖到项目中，并导入依赖库：（网上有些只是说导入后面的四个库即可，但是在我项目中如果仅导入后四个则会报错，需要完整导入上面的依赖库，你可以根据你的实际情况处理。）</p>
-<ul>
-<li>CoreMedia.framework</li>
-<li>VideoToolbox.framework</li>
-<li>AVFoundation.framework</li>
-<li>AudioToolbox.framework</li>
-<li>libstdc++.tbd</li>
-<li>libbz2.tbd</li>
-<li>libz.tbd</li>
-<li>libiconv.tbd</li>
-</ul>
-</li>
-<li><p>导入头文件</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;MobileVLCKit/MobileVLCKit.h&gt;</span></span></div></pre></td></tr></table></figure>
-</li>
-<li><p>声明一个<code>VLCMediaPlayer</code>类型的变量</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ViewController</span> ()&lt;<span class="title">VLCMediaPlayerDelegate</span>&gt;</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) VLCMediaPlayer *mediaPlayer;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>初始化VLCMediaPlayer</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* setup the media player instance, give it a delegate and something to draw into */</span></div><div class="line">_mediaPlayer = [[VLCMediaPlayer alloc] init];</div><div class="line">_mediaPlayer.delegate = <span class="keyword">self</span>;</div><div class="line">_mediaPlayer.drawable = <span class="keyword">self</span>.view;</div><div class="line"></div><div class="line"><span class="comment">/* create a media object and give it to the player */</span></div><div class="line">_mediaPlayer.media = [VLCMedia mediaWithURL:[<span class="built_in">NSURL</span> URLWithString:<span class="string">@"https://streams.videolan.org/streams/mp4/Mr_MrsSmith-h264_aac.mp4"</span>]];</div></pre></td></tr></table></figure>
-</li>
-<li><p>默认不会自动播放视频，需要我们手动调用play方法</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[_mediaPlayer play];</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>更多装B用法请自己去探索吧，毕竟臣妾也不知道啊[手动笑哭.png]~~~</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/02/26/iOS-compile-MobileVLCKit.framework/" class="archive-article-date">
-  	<time datetime="2018-02-26T06:45:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
