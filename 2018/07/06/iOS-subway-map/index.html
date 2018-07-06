@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>iOS地铁图 | 吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用了高德地图的JS API，文档戳这里
+
+原理通过 WKWebView 加载一个 HTML 字符串，通过注入 JS 在页面加载完毕后加载高德地图的JS库，然后创建地铁地图，同时通过JS库提供的 getCityList 接口获取所有的城市信息，然后把城市数据回传给 Objective-C，OC 在拿到数据后在右上角添加一个切换城市的按钮，当选择所要切换的城市后，通过 WKWebView 调用 J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS地铁图">
+<meta property="og:url" content="http://www.0daybug.com/2018/07/06/iOS-subway-map/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="使用了高德地图的JS API，文档戳这里
+
+原理通过 WKWebView 加载一个 HTML 字符串，通过注入 JS 在页面加载完毕后加载高德地图的JS库，然后创建地铁地图，同时通过JS库提供的 getCityList 接口获取所有的城市信息，然后把城市数据回传给 Objective-C，OC 在拿到数据后在右上角添加一个切换城市的按钮，当选择所要切换的城市后，通过 WKWebView 调用 J">
+<meta property="og:image" content="http://www.0daybug.com/images/201807/subway-map.gif">
+<meta property="og:updated_time" content="2018-07-06T14:38:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS地铁图">
+<meta name="twitter:description" content="使用了高德地图的JS API，文档戳这里
+
+原理通过 WKWebView 加载一个 HTML 字符串，通过注入 JS 在页面加载完毕后加载高德地图的JS库，然后创建地铁地图，同时通过JS库提供的 getCityList 接口获取所有的城市信息，然后把城市数据回传给 Objective-C，OC 在拿到数据后在右上角添加一个切换城市的按钮，当选择所要切换的城市后，通过 WKWebView 调用 J">
+<meta name="twitter:image" content="http://www.0daybug.com/images/201807/subway-map.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-iOS-subway-map" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS地铁图
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>使用了高德地图的JS API，文档<a href="https://lbs.amap.com/api/subway-api/subway-summary/" target="_blank" rel="external">戳这里</a></p>
+</blockquote>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>通过 WKWebView 加载一个 HTML 字符串，通过注入 JS 在页面加载完毕后加载高德地图的JS库，然后创建地铁地图，同时通过JS库提供的 <code>getCityList</code> 接口获取所有的城市信息，然后把城市数据回传给 Objective-C，OC 在拿到数据后在右上角添加一个切换城市的按钮，当选择所要切换的城市后，通过 WKWebView 调用 JS 代码并把城市 id 传递给 JS，JS 拿到数据后通过 <a href="https://lbs.amap.com/api/subway-api/reference" target="_blank" rel="external"><code>setAdcode</code></a> 接口来切换地铁数据。</p>
+<p>实际上这个 Demo 中可以不考虑 <code>WKUIDelegate</code> 和 <code>WKNavigationDelegate</code> 这两个协议，但是为了熟悉 WKWebView，我还是遵守了这两个协议。</p>
+<p><code>XPWKScriptMessageHandlerObject</code> 这个类的作用只是为了解决 <code>WKScriptMessageHandler</code> 协议由于强引用代理对象从而导致内存泄漏的问题，起到一个中间代理人的作用。</p>
+<h2 id="GIF演示效果"><a href="#GIF演示效果" class="headerlink" title="GIF演示效果"></a>GIF演示效果</h2><p><img src="/images/201807/subway-map.gif" alt="GIF"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li><code>.h</code> 头文件</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NS_CLASS_AVAILABLE_IOS</span>(<span class="number">9</span>_0) <span class="class"><span class="keyword">@interface</span> <span class="title">XPSubwayMapViewController</span> : <span class="title">UIViewController</span></span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>.m</code> 源文件</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"XPSubwayMapViewController.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;WebKit/WebKit.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark -</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPWKScriptMessageHandlerObject</span> : <span class="title">NSObject</span>&lt;<span class="title">WKScriptMessageHandler</span>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="keyword">id</span>&lt;<span class="built_in">WKScriptMessageHandler</span>&gt; scriptMessageHandler;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPWKScriptMessageHandlerObject</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line"><span class="meta">#ifdef DEBUG</span></div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, __FUNCTION__);</div><div class="line"><span class="meta">#endif</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</div><div class="line">    [<span class="keyword">self</span>.scriptMessageHandler userContentController:userContentController didReceiveScriptMessage:message];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark -</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPSubwayMapViewController</span> ()&lt;<span class="title">WKUIDelegate</span>, <span class="title">WKNavigationDelegate</span>, <span class="title">WKScriptMessageHandler</span>&gt;</span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">UIActivityIndicatorView</span> *indicatorView;</div><div class="line">    <span class="built_in">WKWebView</span> *webViwe;</div><div class="line">    <span class="comment">/// 城市列表数据(二维数组,内层数据中第一个元素为id号,第二个元素为城市名称)</span></div><div class="line">    <span class="built_in">NSArray</span>&lt;<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span>*&gt; *&gt; *cities;</div><div class="line">    XPWKScriptMessageHandlerObject *scriptMessageHandlerObject;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPSubwayMapViewController</span></span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark Lifecycle</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.title = <span class="string">@"北京"</span>;</div><div class="line">    scriptMessageHandlerObject = [[XPWKScriptMessageHandlerObject alloc] init];</div><div class="line">    scriptMessageHandlerObject.scriptMessageHandler = <span class="keyword">self</span>;</div><div class="line">    </div><div class="line">    <span class="built_in">WKWebViewConfiguration</span> *config = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line">    [config.userContentController addUserScript:[<span class="keyword">self</span> subwayJavaScript]];</div><div class="line">    [config.userContentController addScriptMessageHandler:scriptMessageHandlerObject name:<span class="string">@"showToggleCityButton"</span>];</div><div class="line">    </div><div class="line">    webViwe = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="built_in">CGRectZero</span> configuration:config];</div><div class="line">    webViwe.translatesAutoresizingMaskIntoConstraints = <span class="literal">NO</span>;</div><div class="line">    webViwe.UIDelegate = <span class="keyword">self</span>;</div><div class="line">    webViwe.navigationDelegate = <span class="keyword">self</span>;</div><div class="line">    [<span class="keyword">self</span>.view addSubview:webViwe];</div><div class="line">    [webViwe.topAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.topAnchor].active = <span class="literal">YES</span>;</div><div class="line">    [webViwe.rightAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.rightAnchor].active = <span class="literal">YES</span>;</div><div class="line">    [webViwe.bottomAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.bottomAnchor].active = <span class="literal">YES</span>;</div><div class="line">    [webViwe.leadingAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.leadingAnchor].active = <span class="literal">YES</span>;</div><div class="line">    </div><div class="line">    indicatorView = [[<span class="built_in">UIActivityIndicatorView</span> alloc] initWithActivityIndicatorStyle:<span class="built_in">UIActivityIndicatorViewStyleGray</span>];</div><div class="line">    indicatorView.hidesWhenStopped = <span class="literal">YES</span>;</div><div class="line">    indicatorView.translatesAutoresizingMaskIntoConstraints = <span class="literal">NO</span>;</div><div class="line">    [<span class="keyword">self</span>.view addSubview:indicatorView];</div><div class="line">    [indicatorView.centerXAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.centerXAnchor].active = <span class="literal">YES</span>;</div><div class="line">    [indicatorView.centerYAnchor constraintEqualToAnchor:<span class="keyword">self</span>.view.centerYAnchor].active = <span class="literal">YES</span>;</div><div class="line">    </div><div class="line">    [webViwe loadHTMLString:[<span class="keyword">self</span> html] baseURL:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    [webViwe.configuration.userContentController removeScriptMessageHandlerForName:<span class="string">@"showToggleCityButton"</span>];</div><div class="line"><span class="meta">#ifdef DEBUG</span></div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, __FUNCTION__);</div><div class="line"><span class="meta">#endif</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)didReceiveMemoryWarning &#123;</div><div class="line">    [<span class="keyword">super</span> didReceiveMemoryWarning];</div><div class="line">    <span class="comment">// Dispose of any resources that can be recreated.</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark <span class="meta-string">&lt;WKNavigationDelegate&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/// 在发送请求之前调用,可以决定是否加载网页</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView decidePolicyForNavigationAction:(<span class="built_in">WKNavigationAction</span> *)navigationAction decisionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">WKNavigationActionPolicy</span>))decisionHandler &#123;</div><div class="line">    decisionHandler(<span class="built_in">WKNavigationActionPolicyAllow</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 开始加载网页</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didStartProvisionalNavigation:(<span class="built_in">WKNavigation</span> *)navigation &#123;</div><div class="line">    [indicatorView startAnimating];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 是否接收服务器返回的数据</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView decidePolicyForNavigationResponse:(<span class="built_in">WKNavigationResponse</span> *)navigationResponse decisionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">WKNavigationResponsePolicy</span>))decisionHandler &#123;</div><div class="line">    decisionHandler(<span class="built_in">WKNavigationResponsePolicyAllow</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 服务器返回内容时调用</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didCommitNavigation:(<span class="built_in">WKNavigation</span> *)navigation &#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 页面加载完毕</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didFinishNavigation:(<span class="built_in">WKNavigation</span> *)navigation &#123;</div><div class="line">    [indicatorView stopAnimating];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 页面加载失败</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didFailProvisionalNavigation:(<span class="built_in">WKNavigation</span> *)navigation withError:(<span class="built_in">NSError</span> *)error &#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// HTTPS时触发该回调(可以在此验证HTTPS证书)</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didReceiveAuthenticationChallenge:(<span class="built_in">NSURLAuthenticationChallenge</span> *)challenge completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionAuthChallengeDisposition</span>, <span class="built_in">NSURLCredential</span> * _Nullable))completionHandler &#123;</div><div class="line">    completionHandler(<span class="built_in">NSURLSessionAuthChallengePerformDefaultHandling</span>, <span class="literal">nil</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark <span class="meta-string">&lt;WKUIDelegate&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/// 处理JavaScript原生的alert函数</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView runJavaScriptAlertPanelWithMessage:(<span class="built_in">NSString</span> *)message initiatedByFrame:(<span class="built_in">WKFrameInfo</span> *)frame completionHandler:(<span class="keyword">void</span> (^)(<span class="keyword">void</span>))completionHandler &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *alertController = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="string">@""</span> message:message preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</div><div class="line">    <span class="built_in">UIAlertAction</span> *action = [<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"确定"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        completionHandler();</div><div class="line">    &#125;];</div><div class="line">    [alertController addAction:action];</div><div class="line">    [<span class="keyword">self</span> presentViewController:alertController animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 处理JavaScript原生的confirm函数</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView runJavaScriptConfirmPanelWithMessage:(<span class="built_in">NSString</span> *)message initiatedByFrame:(<span class="built_in">WKFrameInfo</span> *)frame completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">BOOL</span>))completionHandler &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *alertController = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="string">@""</span> message:message preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</div><div class="line">    <span class="built_in">UIAlertAction</span> *cancelAction = [<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"取消"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        completionHandler(<span class="literal">NO</span>);</div><div class="line">    &#125;];</div><div class="line">    <span class="built_in">UIAlertAction</span> *okAction = [<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"确定"</span> style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        completionHandler(<span class="literal">YES</span>);</div><div class="line">    &#125;];</div><div class="line">    [alertController addAction:cancelAction];</div><div class="line">    [alertController addAction:okAction];</div><div class="line">    [<span class="keyword">self</span> presentViewController:alertController animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/// 处理JavaScript原生的prompt函数</span></div><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView runJavaScriptTextInputPanelWithPrompt:(<span class="built_in">NSString</span> *)prompt defaultText:(<span class="built_in">NSString</span> *)defaultText initiatedByFrame:(<span class="built_in">WKFrameInfo</span> *)frame completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSString</span> * _Nullable))completionHandler &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *alertController = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="string">@""</span> message:prompt preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</div><div class="line">    [alertController addTextFieldWithConfigurationHandler:^(<span class="built_in">UITextField</span> * _Nonnull textField) &#123;</div><div class="line">        [textField setText:defaultText];</div><div class="line">        [textField setClearButtonMode:<span class="built_in">UITextFieldViewModeWhileEditing</span>];</div><div class="line">        [textField setReturnKeyType:<span class="built_in">UIReturnKeyDone</span>];</div><div class="line">        <span class="comment">//[textField setDelegate:self];</span></div><div class="line">    &#125;];</div><div class="line">    [alertController addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"取消"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        completionHandler(<span class="literal">nil</span>);</div><div class="line">    &#125;]];</div><div class="line">    [alertController addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"确定"</span> style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">        <span class="built_in">NSString</span> *text = [alertController.textFields firstObject].text;</div><div class="line">        completionHandler(text);</div><div class="line">    &#125;]];</div><div class="line">    [<span class="keyword">self</span> presentViewController:alertController animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark <span class="meta-string">&lt;WKScriptMessageHandler&gt;</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</div><div class="line">    <span class="keyword">if</span> ([message.name isEqualToString:<span class="string">@"showToggleCityButton"</span>]) &#123;</div><div class="line">        <span class="built_in">NSArray</span> *cities = message.body;</div><div class="line">        <span class="keyword">if</span> ([cities isKindOfClass:[<span class="built_in">NSArray</span> <span class="keyword">class</span>]] &amp;&amp; cities.count) &#123;</div><div class="line">            <span class="built_in">UIBarButtonItem</span> *button = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithTitle:<span class="string">@"切换城市"</span> style:<span class="built_in">UIBarButtonItemStylePlain</span> target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(toggleCityButtonAction:)];</div><div class="line">            <span class="keyword">self</span>.navigationItem.rightBarButtonItem = button;</div><div class="line">            <span class="keyword">self</span>-&gt;cities = cities;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark Actions</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)toggleCityButtonAction:(<span class="built_in">UIBarButtonItem</span> *)sender &#123;</div><div class="line">    <span class="built_in">UIAlertController</span> *alert = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="literal">nil</span> message:<span class="literal">nil</span> preferredStyle:<span class="built_in">UIAlertControllerStyleActionSheet</span>];</div><div class="line">    [alert addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"取消"</span> style:<span class="built_in">UIAlertActionStyleCancel</span> handler:<span class="literal">nil</span>]];</div><div class="line">    __<span class="keyword">weak</span> __<span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span>*&gt; *array <span class="keyword">in</span> cities) &#123;</div><div class="line">        <span class="built_in">NSString</span> *cityId = array.firstObject;</div><div class="line">        <span class="built_in">NSString</span> *cityName = array.lastObject;</div><div class="line">        [alert addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:cityName style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</div><div class="line">            __<span class="keyword">strong</span> __<span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</div><div class="line">            <span class="built_in">NSString</span> *js = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"toggleCity(%@)"</span>, cityId];</div><div class="line">            [strongSelf-&gt;webViwe evaluateJavaScript:js completionHandler:^(<span class="keyword">id</span> _Nullable resp, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line"><span class="meta">#ifdef DEBUG</span></div><div class="line">                <span class="built_in">NSLog</span>(<span class="string">@"Toggle city fail: %@"</span>, error);</div><div class="line"><span class="meta">#endif</span></div><div class="line">            &#125;];</div><div class="line">            strongSelf.title = cityName;</div><div class="line">        &#125;]];</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">self</span> presentViewController:alert animated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark Private</span></div><div class="line"></div><div class="line">- (<span class="built_in">NSString</span> *)html &#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">@"&lt;html&gt;&lt;head&gt;&lt;meta charset=\"UTF-8\"&gt;&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,shrink-to-fit=no\"/&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=\"SubwayContainer\"&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">WKUserScript</span> *)subwayJavaScript &#123;</div><div class="line">    <span class="built_in">NSString</span> *source = <span class="string">@"var script = document.createElement('script');script.setAttribute('src', 'https://webapi.amap.com/subway?v=1.0&amp;key=98cb8314168440c4de1169ffac3a53e7&amp;callback=cbk');document.body.appendChild(script);var mysubway = null;window.cbk = function()&#123;mysubway = subway('SubwayContainer', &#123;easy: 1&#125;);mysubway.getCityList(function(resp) &#123;var maps = [];for (var id in resp) &#123;var city = resp[id]['name'];maps.push([id, city]);&#125;window.webkit.messageHandlers.showToggleCityButton.postMessage(maps);&#125;);&#125;;function toggleCity(id) &#123;mysubway.setAdcode(id);&#125;;"</span>;</div><div class="line">    <span class="keyword">return</span> [[<span class="built_in">WKUserScript</span> alloc] initWithSource:source injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">NO</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/06/iOS-subway-map/" class="archive-article-date">
+  	<time datetime="2018-07-06T06:25:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/07/06/WKWebView-crash-on-iOS9/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          WKWebView在iOS9上崩溃
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/03/hex2UIColor/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">十六进制字符串转UIColor</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 吴品诚
+    	</div>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18042388号-1</a>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://onevcat.com/#blog">王巍博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtang.com/">唐巧博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰的官方网站</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.skyfox.org/">天狐博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.kittenyang.com/">Kitten博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.limboy.me/">李忠(蘑菇街)博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://blog.sunnyyoung.net/">Sunnyyoung博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://objccn.io/">ObjC中国</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://nshipster.cn/">NSHipster</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://es6.ruanyifeng.com/">阮一峰ECMAScript6入门</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://git-scm.com/book/zh/v2/">Git Document</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://tinypng.com/">图片在线压缩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cockos.com/licecap/">屏幕录制GIF</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/">Apple Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/app-store/review/guidelines/cn/">App Store 审核指南</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developers.google.cn/">Google Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.iconfont.cn/">阿里巴巴矢量图标库</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.nsdateformatter.com/">NSDate日期格式</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/support/app-store/">iOS版本分布情况</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213">iOS符号表</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6">iPhone尺寸</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是吴品诚，我喂自己袋盐......</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

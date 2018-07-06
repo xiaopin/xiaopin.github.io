@@ -6,21 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>iOS获取一年后的时间 | 吴品诚的技术博客</title>
+  <title>WKWebView在iOS9上崩溃 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。当数值&amp;gt;0时，获取之后的时间，如果数值&amp;lt;0则为获取之前的时间。
-12345678NSDate *date = [NSDate date];NSCalendar *calendar = [NSCalendar currentCalendar];NSDateComponents *components">
+  <meta name="description" content="最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。
+具体操作：通过 push 网页控制器，然后在 pop 之后，程序就崩了。
+打断点也定位不到 crash 代码行，打开 Xcode 的僵尸模式之后，控制台也仅输出以下信息：1-[XPWebViewController retain">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS获取一年后的时间">
-<meta property="og:url" content="http://www.0daybug.com/2016/12/08/ios-calendar-later/index.html">
+<meta property="og:title" content="WKWebView在iOS9上崩溃">
+<meta property="og:url" content="http://www.0daybug.com/2018/07/06/WKWebView-crash-on-iOS9/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。当数值&amp;gt;0时，获取之后的时间，如果数值&amp;lt;0则为获取之前的时间。
-12345678NSDate *date = [NSDate date];NSCalendar *calendar = [NSCalendar currentCalendar];NSDateComponents *components">
-<meta property="og:updated_time" content="2018-04-05T12:55:06.000Z">
+<meta property="og:description" content="最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。
+具体操作：通过 push 网页控制器，然后在 pop 之后，程序就崩了。
+打断点也定位不到 crash 代码行，打开 Xcode 的僵尸模式之后，控制台也仅输出以下信息：1-[XPWebViewController retain">
+<meta property="og:updated_time" content="2018-07-06T14:38:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS获取一年后的时间">
-<meta name="twitter:description" content="虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。当数值&amp;gt;0时，获取之后的时间，如果数值&amp;lt;0则为获取之前的时间。
-12345678NSDate *date = [NSDate date];NSCalendar *calendar = [NSCalendar currentCalendar];NSDateComponents *components">
+<meta name="twitter:title" content="WKWebView在iOS9上崩溃">
+<meta name="twitter:description" content="最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。
+具体操作：通过 push 网页控制器，然后在 pop 之后，程序就崩了。
+打断点也定位不到 crash 代码行，打开 Xcode 的僵尸模式之后，控制台也仅输出以下信息：1-[XPWebViewController retain">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -140,7 +143,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-ios-calendar-later" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-WKWebView-crash-on-iOS9" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -150,7 +153,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      iOS获取一年后的时间
+      WKWebView在iOS9上崩溃
     </h1>
   
 
@@ -158,16 +161,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>虽然说是获取一年后的时间，但是可以通过设置不同的数值，达到获取N年前或N年后的时间的效果。<br>当<code>数值&gt;0</code>时，获取之后的时间，如果<code>数值&lt;0</code>则为获取之前的时间。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSDate</span> *date = [<span class="built_in">NSDate</span> date];</div><div class="line"><span class="built_in">NSCalendar</span> *calendar = [<span class="built_in">NSCalendar</span> currentCalendar];</div><div class="line"><span class="built_in">NSDateComponents</span> *components = [[<span class="built_in">NSDateComponents</span> alloc] init];</div><div class="line">[components setYear:<span class="number">1</span>];</div><div class="line">[components setMonth:<span class="number">0</span>];</div><div class="line">[components setDay:<span class="number">0</span>];</div><div class="line"><span class="comment">// laterDate则为一年后的时间</span></div><div class="line"><span class="built_in">NSDate</span> *laterDate = [calendar dateByAddingComponents:components toDate:date options:<span class="built_in">NSCalendarMatchStrictly</span>];</div></pre></td></tr></table></figure>
-<p>善于使用<code>NSDateComponents</code>提供的属性，可以计算出你想要的任何时间，N年前、N年后、N个月前、N个月后、N天前、N天后…</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> year;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> month;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> day;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> hour;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> minute;</div><div class="line"><span class="keyword">@property</span> <span class="built_in">NSInteger</span> second;</div></pre></td></tr></table></figure>
+        <p>最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。</p>
+<p>具体操作：通过 push 网页控制器，然后在 pop 之后，程序就崩了。</p>
+<p>打断点也定位不到 crash 代码行，打开 Xcode 的僵尸模式之后，控制台也仅输出以下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-[XPWebViewController retain]: message sent to deallocated instance 0x7fa1974a33f0</div></pre></td></tr></table></figure></p>
+<p>经过排查发现是因为 WKWebView 的 UIScrollView 代理惹的祸，因为我需要实时监听网页的滚动区域来处理一些事情，所以我把 <code>WKWebView.scrollView.delegate</code> 设置为当前控制器。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.webView.scrollView.delegate = <span class="keyword">self</span>;</div></pre></td></tr></table></figure>
+<p>既然知道了症结所在，那么只需要在控制器销毁的时候及时清掉代理就行了：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    <span class="keyword">self</span>.webView.scrollView.delegate = <span class="literal">nil</span>; <span class="comment">// Fix iOS9 crash.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/12/08/ios-calendar-later/" class="archive-article-date">
-  	<time datetime="2016-12-08T05:50:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-08</time>
+      <a href="/2018/07/06/WKWebView-crash-on-iOS9/" class="archive-article-date">
+  	<time datetime="2018-07-06T10:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -185,18 +191,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/12/09/navigationbar-transparent/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          iOS导航栏透明效果
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/02/android-rect-contains/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android判断点击区域</div>
+    <a href="/2018/07/06/iOS-subway-map/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS地铁图</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -138,6 +138,111 @@
       <div class="body-wrap">
         
   
+    <article id="post-python-webspider" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/27/python-webspider/">Python网页爬虫</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>最近在自学Python，感谢<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000" target="_blank" rel="external">廖雪峰前辈的Python教程</a>。看了这教程，算是对Python语法有了一点基础，越发地迷上Python，想继续深入学习Python，在网上找了下资料，发现鱼C网站有Python视频教程，更难能可贵的是居然有百度网盘的分享地址，鱼C的教程我并不陌生，之前就看过鱼C出品的汇编语言教程，觉得挺不错的。所以就想着保存一份到自己的网盘上，但是10页数据一共97个视频，难道你还要一个一个点击进入，再点击查看百度网盘的下载地址吗？想想我都觉得要疯了，所以用Python写了这个小脚本，负责抓取所有的百度网盘链接和提取密码，然后调用Mac平台的open命令打开Safari，剩下的事情就简单多了，直接copy提取密码，Command+V然后回车，进去后再保存到自己的网盘。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python</span></div><div class="line"><span class="comment">#coding:UTF-8</span></div><div class="line"> </div><div class="line"><span class="keyword">import</span> urllib</div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebSpider</span><span class="params">(object)</span>:</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="keyword">pass</span></div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">startRun</span><span class="params">(self, baseUrl, startPage, endPage)</span>:</span></div><div class="line">		<span class="keyword">for</span> page <span class="keyword">in</span> range(startPage, endPage+<span class="number">1</span>):</div><div class="line">			url = baseUrl + str(page)</div><div class="line">			links = self.getPageLinksWithUrl(url)</div><div class="line">			<span class="keyword">print</span> len(links)</div><div class="line">			<span class="keyword">for</span> link <span class="keyword">in</span> links:</div><div class="line">				bdInfo = self.getBaiduYunInfo(link)</div><div class="line">				<span class="keyword">if</span> bdInfo == <span class="keyword">None</span>:</div><div class="line">					<span class="keyword">print</span> <span class="string">'The url is parse error: %s'</span> % link</div><div class="line">					<span class="keyword">continue</span></div><div class="line">				<span class="keyword">print</span> bdInfo</div><div class="line">				bdUrl = bdInfo[<span class="number">0</span>]</div><div class="line">				self.openSafari(bdUrl)</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getPageLinksWithUrl</span><span class="params">(self, url)</span>:</span></div><div class="line">		html = self.getHtmlWithUrl(url)</div><div class="line">		links = self.getLinksWithHtml(html)</div><div class="line">		<span class="keyword">return</span> links</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getHtmlWithUrl</span><span class="params">(self, url)</span>:</span></div><div class="line">		fp = urllib.urlopen(url)</div><div class="line">		html = fp.read()</div><div class="line">		<span class="keyword">return</span> html</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getLinksWithHtml</span><span class="params">(self, html)</span>:</span></div><div class="line">		links = []</div><div class="line">		pattern = re.compile(<span class="string">'&lt;div\\s*class=[\'\"](article|tagleft)[\'\"]&gt;\\s*&lt;h2&gt;\\s*&lt;a\\s*href=[\'"]([^"\']*?)[\'"]\\s+rel="bookmark"'</span>)</div><div class="line">		items = re.findall(pattern, html)</div><div class="line">		<span class="keyword">for</span> item <span class="keyword">in</span> items:</div><div class="line">			links.append(item[<span class="number">1</span>])</div><div class="line">		<span class="comment"># remove repeat</span></div><div class="line">		links = list(set(links))</div><div class="line">		<span class="keyword">return</span> links</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">saveLinksToFile</span><span class="params">(self, file)</span>:</span></div><div class="line">		<span class="keyword">pass</span></div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">getBaiduYunInfo</span><span class="params">(self, url)</span>:</span></div><div class="line">		html = self.getHtmlWithUrl(url)</div><div class="line">		pattern = re.compile(<span class="string">'&lt;p\\s+class=[\'\"]part[\'\"]\\s+id=[\'\"]download_button_part[\'\"]&gt;(.*?)&lt;/p&gt;'</span>)</div><div class="line">		items = re.findall(pattern, html)</div><div class="line">		<span class="keyword">if</span> len(items) == <span class="number">0</span>:</div><div class="line">			<span class="comment"># fenye</span></div><div class="line">			paging = re.compile(<span class="string">'&lt;div\\s+class=[\'\"]fenye[\'\"]&gt;(.*?)&lt;/div&gt;'</span>)</div><div class="line">			fenye = re.findall(paging, html)</div><div class="line">			<span class="keyword">if</span> len(fenye) == <span class="number">0</span>:</div><div class="line">				<span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">			pagecount = len(fenye[<span class="number">0</span>].split(<span class="string">'&lt;/a&gt;'</span>)) - <span class="number">1</span></div><div class="line">			<span class="keyword">if</span> pagecount &lt;= <span class="number">0</span>:</div><div class="line">				<span class="keyword">return</span> <span class="keyword">None</span></div><div class="line">			pageUrl = <span class="string">r'%s/%d'</span> % (url, pagecount)</div><div class="line">			<span class="keyword">return</span> self.getBaiduYunInfo(pageUrl)</div><div class="line">		_, bdInfo = items[<span class="number">0</span>].split(<span class="string">'|'</span>)</div><div class="line">		<span class="keyword">return</span> self.parseBaiduYunATag(bdInfo)</div><div class="line">		</div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">parseBaiduYunATag</span><span class="params">(self, string)</span>:</span></div><div class="line">		pattern = re.compile(<span class="string">'(href="([^\'\"]*)"|：(\\w&#123;4&#125;))'</span>)</div><div class="line">		items = re.findall(pattern, string)</div><div class="line">		bdUrl = items[<span class="number">0</span>][<span class="number">1</span>]</div><div class="line">		bdPassword = items[<span class="number">1</span>][<span class="number">2</span>]</div><div class="line">		<span class="keyword">return</span> (bdUrl, bdPassword)</div><div class="line"> </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">openSafari</span><span class="params">(self, url)</span>:</span></div><div class="line">		<span class="keyword">if</span> sys.platform != <span class="string">'darwin'</span>:</div><div class="line">			<span class="keyword">return</span></div><div class="line">		cmd = <span class="string">r'open %s'</span> % url</div><div class="line">		os.system(cmd)</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">	url = <span class="string">r"http://blog.fishc.com/category/python/page/"</span></div><div class="line">	spider = WebSpider()</div><div class="line">	spider.startRun(url, <span class="number">1</span>, <span class="number">1</span>)</div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	main()</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/27/python-webspider/" class="archive-article-date">
+  	<time datetime="2016-01-27T09:43:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-textlength-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/12/textlength-js/">JavaScript实时统计输入框字符数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="该插件提供一下功能"><a href="#该插件提供一下功能" class="headerlink" title="该插件提供一下功能"></a>该插件提供一下功能</h2><ul>
+<li>实时统计文本字符数，提醒用户当前还可输入多少字符</li>
+<li>限制用户输入的文本长度</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*!</span></div><div class="line"> * 字符统计工具</div><div class="line"> * @example</div><div class="line"> * &lt;textarea name="desc" id="desc"&gt;&lt;/textarea&gt;&lt;p&gt;还可以输入&lt;em&gt;&lt;/em&gt;字符&lt;/p&gt;</div><div class="line"> * new WordCountTool(&#123;id:'#desc', charset:'UTF-8', maxlength:2000&#125;);</div><div class="line"> */</div><div class="line">;(<span class="function"><span class="keyword">function</span>(<span class="params">window, $</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> WordCountTool = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> config = <span class="literal">null</span>;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">            config = $.extend(&#123;&#125;, &#123;<span class="attr">id</span>:<span class="string">'#wordcount'</span>, <span class="attr">charset</span>:<span class="string">'UTF-8'</span>, <span class="attr">maxlength</span>: <span class="number">1000</span>&#125;, options);</div><div class="line">            $(config.id).on(<span class="string">'keyup'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                startStatistics.call(self, <span class="keyword">this</span>);</div><div class="line">            &#125;);</div><div class="line">            $(config.id).trigger(<span class="string">'keyup'</span>);</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> startStatistics = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> val = $(obj).val(),</div><div class="line">                curLength = config.maxlength,</div><div class="line">                strLength = strlen(val),</div><div class="line">                isUtf8 = config.charset.toUpperCase() == <span class="string">'UTF-8'</span>;</div><div class="line">                <span class="keyword">if</span> ($.trim(val) == <span class="string">''</span>) val = <span class="string">''</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; val.length; i++) &#123;</div><div class="line">                    <span class="keyword">var</span> charCode = val.charCodeAt(i);</div><div class="line">                    <span class="keyword">if</span> (charCode &lt; <span class="number">0</span> || charCode &gt; <span class="number">255</span>) &#123;</div><div class="line">                        curLength -= (isUtf8 ? <span class="number">2</span> : <span class="number">1</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"> </div><div class="line">                <span class="keyword">if</span> (curLength &gt;= strLength) &#123;</div><div class="line">                    $(obj).next(<span class="string">'p'</span>).children(<span class="string">'em'</span>).html(curLength - strLength);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    $(obj).val(strcut(val, config.maxlength));</div><div class="line">                &#125;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> strlen = <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span>($.trim(str) == <span class="string">''</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            <span class="keyword">return</span> ($.browser.msie &amp;&amp; str.indexOf(<span class="string">'\n'</span>) != <span class="number">-1</span>) ? str.replace(<span class="regexp">/\r?\n/g</span>, <span class="string">'_'</span>).length : str.length;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> strcut = <span class="function"><span class="keyword">function</span>(<span class="params">str, maxlen</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> curLength = <span class="number">0</span>,</div><div class="line">                result = <span class="string">''</span>,</div><div class="line">                charByteLength = config.charset.toUpperCase() == <span class="string">'UTF-8'</span> ? <span class="number">3</span> : <span class="number">2</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</div><div class="line">                <span class="keyword">var</span> charCode = str.charCodeAt(i);</div><div class="line">                curLength += (charCode &lt; <span class="number">0</span> || charCode &gt; <span class="number">255</span>) ? charByteLength : <span class="number">1</span>;</div><div class="line">                <span class="keyword">if</span> (curLength &gt; maxlen) &#123;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">                result += str.substr(i, <span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        init.call(<span class="keyword">this</span>, options);</div><div class="line">    &#125;;</div><div class="line"> </div><div class="line">    <span class="built_in">window</span>.WordCountTool = WordCountTool;</div><div class="line">&#125;(<span class="built_in">window</span>, jQuery));</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/12/textlength-js/" class="archive-article-date">
+  	<time datetime="2016-01-12T08:34:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-carousel-js" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
