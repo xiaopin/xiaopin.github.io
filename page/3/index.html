@@ -138,6 +138,63 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-IB-DESIGNABLE-Caton" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/">IB_DESIGNABLE引起Xcode编写代码时异常卡顿</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近升级了Xcode9之后，发现Xcode经常性卡顿，菊花常现，已经严重影响到代码的编写了，一开始还以为是Xcode9的问题，后来在网上搜索了下，原来老版本的Xcode就存在这个问题，而且是由于<code>IB_DESIGNABLE</code>这个系统宏导致的。</p>
+<p>当我们在自定义视图的定义前面用了<code>IB_DESIGNABLE</code>这个宏来修饰，就表明了我们这个视图是可以在SB/XIB中实时预览的，本来这是一个很好用的功能，我们直接修改了视图代码就可以在SB上直接渲染出来，这真是所见即所得，简直棒到没朋友。但是这功能确实也坑了我们一把，当我们在编写代码时，只要修改了源码，哪怕只敲了一个字符，Xcode也会自动重新编译SB文件，这就很尴尬了，当我们不断敲代码的时候，Xcode就不断地重新编译SB文件，最后导致Xcode异常卡顿。</p>
+<p>所以要解决这个卡顿问题，有两个方案：</p>
+<ul>
+<li>自定义视图去掉<code>IB_DESIGNABLE</code>宏修饰；</li>
+<li>告诉Xcode不自动编译SB文件，选中项目的SB文件，把<code>Editor</code> -&gt; <code>Automatically Refresh Views</code>菜单项的勾去掉即可。</li>
+</ul>
+<p><del>但是我之前用Xcode8的时候就没发现卡顿现象啊，真是够坑的</del></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/" class="archive-article-date">
+  	<time datetime="2017-11-07T03:05:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-UITableViewCell-copy-menu" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -669,60 +726,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macos-window-center" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/macos-window-center/">macOS应用窗口居中显示</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>调整窗口大小或居中显示，必须将NSWindow的<code>restorable</code>属性设置为NO，否则无效果。</p>
-</blockquote>
-<p>应用在关闭时会记住window当前的位置以及frame，在下次启动应用时，系统会将window显示在上次关闭时的位置，并恢复关闭时的frame。有时候我们希望在每次打开应用时，应用都能居中显示，或者是我们需要在应用启动时，指定窗口的frame，则可以在NSWindowController的windowDidLoad方法进行设置：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setRestorable:<span class="literal">NO</span>];</div><div class="line">  [<span class="keyword">self</span>.window setFrame:<span class="built_in">NSMakeRect</span>(<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">800.0</span>, <span class="number">600.0</span>) display:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window center];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
-  	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
 	</div>
 
       

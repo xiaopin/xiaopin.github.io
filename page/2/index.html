@@ -138,6 +138,64 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-copy-paste-phone-from-contacts" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/30/iOS-copy-paste-phone-from-contacts/">iOS从通讯录中复制粘贴电话号码携带特殊字符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在做收货地址的功能，其中有个场景就是用户先从手机<code>通讯录</code>中拷贝了某个电话号码，然后将其粘贴到输入框中。一切看似正常，但是这里有个问题，从通讯录中拷贝的电话号码，自带了特殊的不可见unicode字符，如果你不打断点查看变量值，压根不会看到这些特殊字符。</p>
+<h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>这些特殊字符在OC和Swift中有不同的表现形式:</p>
+<p>Objective-C:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phone	__NSCFString *	@&quot;\U0000202d(888) 555-5512\U0000202c&quot;	0x000060000065b7b0</div></pre></td></tr></table></figure></p>
+<p>Swift:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">phone	String	&quot;\u&#123;e2&#125;(888) 555-5512\u&#123;e2&#125;&quot;</div></pre></td></tr></table></figure></p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>Swift:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeSpecialCharactersForPhoneNumber</span><span class="params">(<span class="number">_</span> phone: String)</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">    <span class="keyword">var</span> result = phone</div><div class="line">    [<span class="string">"+86"</span>,<span class="string">"+"</span>,<span class="string">"-"</span>,<span class="string">"("</span>,<span class="string">")"</span>,<span class="string">" "</span>].forEach &#123;</div><div class="line">        result = result.replacingOccurrences(of: $<span class="number">0</span>, with: <span class="string">""</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 过滤`通讯录`拷贝的特殊字符</span></div><div class="line">    result = result.replacingOccurrences(of: <span class="string">"\\p&#123;Cf&#125;"</span>, with: <span class="string">""</span>, options: .regularExpression)</div><div class="line">    <span class="keyword">return</span> result</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Objective-C</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[phone stringByReplacingOccurrencesOfString:<span class="string">@"\\p&#123;Cf&#125;"</span> withString:<span class="string">@""</span> options:<span class="built_in">NSRegularExpressionSearch</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, phone.length)]</div></pre></td></tr></table></figure>
+<p>参考: <a href="https://stackoverflow.com/questions/47623828/ios-copy-paste-phone-from-contacts-to-uitextfield-adds-strange-unicode-character" target="_blank" rel="external">https://stackoverflow.com/questions/47623828/ios-copy-paste-phone-from-contacts-to-uitextfield-adds-strange-unicode-character</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/30/iOS-copy-paste-phone-from-contacts/" class="archive-article-date">
+  	<time datetime="2018-03-30T09:16:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-swift-substr" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -781,63 +839,6 @@
       
       <a href="/2017/11/17/UITextView-return-character/" class="archive-article-date">
   	<time datetime="2017-11-17T08:40:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-IB-DESIGNABLE-Caton" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/">IB_DESIGNABLE引起Xcode编写代码时异常卡顿</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近升级了Xcode9之后，发现Xcode经常性卡顿，菊花常现，已经严重影响到代码的编写了，一开始还以为是Xcode9的问题，后来在网上搜索了下，原来老版本的Xcode就存在这个问题，而且是由于<code>IB_DESIGNABLE</code>这个系统宏导致的。</p>
-<p>当我们在自定义视图的定义前面用了<code>IB_DESIGNABLE</code>这个宏来修饰，就表明了我们这个视图是可以在SB/XIB中实时预览的，本来这是一个很好用的功能，我们直接修改了视图代码就可以在SB上直接渲染出来，这真是所见即所得，简直棒到没朋友。但是这功能确实也坑了我们一把，当我们在编写代码时，只要修改了源码，哪怕只敲了一个字符，Xcode也会自动重新编译SB文件，这就很尴尬了，当我们不断敲代码的时候，Xcode就不断地重新编译SB文件，最后导致Xcode异常卡顿。</p>
-<p>所以要解决这个卡顿问题，有两个方案：</p>
-<ul>
-<li>自定义视图去掉<code>IB_DESIGNABLE</code>宏修饰；</li>
-<li>告诉Xcode不自动编译SB文件，选中项目的SB文件，把<code>Editor</code> -&gt; <code>Automatically Refresh Views</code>菜单项的勾去掉即可。</li>
-</ul>
-<p><del>但是我之前用Xcode8的时候就没发现卡顿现象啊，真是够坑的</del></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/" class="archive-article-date">
-  	<time datetime="2017-11-07T03:05:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-07</time>
 </a>
       
 	<div class="article-tag tagcloud">
