@@ -138,6 +138,118 @@
       <div class="body-wrap">
         
   
+    <article id="post-UIColor2UIImage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/14/UIColor2UIImage/">UIColor转UIImage</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>没啥好说的，直接看代码</p>
+<p>⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇</p>
+<h3 id="h头文件"><a href="#h头文件" class="headerlink" title=".h头文件"></a>.h头文件</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">Color</span>)</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage且大小为1x1</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> * _Nonnull)color;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage并指定大小</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *  @param size  图片大小</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> * _Nonnull)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<h3 id="m文件"><a href="#m文件" class="headerlink" title=".m文件"></a>.m文件</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">Color</span>)</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage且大小为1x1</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage并指定大小</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *  @param size  图片大小</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, color.CGColor);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/12/14/UIColor2UIImage/" class="archive-article-date">
+  	<time datetime="2017-12-14T09:13:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-UITextView-return-character" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/17/UITextView-return-character/">UITextView禁用回车符</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目有个需求，需要在UITextView中禁止用户输入回车符，因为后台不会过滤回车符号，所以当AFNetworking请求数据时，如果返回的数据中包含了回车符，那么JSON解析将会失败。既然后台不处理，那没办法，只能在UITextView上禁用回车符了。</p>
+<p>我们需要解决以下问题：</p>
+<ol>
+<li>禁止通过键盘的<code>return</code>键输入回车符</li>
+<li>粘贴文本时过滤掉文本中的回车符</li>
+</ol>
+<p>对于问题1，我们可以通过重写<code>- (void)insertText:(NSString *)text</code>方法，判断text是否为<code>\n</code>即可；<br>对于问题2，当用户点击Paste按钮时，系统会调用UITextView的<code>- (void)paste:(id)sender</code>方法，我们可以从此处下手。</p>
+<p>下面附上示例代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPTextView</span> : <span class="title">UITextView</span></span></div><div class="line"></div><div class="line"><span class="comment">/// 是否禁用回车符</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">getter</span>=isDisableReturnCharacter) <span class="built_in">BOOL</span> disableReturnCharacter;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPTextView</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)insertText:(<span class="built_in">NSString</span> *)text &#123;</div><div class="line">    <span class="keyword">if</span> (_disableReturnCharacter &amp;&amp; [text isEqualToString:<span class="string">@"\n"</span>]) &#123;</div><div class="line">        <span class="comment">// 禁止输入回车符</span></div><div class="line">        [<span class="keyword">self</span> resignFirstResponder];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">super</span> insertText:text];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)paste:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (_disableReturnCharacter) &#123;</div><div class="line">        <span class="built_in">NSString</span> *text = [[<span class="built_in">UIPasteboard</span> generalPasteboard] string];</div><div class="line">        <span class="keyword">if</span> ([text containsString:<span class="string">@"\n"</span>]) &#123;</div><div class="line">            <span class="comment">// 需要从粘贴的字符串中把回车符过滤掉</span></div><div class="line">            text = [[text componentsSeparatedByString:<span class="string">@"\n"</span>] componentsJoinedByString:<span class="string">@""</span>];</div><div class="line">            [<span class="keyword">self</span> replaceRange:<span class="keyword">self</span>.selectedTextRange withText:text];</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">super</span> paste:sender];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>下面安利一下我写的<code>XPTextView</code>，不仅可以禁用回车符，还可以设置占位字符：</p>
+<p><a href="https://github.com/xiaopin/XPTextView.git" target="_blank" rel="external">👉源码戳这里👈</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/17/UITextView-return-character/" class="archive-article-date">
+  	<time datetime="2017-11-17T08:40:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-IB-DESIGNABLE-Caton" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -610,117 +722,6 @@
       
       <a href="/2017/07/14/reloadData-completion/" class="archive-article-date">
   	<time datetime="2017-07-14T02:42:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-UIScrollView-current-page" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/13/UIScrollView-current-page/">UIScrollView计算当前滚动页码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们需要在UIScrollView滚动时根据滚动偏移量实时计算当前滚动到第几页，需要实现<code>scrollViewDidScroll(_:)</code>这个代理方法，记得开启分页功能<code>scrollView.isPagingEnabled = true</code></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="number">_</span> scrollView: UIScrollView)</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> pageWidth = scrollView.bounds.width</div><div class="line">    <span class="keyword">let</span> offsetX = scrollView.contentOffset.x</div><div class="line">    <span class="keyword">let</span> currentPage = <span class="type">Int</span>(floor((offsetX - pageWidth / <span class="number">2</span>) / pageWidth)) + <span class="number">1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/13/UIScrollView-current-page/" class="archive-article-date">
-  	<time datetime="2017-07-13T03:32:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS11-contentInsetAdjustmentBehavior" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/">UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在iOS11中，苹果对UIScrollView新增了<code>contentInsetAdjustmentBehavior</code>属性来取代之前的UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性。</p>
-</blockquote>
-<p>在iOS11之前的项目中，如果我们需要将滚动视图的内容布局从屏幕左上角开始，也就是内容穿透UINavigationBar的效果，只需要设置UIViewController的<code>automaticallyAdjustsScrollViewInsets</code>属性为<code>NO</code>即可，告诉系统不要自动调整滚动视图的<code>contentInset</code>。但是在iOS11中，你将发现尽管将automaticallyAdjustsScrollViewInsets设置为NO了，但是滚动视图的内容还是往下偏移了64pt，从导航栏底部开始显示，通过查看automaticallyAdjustsScrollViewInsets的声明发现在iOS11中该属性已经被废弃以及被UIScrollView的<code>contentInsetAdjustmentBehavior</code>属性所替代了。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>) <span class="built_in">BOOL</span> automaticallyAdjustsScrollViewInsets API_DEPRECATED_WITH_REPLACEMENT(<span class="string">"Use UIScrollView's contentInsetAdjustmentBehavior instead"</span>, ios(<span class="number">7.0</span>,<span class="number">11.0</span>),tvos(<span class="number">7.0</span>,<span class="number">11.0</span>)); <span class="comment">// Defaults to YES</span></div></pre></td></tr></table></figure>
-<p>我们再看下contentInsetAdjustmentBehavior的声明</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>) <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span> contentInsetAdjustmentBehavior API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
-<p>contentInsetAdjustmentBehavior对应的是一个UIScrollViewContentInsetAdjustmentBehavior枚举类型的值，该枚举定义如下:</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, <span class="built_in">UIScrollViewContentInsetAdjustmentBehavior</span>) &#123;</div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAutomatic</span>, <span class="comment">// Similar to .scrollableAxes, but will also adjust the top &amp; bottom contentInset when the scroll view is owned by a view controller with automaticallyAdjustsScrollViewContentInset = YES inside a navigation controller, regardless of whether the scroll view is scrollable</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentScrollableAxes</span>, <span class="comment">// Edges for scrollable axes are adjusted (i.e., contentSize.width/height &gt; frame.size.width/height or alwaysBounceHorizontal/Vertical = YES)</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>, <span class="comment">// contentInset is not adjusted</span></div><div class="line">    <span class="built_in">UIScrollViewContentInsetAdjustmentAlways</span>, <span class="comment">// contentInset is always adjusted by the scroll view's safeAreaInsets</span></div><div class="line">&#125; API_AVAILABLE(ios(<span class="number">11.0</span>),tvos(<span class="number">11.0</span>));</div></pre></td></tr></table></figure>
-<p>通过查看UIScrollViewContentInsetAdjustmentBehavior的定义，我们很容易知道想要实现前面所说的效果，只需将滚动设置的contentInsetAdjustmentBehavior属性设置为对应的UIScrollViewContentInsetAdjustmentNever即可。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    scrollView.contentInsetAdjustmentBehavior = <span class="built_in">UIScrollViewContentInsetAdjustmentNever</span>;</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">	<span class="keyword">self</span>.automaticallyAdjustsScrollViewInsets = <span class="literal">NO</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在iOS11之前，系统会通过动态调整UIScrollView的contentInset属性来实现视图内容的偏移，但是在iOS11中，系统不再调整UIScrollView的contentInset，而是通过<code>contentInsetAdjustmentBehavior</code>和<code>adjustedContentInset</code>来配合完成。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/07/06/iOS11-contentInsetAdjustmentBehavior/" class="archive-article-date">
-  	<time datetime="2017-07-06T06:51:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-06</time>
 </a>
       
 	<div class="article-tag tagcloud">

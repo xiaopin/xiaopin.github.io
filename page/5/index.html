@@ -138,6 +138,114 @@
       <div class="body-wrap">
         
   
+    <article id="post-autolayout-vfl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/autolayout-vfl/">通过VFL(Visual Format Language)使用AutoLayout</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Apple官网关于VFL的描述:<a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1</a></p>
+<p>如果需要使用AutoLayout，那么必须将视图的<code>translatesAutoresizingMaskIntoConstraints</code>属性设置为<code>NO</code>，否则约束不会生效，并且控制器会打印一堆关于<code>[LayoutConstraints] Unable to simultaneously satisfy constraints.</code>的错误。</p>
+<h3 id="示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt"><a href="#示例一-单个view布局-左右距离父视图8pt-顶部距离父视图20pt-高度等于40pt" class="headerlink" title="示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt"></a>示例一: 单个view布局,左右距离父视图8pt,顶部距离父视图20pt,高度等于40pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSArray</span> *array1 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-[orangeView]-|"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line"><span class="built_in">NSArray</span> *array2 = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array1];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:array2];</div></pre></td></tr></table></figure>
+<h3 id="示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt"><a href="#示例二-两个视图垂直布局-两个视图左右均距离父视图0pt-高度为40pt-orangeView顶部距离父视图20pt-purpleView顶部距离orangeView的底部8pt" class="headerlink" title="示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt"></a>示例二: 两个视图垂直布局,两个视图左右均距离父视图0pt,高度为40pt,orangeView顶部距离父视图20pt,purpleView顶部距离orangeView的底部8pt</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"></div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[orangeView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==40)]"</span> options:<span class="number">0</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView)]];</div><div class="line"></div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|[purpleView]|"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[orangeView]-[purpleView(==orangeView)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:<span class="literal">nil</span> views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+<h3 id="示例三-两个视图水平局部-两个视图等宽等高-且间距相等"><a href="#示例三-两个视图水平局部-两个视图等宽等高-且间距相等" class="headerlink" title="示例三: 两个视图水平局部,两个视图等宽等高,且间距相等"></a>示例三: 两个视图水平局部,两个视图等宽等高,且间距相等</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIView</span> *orangeView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[orangeView setBackgroundColor:[<span class="built_in">UIColor</span> orangeColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:orangeView];</div><div class="line"><span class="built_in">UIView</span> *purpleView = [[<span class="built_in">UIView</span> alloc] init];</div><div class="line">[purpleView setBackgroundColor:[<span class="built_in">UIColor</span> purpleColor]];</div><div class="line">[<span class="keyword">self</span>.view addSubview:purpleView];</div><div class="line"></div><div class="line">[orangeView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">[purpleView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">NSMutableArray</span> *constraints = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"H:|-margin-[orangeView(purpleView)]-margin-[purpleView]-margin-|"</span> options:<span class="built_in">NSLayoutFormatAlignAllTop</span>|<span class="built_in">NSLayoutFormatAlignAllBottom</span> metrics:@&#123;<span class="string">@"margin"</span>:@<span class="number">20.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[constraints addObjectsFromArray:[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:|-20-[orangeView(==height)]"</span> options:<span class="built_in">NSLayoutFormatDirectionLeadingToTrailing</span> metrics:@&#123;<span class="string">@"height"</span>:@<span class="number">40.0</span>&#125; views:<span class="built_in">NSDictionaryOfVariableBindings</span>(orangeView, purpleView)]];</div><div class="line">[<span class="keyword">self</span>.view addConstraints:constraints];</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/autolayout-vfl/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-android-rect-contains" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/02/android-rect-contains/">Android判断点击区域</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该坐标点所处的区域。</p>
+<blockquote>
+<p>需要注意的是，Android中的<code>Rect</code>和iOS中的<code>CGRect</code>的概念有点不一样，iOS中的CGRect通过<code>CGRectMake(x, y, width, height)</code>方法进行创建，而Android中的Rect通过<code>public Rect(int left, int top, int right, int bottom)</code>初始化。iOS中的是<code>x</code>、<code>y</code>、<code>width</code>、<code>height</code>，对应的是视图的<code>x坐标点</code>、<code>y坐标点</code>、<code>视图的宽度值</code>、<code>视图的高度值</code>；而Android中的是<code>left</code>、<code>top</code>、<code>right</code>、<code>bottom</code>对应的是视图的<code>视图左边距坐标点</code>、<code>视图顶部边距的坐标点</code>、<code>视图右边距的坐标点</code>、<code>视图底部边距的坐标点</code>。Android中的Rect更类似于iOS中的UIEdgeInsets的概念。</p>
+</blockquote>
+<h2 id="下面附上源码"><a href="#下面附上源码" class="headerlink" title="下面附上源码"></a>下面附上源码</h2><h4 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/activity_main"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:paddingBottom</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">android:paddingLeft</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingRight</span>=<span class="string">"@dimen/activity_horizontal_margin"</span></div><div class="line">    <span class="attr">android:paddingTop</span>=<span class="string">"@dimen/activity_vertical_margin"</span></div><div class="line">    <span class="attr">tools:context</span>=<span class="string">"com.example.wupincheng.myapplication.MainActivity"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/main_button"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"800dp"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Button"</span>/&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="Activity代码"><a href="#Activity代码" class="headerlink" title="Activity代码"></a>Activity代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> x;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> y;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</div><div class="line">                <span class="comment">/**</span></div><div class="line">                // 水平N等分,通过将count设置为不同的数值就可达到将View按照水平方向平分为N分</div><div class="line">                int count = 3;</div><div class="line">                int averageWidth = view.getWidth() / count;</div><div class="line">                int height = view.getHeight();</div><div class="line"></div><div class="line">                for (int i=0; i&lt;count; i++) &#123;</div><div class="line">                    int left = averageWidth * i;</div><div class="line">                    Rect rect = new Rect(left, 0, left+averageWidth, height);</div><div class="line">                    if (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println("点击按钮第"+i+"块区域");</div><div class="line">                        break;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                 */</div><div class="line"></div><div class="line">                <span class="comment">// 十字四等分</span></div><div class="line">                <span class="keyword">int</span> averageWidth = view.getWidth() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">int</span> averageHeight = view.getHeight() / <span class="number">2</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; i++) &#123;</div><div class="line">                    <span class="keyword">int</span> left = averageWidth * (i%<span class="number">2</span>);</div><div class="line">                    <span class="keyword">int</span> top = averageHeight * (i/<span class="number">2</span>);</div><div class="line">                    Rect rect = <span class="keyword">new</span> Rect(left, top, left+averageWidth, top+averageHeight);</div><div class="line">                    <span class="keyword">if</span> (rect.contains(x, y)) &#123;</div><div class="line">                        System.out.println(<span class="string">"点击按钮第"</span>+i+<span class="string">"块区域"</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        findViewById(R.id.main_button).setOnTouchListener(<span class="keyword">new</span> View.OnTouchListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View view, MotionEvent motionEvent)</span> </span>&#123;</div><div class="line">                <span class="keyword">if</span> (motionEvent.getAction() == MotionEvent.ACTION_DOWN) &#123;</div><div class="line">                    x = (<span class="keyword">int</span>)motionEvent.getX();</div><div class="line">                    y = (<span class="keyword">int</span>)motionEvent.getY();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/02/android-rect-contains/" class="archive-article-date">
+  	<time datetime="2016-12-02T13:26:47.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo-repository" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     

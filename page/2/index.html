@@ -138,6 +138,128 @@
       <div class="body-wrap">
         
   
+    <article id="post-swift-OptionSet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/13/swift-OptionSet/">Swift选项集合(OptionSet)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Objective-C中的NS-OPTION宏"><a href="#Objective-C中的NS-OPTION宏" class="headerlink" title="Objective-C中的NS_OPTION宏"></a>Objective-C中的NS_OPTION宏</h3><p>对于iOS开发者来说，<code>NS_OPTION</code>这个宏应该都不会陌生吧，这个宏给我们的开发带来了极大的便利。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="built_in">NS_OPTIONS</span>(<span class="built_in">NSUInteger</span>, <span class="built_in">UIViewAutoresizing</span>) &#123;</div><div class="line">    <span class="built_in">UIViewAutoresizingNone</span>                 = <span class="number">0</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleLeftMargin</span>   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleWidth</span>        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleRightMargin</span>  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleTopMargin</span>    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleHeight</span>       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</div><div class="line">    <span class="built_in">UIViewAutoresizingFlexibleBottomMargin</span> = <span class="number">1</span> &lt;&lt; <span class="number">5</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>Objective-C中可以通过<code>|</code>来组合选项，通过<code>&amp;</code>来判断给定的选项中是否包含某个成员。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIViewAutoresizing</span> autoresizing = <span class="built_in">UIViewAutoresizingFlexibleWidth</span> | <span class="built_in">UIViewAutoresizingFlexibleHeight</span>;</div><div class="line"><span class="keyword">if</span> (autoresizing &amp; <span class="built_in">UIViewAutoresizingFlexibleWidth</span>) &#123;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>|=</code>来追加选项。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">autoresizing |= <span class="built_in">UIViewAutoresizingFlexibleLeftMargin</span>;</div></pre></td></tr></table></figure>
+<h3 id="OptionSet协议"><a href="#OptionSet协议" class="headerlink" title="OptionSet协议"></a>OptionSet协议</h3><p>Swift使用struct来遵从<code>OptionSet</code>协议，以引入选项集合，而非enum。为什么这样处理呢？当枚举成员互斥的时候，比如说，一次只有一个选项可以被选择的情况下，枚举是非常好的。但是和 C 不同，在 Swift 中，你无法把多个枚举成员组合成一个值，而 C 中的枚举对编译器来说就是整型，可以接受任意整数值。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Hobbies</span>: <span class="title">OptionSet</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> rawValue: <span class="type">UInt</span></div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> <span class="keyword">none</span>         = <span class="type">Hobbies</span>(rawValue: <span class="number">0</span>) <span class="comment">// 这人很懒,居然没任何爱好😂</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> basketball   = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">0</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> football     = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">1</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> baseball     = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">2</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> swim         = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">3</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> badminton    = <span class="type">Hobbies</span>(rawValue: <span class="number">1</span> &lt;&lt; <span class="number">4</span>)</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> all: <span class="type">Hobbies</span> = [.basketball, .football, .baseball, .swim, .badminton]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>和C一样，Swift中的选项集合结构体使用了高效的位域来表示，但是这个结构体本身表现为一个集合，它的成员则为被选择的选项。这允许你使用标准的集合运算来维护位域，比如使用<code>contains(_:)</code>来检验集合中是否有某个成员，或者是用<code>union(_:)</code>来组合两个位域，通过<code>remove(_:)</code>来移除某个成员。另外，由于OptionSet继承于ExpressibleByArrayLiteral，你可以使用数组字面量来生成一个选项集合。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> hobbies: <span class="type">Hobbies</span> = [.football, .swim]</div><div class="line"><span class="number">_</span> = hobbies.<span class="built_in">contains</span>(.football) <span class="comment">// true</span></div><div class="line"><span class="number">_</span> = hobbies.<span class="built_in">contains</span>(.baseball) <span class="comment">// false</span></div><div class="line"><span class="comment">// 增加`.badminton`选项</span></div><div class="line">hobbies = hobbies.union(.badminton)</div><div class="line"><span class="comment">// 移除`.football`选项</span></div><div class="line">hobbies.remove(.football)</div></pre></td></tr></table></figure>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><p>你可以在GitHub上查看到OptionSet的源码<a href="https://github.com/apple/swift/blob/master/stdlib/public/core/OptionSet.swift" target="_blank" rel="external"><code>swift/stdlib/public/core/OptionSet.swift</code></a>，如果你有兴趣。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/13/swift-OptionSet/" class="archive-article-date">
+  	<time datetime="2018-04-13T00:46:38.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-waterfall-layout" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/10/iOS-waterfall-layout/">UICollectionView瀑布流布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>仅作为学习交流之用</p>
+</blockquote>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li>Xcode9.0+</li>
+<li>Swift4.0+</li>
+</ul>
+<h3 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h3><ul>
+<li>废弃<code>CollectionViewWaterfallLayout</code>的<code>contentInset</code>属性，改用UICollectionView的<code>contentInset</code>属性。</li>
+</ul>
+<p>一开始是采用<code>UICollectionView.contentInset</code>来做四周留白的，但是后来发现一旦设置了<code>UICollectionView.contentInset.left</code>的值且<code>&gt;0</code>的时候，整个UICollectionView就会一片空白，但是top、bottom、right属性均不受此影响。测试了网上的一些Demo也发现存在此问题，具体原因不详，如有知道的还望赐教。</p>
+<p>鉴于此，暂时给CollectionViewWaterfallLayout增加了一个contentInset属性。</p>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">CollectionViewDelegateWaterfallLayout</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">/// 返回每个cell的高度</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, heightForItemAt indexPath: IndexPath, itemWidth width: CGFloat)</span></span> -&gt; <span class="type">CGFloat</span></div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionViewWaterfallLayout</span>: <span class="title">UICollectionViewLayout</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 纵列数量</span></div><div class="line">    <span class="keyword">var</span> column: <span class="type">Int</span> = <span class="number">2</span></div><div class="line">    <span class="comment">/// 每一行cell之间的间距</span></div><div class="line">    <span class="keyword">var</span> minimumLineSpacing: <span class="type">CGFloat</span> = <span class="number">5.0</span></div><div class="line">    <span class="comment">/// 每一纵列cell之间的间距</span></div><div class="line">    <span class="keyword">var</span> minimumInteritemSpacing: <span class="type">CGFloat</span> = <span class="number">5.0</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="keyword">var</span> delegate: <span class="type">CollectionViewDelegateWaterfallLayout</span>?</div><div class="line">    <span class="comment">/// 内容偏移</span></div><div class="line">    <span class="keyword">var</span> contentInset: <span class="type">UIEdgeInsets</span> = .zero</div><div class="line">    <span class="comment">/// 每个纵列的Y值偏移量</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> maxYForColumn = [<span class="type">CGFloat</span>]()</div><div class="line">    <span class="comment">/// 布局数据</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> layoutAttributes = [<span class="type">UICollectionViewLayoutAttributes</span>]()</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="keyword">var</span> collectionViewContentSize: <span class="type">CGSize</span> &#123;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> <span class="built_in">max</span> = maxYForColumn.<span class="built_in">max</span>() <span class="keyword">else</span> &#123; <span class="keyword">return</span> .zero &#125;</div><div class="line">        <span class="keyword">return</span> <span class="type">CGSize</span>(width: <span class="number">0.0</span>, height: <span class="built_in">max</span> + contentInset.bottom)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.prepare()</div><div class="line">        maxYForColumn = <span class="type">Array</span>(repeating: contentInset.top, <span class="built_in">count</span>: column)</div><div class="line">        layoutAttributes.removeAll()</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> collectionView = collectionView <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> delegate = delegate <span class="keyword">else</span> &#123;</div><div class="line">            <span class="built_in">assertionFailure</span>(<span class="string">"delegate can'not be nil."</span>)</div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> contentWidth = collectionView.bounds.width - contentInset.<span class="keyword">left</span> - contentInset.<span class="keyword">right</span></div><div class="line">        <span class="keyword">let</span> width = (contentWidth - <span class="type">CGFloat</span>(column - <span class="number">1</span>) * minimumInteritemSpacing) / <span class="type">CGFloat</span>(column)</div><div class="line">        <span class="keyword">let</span> itemCount = collectionView.numberOfItems(inSection: <span class="number">0</span>)</div><div class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> <span class="number">0</span>..&lt;itemCount &#123;</div><div class="line">            <span class="keyword">let</span> indexPath = <span class="type">IndexPath</span>(item: item, section: <span class="number">0</span>)</div><div class="line">            <span class="keyword">let</span> height = delegate.collectionView(collectionView, layout: <span class="keyword">self</span>, heightForItemAt: indexPath, itemWidth: width)</div><div class="line">            <span class="comment">// 计算当前cell应该展示在哪一列上</span></div><div class="line">            <span class="keyword">var</span> targetColumn: <span class="type">Int</span></div><div class="line">            <span class="keyword">if</span> item &lt; column &#123;</div><div class="line">                targetColumn = item</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">let</span> <span class="built_in">min</span> = maxYForColumn.<span class="built_in">min</span>()!</div><div class="line">                targetColumn = maxYForColumn.index(of: <span class="built_in">min</span>)!</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 计算frame</span></div><div class="line">            <span class="keyword">let</span> x = contentInset.<span class="keyword">left</span> + width * <span class="type">CGFloat</span>(targetColumn) + <span class="type">CGFloat</span>(targetColumn) * minimumInteritemSpacing</div><div class="line">            <span class="keyword">let</span> y = minimumLineSpacing + maxYForColumn[targetColumn]</div><div class="line">            <span class="keyword">let</span> attribute = <span class="type">UICollectionViewLayoutAttributes</span>(forCellWith: indexPath)</div><div class="line">            attribute.frame = <span class="type">CGRect</span>(x: x, y: y, width: width, height: height)</div><div class="line">            layoutAttributes.append(attribute)</div><div class="line">            <span class="comment">// 更新当前列的Y值偏移量</span></div><div class="line">            maxYForColumn[targetColumn] = y + height</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForItem</span><span class="params">(at indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionViewLayoutAttributes</span>? &#123;</div><div class="line">        <span class="keyword">return</span> layoutAttributes[indexPath.item]</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutAttributesForElements</span><span class="params">(<span class="keyword">in</span> rect: CGRect)</span></span> -&gt; [<span class="type">UICollectionViewLayoutAttributes</span>]? &#123;</div><div class="line">        <span class="keyword">return</span> layoutAttributes</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">shouldInvalidateLayout</span><span class="params">(forBoundsChange newBounds: CGRect)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> collectionView = collectionView <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">false</span> &#125;</div><div class="line">        <span class="keyword">return</span> !collectionView.bounds.size.equalTo(newBounds.size)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/10/iOS-waterfall-layout/" class="archive-article-date">
+  	<time datetime="2018-04-10T08:28:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-copy-paste-phone-from-contacts" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -727,118 +849,6 @@
       
       <a href="/2018/01/16/iOS-open-QQ-chat/" class="archive-article-date">
   	<time datetime="2018-01-16T07:03:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-UIColor2UIImage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/14/UIColor2UIImage/">UIColor转UIImage</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>没啥好说的，直接看代码</p>
-<p>⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇</p>
-<h3 id="h头文件"><a href="#h头文件" class="headerlink" title=".h头文件"></a>.h头文件</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">Color</span>)</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage且大小为1x1</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> * _Nonnull)color;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage并指定大小</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *  @param size  图片大小</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">nullable</span> <span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> * _Nonnull)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<h3 id="m文件"><a href="#m文件" class="headerlink" title=".m文件"></a>.m文件</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">Color</span>)</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage且大小为1x1</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  将UIColor转换为UIImage并指定大小</div><div class="line"> *</div><div class="line"> *  @param color 图片颜色</div><div class="line"> *  @param size  图片大小</div><div class="line"> *</div><div class="line"> *  @return UIImage</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, color.CGColor);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/12/14/UIColor2UIImage/" class="archive-article-date">
-  	<time datetime="2017-12-14T09:13:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-UITextView-return-character" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/17/UITextView-return-character/">UITextView禁用回车符</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近项目有个需求，需要在UITextView中禁止用户输入回车符，因为后台不会过滤回车符号，所以当AFNetworking请求数据时，如果返回的数据中包含了回车符，那么JSON解析将会失败。既然后台不处理，那没办法，只能在UITextView上禁用回车符了。</p>
-<p>我们需要解决以下问题：</p>
-<ol>
-<li>禁止通过键盘的<code>return</code>键输入回车符</li>
-<li>粘贴文本时过滤掉文本中的回车符</li>
-</ol>
-<p>对于问题1，我们可以通过重写<code>- (void)insertText:(NSString *)text</code>方法，判断text是否为<code>\n</code>即可；<br>对于问题2，当用户点击Paste按钮时，系统会调用UITextView的<code>- (void)paste:(id)sender</code>方法，我们可以从此处下手。</p>
-<p>下面附上示例代码</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPTextView</span> : <span class="title">UITextView</span></span></div><div class="line"></div><div class="line"><span class="comment">/// 是否禁用回车符</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">getter</span>=isDisableReturnCharacter) <span class="built_in">BOOL</span> disableReturnCharacter;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPTextView</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)insertText:(<span class="built_in">NSString</span> *)text &#123;</div><div class="line">    <span class="keyword">if</span> (_disableReturnCharacter &amp;&amp; [text isEqualToString:<span class="string">@"\n"</span>]) &#123;</div><div class="line">        <span class="comment">// 禁止输入回车符</span></div><div class="line">        [<span class="keyword">self</span> resignFirstResponder];</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">super</span> insertText:text];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)paste:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (_disableReturnCharacter) &#123;</div><div class="line">        <span class="built_in">NSString</span> *text = [[<span class="built_in">UIPasteboard</span> generalPasteboard] string];</div><div class="line">        <span class="keyword">if</span> ([text containsString:<span class="string">@"\n"</span>]) &#123;</div><div class="line">            <span class="comment">// 需要从粘贴的字符串中把回车符过滤掉</span></div><div class="line">            text = [[text componentsSeparatedByString:<span class="string">@"\n"</span>] componentsJoinedByString:<span class="string">@""</span>];</div><div class="line">            [<span class="keyword">self</span> replaceRange:<span class="keyword">self</span>.selectedTextRange withText:text];</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">super</span> paste:sender];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<p>下面安利一下我写的<code>XPTextView</code>，不仅可以禁用回车符，还可以设置占位字符：</p>
-<p><a href="https://github.com/xiaopin/XPTextView.git" target="_blank" rel="external">👉源码戳这里👈</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/11/17/UITextView-return-character/" class="archive-article-date">
-  	<time datetime="2017-11-17T08:40:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
