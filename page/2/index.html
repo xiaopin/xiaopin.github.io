@@ -138,6 +138,103 @@
       <div class="body-wrap">
         
   
+    <article id="post-web-reonline" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/17/web-reonline/">博客搬迁至阿里云</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前因"><a href="#前因" class="headerlink" title="前因"></a>前因</h3><p>清明假期前，收到阿里云发来的邮件，说我的域名未指向阿里云国内节点（不含香港）服务器，根据工信部相关法规规定属于空壳网站，需要我尽快处理，否则将删除网站备案接入信息，甚至网站备案号有可能会被注销。</p>
+<p><img src="/images/201804/A6E70FA52B0EF01384ABB896690F28D8.png" alt="email"></p>
+<blockquote>
+<p>我的域名之前确实是指向了国外服务器，我在 GitHub 通过 pages 服务搭建了一个 hexo 博客，并通过 CNAME 解析将域名绑定到了 GitHub pages 上</p>
+</blockquote>
+<p>收到邮件当天，我就将 hexo 博客从 GitHub 迁移到了<a href="https://gitee.com" target="_blank" rel="external">码云</a>上，后来发现码云无法绑定域名，遂将博客继续搬迁到了<a href="https://coding.net" target="_blank" rel="external">Coding</a>上，然后绑定了我的域名并修改了域名解析，将域名指向了 Coding Pages；至此，我心想Coding.net毕竟是国内公司，我把博客托管至它提供的服务器上，应该没事了吧。</p>
+<h3 id="后果"><a href="#后果" class="headerlink" title="后果"></a>后果</h3><p>不曾想，几个工作日后，在4月9日收到工信部备案系统发来的短信，说我的网站备案号<code>粤ICP备15020585</code>已被收回，网站信息被注销了，域名也访问不了了。</p>
+<p>容我悲伤一会 :(</p>
+<h3 id="痛定思痛"><a href="#痛定思痛" class="headerlink" title="痛定思痛"></a>痛定思痛</h3><p>发现将博客托管在第三方提供的服务器上已无望，没办法，只好花点软妹币购买阿里云的服务器了。在经过两天的思量后（其实还不是因为穷），花了RMB199软妹币购买了阿里云的<code>弹性Web托管</code>服务。</p>
+<p>接下来就是重新备案了，这个没什么好说的，先进入弹性Web托管控制台，然后去申请一个备案服务号，然后拿着这个备案服务号去申请备案，填写网站基本信息，上传资料，提交审核。一周左右，我的备案就通过了。</p>
+<h3 id="重新上线我的博客"><a href="#重新上线我的博客" class="headerlink" title="重新上线我的博客"></a>重新上线我的博客</h3><p>服务器买好了，备案也审核通过了，下面就开始将我的博客重新上线了。</p>
+<ul>
+<li>上传博客内容文件</li>
+</ul>
+<p>hexo 博客生成的静态页面，全部存储在 <code>public</code> 目录下，我们只需将该目录下的文件上传到服务器的 <code>htdocs</code> 目录下即可。除了用FTP软件上传之外，还可以通过 hexo 提供的<a href="https://hexo.io/zh-cn/docs/deployment.html#FTPSync" target="_blank" rel="external">一键部署</a>功能，将网站部署到服务器上。</p>
+<ul>
+<li>绑定域名</li>
+</ul>
+<p>进入弹性Web托管控制台，分别绑定 <code>www.0daybug.com</code>、 <code>0daybug.com</code></p>
+<ul>
+<li><a href="https://help.aliyun.com/knowledge_detail/39903.html?spm=5176.8848835.103.1.4acf49c3l9xrco" target="_blank" rel="external">域名解析</a></li>
+</ul>
+<p>进入域名解析控制台，添加如下两条域名解析，其中记录值为弹性Web托管中的测试域名</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">记录类型</th>
+<th style="text-align:center">主机记录</th>
+<th style="text-align:center">解析线路(isp)</th>
+<th style="text-align:center">记录值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">@</td>
+<td style="text-align:center">默认</td>
+<td style="text-align:center">ew-<strong><strong>*</strong></strong>.aliapp.com</td>
+</tr>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">www</td>
+<td style="text-align:center">默认</td>
+<td style="text-align:center">ew-<strong><strong>*</strong></strong>.aliapp.com</td>
+</tr>
+</tbody>
+</table>
+<p>至此，我的博客又重新上线了~~~</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/17/web-reonline/" class="archive-article-date">
+  	<time datetime="2018-04-17T04:31:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-swift-OptionSet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -788,67 +885,6 @@
       
       <a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
   	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-open-QQ-chat" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/iOS-open-QQ-chat/">iOS打开QQ临时会话窗口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>前提条件：接收临时会话的QQ号码必须开通<a href="http://shang.qq.com" target="_blank" rel="external">QQ推广</a>功能，否则不能打开临时会话窗口。</p>
-</blockquote>
-<p>公司项目在商品详情页面中，有一个客服按钮，点击后需要打开客服MM的QQ聊天窗口，在此可以向客服MM咨询商品相关的问题。这里就记录下iOS如何跳转到QQ的聊天窗口。</p>
-<ul>
-<li>在Info.plise中加入白名单</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;LSApplicationQueriesSchemes&lt;/key&gt;</div><div class="line">&lt;array&gt;</div><div class="line">    &lt;string&gt;mqq&lt;/string&gt;</div><div class="line">&lt;/array&gt;</div></pre></td></tr></table></figure>
-<ul>
-<li>示例代码</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> <span class="type">UIApplication</span>.shared.canOpenURL(<span class="type">URL</span>(string: <span class="string">"mqq://"</span>)!) &#123;</div><div class="line">    <span class="keyword">let</span> qq = <span class="string">"12345678"</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"mqq://im/chat?chat_type=wpa&amp;uin=<span class="subst">\(qq)</span>&amp;version=1&amp;src_type=web"</span>) &#123;</div><div class="line">        <span class="keyword">if</span> #available(iOS <span class="number">10.0</span>, *) &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.open(url, options: [:], completionHandler: <span class="literal">nil</span>)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="type">UIApplication</span>.shared.openURL(url)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/01/16/iOS-open-QQ-chat/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:03:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
 </a>
       
 	<div class="article-tag tagcloud">

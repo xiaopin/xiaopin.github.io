@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>Archives | 吴品诚的技术博客</title>
+  <title>iOS JSON解析换行符(\r、\n、\r\n) | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="吴品诚的技术博客">
-<meta property="og:url" content="http://www.0daybug.com/archives/index.html">
+  <meta name="description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
+服务器采用的是 Windows +">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS JSON解析换行符(\r、\n、\r\n)">
+<meta property="og:url" content="http://www.0daybug.com/2018/08/27/iOS-JSON-return-character/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
+服务器采用的是 Windows +">
+<meta property="og:updated_time" content="2018-08-27T13:50:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="吴品诚的技术博客">
-<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:title" content="iOS JSON解析换行符(\r、\n、\r\n)">
+<meta name="twitter:description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
+服务器采用的是 Windows +">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -136,346 +140,85 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-iOS-JSON-return-character" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      iOS JSON解析换行符(\r、\n、\r\n)
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法<code>[NSJSONSerialization JSONObjectWithData:options:error:]</code>，<br>AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。</p>
+<p>服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：<code>\r\n</code>，通过 Android 应用提交的回车符则是：<code>\n</code>，而 iOS 平台则是：<code>\r</code>，<br>所以我统一将回车符替换成 <code>\r</code> (达到兼容 Windows/Linux 的目的)，然后再进行转义操作并再次尝试解析JSON。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/message.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        Method originalMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(JSONObjectWithData:options:error:));</div><div class="line">        Method swizlledMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(sc_JSONObjectWithData:options:error:));</div><div class="line">        method_exchangeImplementations(originalMethod, swizlledMethod);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">id</span>)sc_JSONObjectWithData:(<span class="built_in">NSData</span> *)data options:(<span class="built_in">NSJSONReadingOptions</span>)opt error:(<span class="built_in">NSError</span> * _Nullable __autoreleasing *)error &#123;</div><div class="line">    <span class="keyword">if</span> (!data.length) <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">NSError</span> *serializationError = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">id</span> responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:data options:opt error:&amp;serializationError];</div><div class="line">    <span class="keyword">if</span> (!responseObject) &#123;</div><div class="line">        <span class="keyword">if</span> (error) &#123;</div><div class="line">            *error = serializationError;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (serializationError &amp;&amp; serializationError.code == <span class="number">3840</span>) &#123;</div><div class="line">            <span class="built_in">NSString</span> *serializationString = [[<span class="built_in">NSString</span> alloc] initWithData:data encoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            <span class="keyword">if</span> (!serializationString) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// Windows</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\r\n"</span> withString:<span class="string">@"\r"</span>];</div><div class="line">            <span class="comment">// Linux(Android)</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\n"</span> withString:<span class="string">@"\r"</span>];</div><div class="line">            <span class="comment">// Escape string</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\r"</span> withString:<span class="string">@"\\r"</span>];</div><div class="line">            </div><div class="line">            <span class="built_in">NSData</span> *serializationData = [serializationString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:serializationData options:opt error:<span class="literal">nil</span>];</div><div class="line"><span class="meta">#ifndef DEBUG</span></div><div class="line">            <span class="keyword">if</span> (responseObject &amp;&amp; error) &#123;</div><div class="line">                *error = <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line"><span class="meta">#endif</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> responseObject;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/27/iOS-JSON-return-character/" class="archive-article-date">
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/08/27/iOS-JSON-return-character/" class="archive-article-date">
   	<time datetime="2018-08-27T08:54:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-08-27</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/27/iOS-JSON-return-character/">iOS JSON解析换行符(\r、\n、\r\n)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/25/iOS-safe-value/" class="archive-article-date">
-  	<time datetime="2018-08-25T08:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-08-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/25/iOS-safe-value/">为 NSArray/NSDictionary 优雅地过滤 nil 值</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/25/iOS-safe-value/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为 NSArray/NSDictionary 优雅地过滤 nil 值</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/22/iOS-haptics-feedback/" class="archive-article-date">
-  	<time datetime="2018-08-22T06:17:42.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-08-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/22/iOS-haptics-feedback/">iOS Haptics Feedback (触感反馈)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/11/UISearchController/" class="archive-article-date">
-  	<time datetime="2018-07-11T08:48:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/11/UISearchController/">UISearchController使用示例(push到下一个页面)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/06/WKWebView-crash-on-iOS9/" class="archive-article-date">
-  	<time datetime="2018-07-06T10:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/06/WKWebView-crash-on-iOS9/">WKWebView在iOS9上崩溃</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/06/iOS-subway-map/" class="archive-article-date">
-  	<time datetime="2018-07-06T06:25:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/06/iOS-subway-map/">iOS地铁图</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
-  	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/03/DZNEmptyDataSet-button-frame/" class="archive-article-date">
-  	<time datetime="2018-06-03T08:00:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/03/DZNEmptyDataSet-button-frame/">修改DZNEmptyDataSet按钮的宽高</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
-  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/25/using-unwind-segues/">使用 unwind segues 关闭当前页面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/19/markdown-table/" class="archive-article-date">
-  	<time datetime="2018-04-19T07:51:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/19/markdown-table/">在Markdown中创建表格</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -499,8 +242,8 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
