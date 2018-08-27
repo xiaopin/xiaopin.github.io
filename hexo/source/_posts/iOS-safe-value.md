@@ -16,13 +16,6 @@ tags:
 #import <Foundation/Foundation.h>
 #import <objc/message.h>
 
-/**
- * 为了在 DEBUG 模式下开发者能够及时发现问题以及便于定位问题所在
- * 该功能只在 Release 下生效
- */
-
-#ifndef DEBUG
-
 
 void safe_swizzle_method(Class originalClass, Class swizzledClass, SEL originalSelector, SEL swizzledSelector)
 {
@@ -151,7 +144,7 @@ void safe_swizzle_method(Class originalClass, Class swizzledClass, SEL originalS
             continue;
         }
         if (!obj) {
-            obj = [NSNull null];
+            obj = [NSNull null]; // 可根据你项目需求，将`NSString`作为默认值
         }
         
         safeKeys[count] = key;
@@ -174,8 +167,6 @@ void safe_swizzle_method(Class originalClass, Class swizzledClass, SEL originalS
 }
 
 @end
-
-#endif
 ```
 
 以上只给出部分实现，但是已基本满足日常使用，你可以自己根据自己的需求进行完善。
