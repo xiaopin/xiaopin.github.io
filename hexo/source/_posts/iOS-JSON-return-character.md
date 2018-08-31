@@ -8,8 +8,7 @@ tags:
 项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法`[NSJSONSerialization JSONObjectWithData:options:error:]`，
 AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
  
-服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：`\r\n`，通过 Android 应用提交的回车符则是：`\n`，而 iOS 平台则是：`\r`，
-所以我统一将回车符替换成 `\r` (达到兼容 Windows/Linux 的目的)，然后再进行转义操作并再次尝试解析JSON。
+服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：`\r\n`，通过 Android 应用提交的回车符则是：`\n`，而 iOS 平台则是：`\r`，我统一将回车符替换成 `\r` ，进行转义后再次尝试解析JSON。
 
 
 ```ObjC
@@ -46,12 +45,7 @@ AFNetworking 内部也是采用该方法来解析服务器返回的内容。所�
             if (!serializationString) {
                 return nil;
             }
-            // Windows
-            serializationString = [serializationString stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\r"];
-            // Linux(Android)
-            serializationString = [serializationString stringByReplacingOccurrencesOfString:@"\n" withString:@"\r"];
-            // Escape string
-            serializationString = [serializationString stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
+            serializationString = [serializationString stringByReplacingOccurrencesOfString:@"(\\r\\n|\\r|\\n)" withString:@"\\\\r" options:NSRegularExpressionSearch range:NSMakeRange(0, serializationString.length)];
             
             NSData *serializationData = [serializationString dataUsingEncoding:NSUTF8StringEncoding];
             responseObject = [self sc_JSONObjectWithData:serializationData options:opt error:nil];
