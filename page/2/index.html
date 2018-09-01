@@ -138,6 +138,163 @@
       <div class="body-wrap">
         
   
+    <article id="post-using-unwind-segues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/25/using-unwind-segues/">使用 unwind segues 关闭当前页面</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。</p>
+<p>其实，我们可以不需要这么麻烦，可以通过 <a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external"><code>Unwind Segue</code></a> 在 Storyboard 上拖拖线即可达到关闭控制器的效果。</p>
+<h2 id="创建一个-Unwind-Segue"><a href="#创建一个-Unwind-Segue" class="headerlink" title="创建一个 Unwind Segue"></a>创建一个 Unwind Segue</h2><p>unwind是一个实例方法，以<code>UIStoryboardSegue</code>作为其唯一的方法参数，返回类型为<code>IBAction</code>，它对方法名称不作要求，也不需要在头文件中进行声明。</p>
+<p>需要注意的是，我们需要将 uniwnd action 定义在 UIStoryboardSegue 的 sourceViewController 上，而非当前控制器。例如 A push B 然后从 B 返回 A 这个场景，我们需要将 unwind action 定义在 A 上。</p>
+<p>但是我们可以通过扩展 UIViewController 以便所有控制器均可以使用，从而不用关心具体写在哪个控制器上。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)unwindSegue:(<span class="built_in">UIStoryboardSegue</span>*)sender &#123;</div><div class="line">    <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">unwindSegue</span><span class="params">(<span class="number">_</span> sender: UIStoryboardSegue)</span></span> &#123;</div><div class="line">        <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="将-Unwind-Segue-添加到故事板"><a href="#将-Unwind-Segue-添加到故事板" class="headerlink" title="将 Unwind Segue 添加到故事板"></a>将 Unwind Segue 添加到故事板</h2><ul>
+<li>方法1</li>
+</ul>
+<p>a. 选中退出图标，右击弹出 Segues 列表</p>
+<p><img src="/images/201804/52B0EF013.png" alt=""></p>
+<p>b. 将 <code>unwindSegue:</code> 拖线到控制器图标上</p>
+<p><img src="/images/201804/70FA52B0EF01384A.png" alt=""></p>
+<p>c. 设置一个 identifier</p>
+<p><img src="/images/201804/801A47A16506.png" alt=""></p>
+<p>经过这样的拖线绑定之后，我们就可以在代码中通过发送一个 <code>performSegue(withIdentifier:sender:)</code> 消息来关闭当前控制器。</p>
+<ul>
+<li>方法2</li>
+</ul>
+<p>a. 选中按钮，然后按住 control 拖线到退出图标上</p>
+<p><img src="/images/201804/968888BC3109.png" alt=""></p>
+<p>b. 在弹出的 Action Segues 中选择 <code>unwindSegue:</code></p>
+<p><img src="/images/201804/F84E8854.png" alt=""></p>
+<p>这样，当我们点击按钮的时候，就会自动关闭当前控制器了。</p>
+<p><a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external">Technical Note TN2298 Using Unwind Segues</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
+  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-markdown-table" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/19/markdown-table/">在Markdown中创建表格</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。</p>
+<p>语法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">| Name | Score |</div><div class="line">| :- | :-: |</div><div class="line">| zhangsan | 90 |</div><div class="line">| lisi | 100 |</div></pre></td></tr></table></figure></p>
+<p>效果:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">zhangsan</td>
+<td style="text-align:center">90</td>
+</tr>
+<tr>
+<td style="text-align:center">lisi</td>
+<td style="text-align:center">100</td>
+</tr>
+</tbody>
+</table>
+<p>语法说明:</p>
+<ul>
+<li>第一行为表头，第二行为分割表头和表格内容，第三行开始每一行表示一个表格行</li>
+<li>列与列之间用<code>|</code>进行分割</li>
+<li>第二行中可以指定内容对其模式<ul>
+<li><code>-</code> 默认对其</li>
+<li><code>:-</code> 左对齐</li>
+<li><code>-:</code> 右对齐</li>
+<li><code>:-:</code> 居中对齐</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/19/markdown-table/" class="archive-article-date">
+  	<time datetime="2018-04-19T07:51:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-web-reonline" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -757,134 +914,6 @@
       
       <a href="/2018/02/26/iOS-compile-MobileVLCKit.framework/" class="archive-article-date">
   	<time datetime="2018-02-26T06:45:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-weibo-usercenter" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/08/iOS-weibo-usercenter/">iOS仿新浪微博个人页面</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>Demo地址：<a href="https://github.com/xiaopin/weibo-UserCenter.git" target="_blank" rel="external">https://github.com/xiaopin/weibo-UserCenter.git</a></p>
-<p>该Demo中并没有实现导航栏透明效果，也没搞下拉背景放大的效果，想研究这些的可以出门左拐去问度娘了。</p>
-<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/201802/weibo-preview.gif" alt="GIF"></p>
-<h2 id="UI结构说明"><a href="#UI结构说明" class="headerlink" title="UI结构说明"></a>UI结构说明</h2><p>如下图所示，我把UI分为三大部分：</p>
-<p><img src="/images/201802/weibo-UI-description.png" alt="UI说明"></p>
-<p>完整的UI层级结构树：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">UserCenterViewController.view</div><div class="line">│</div><div class="line">└── UserCenterScrollView</div><div class="line">	│</div><div class="line">	├── UserCenterHeaderView</div><div class="line">	│</div><div class="line">	├── UserCenterSegmentedView</div><div class="line">	│</div><div class="line">	└── UIPageViewController.view</div><div class="line">		│</div><div class="line">		├── HomeViewController.view</div><div class="line">		│	│</div><div class="line">		│	└── UITableView</div><div class="line">		│</div><div class="line">		├── WeiboListViewController.view</div><div class="line">		│	│</div><div class="line">		│	└── UITableView</div><div class="line">		│</div><div class="line">		└── AlbumViewController.view</div><div class="line">			│</div><div class="line">			└── UICollectionView</div></pre></td></tr></table></figure>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>我采用的是UIScrollView+UIPageViewController来实现的，UIScrollView作为最底层的容器视图，管理着头部视图、分段按钮视图、内容视图(实际上是UIPageViewController的view，由UIPageViewController来实现左右滑动切换内容视图控制器)。</p>
-<p>从上面的结构中也可以看出，实际上是UIScrollView嵌套UIScrollView的范畴了，这样就涉及到了滚动手势的处理了。<br>我是这样处理的，重写了UserCenterScrollView的<code>func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -&gt; Bool</code>方法，并通过返回true来同时使UserCenterScrollView和内容视图中的滚动视图可以同时接收到滚动手势事件，然后在UserCenterViewController定义一个标记记录UserCenterScrollView是否可以滚动，在UserCenterContentProxyViewController中也定义了一个标记用于记录内容视图是否可以滚动。通过这两个标记的配合使用来达到上面的效果。</p>
-<p>具体实现还是看代码去吧，一行代码胜于千言万语。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/02/08/iOS-weibo-usercenter/" class="archive-article-date">
-  	<time datetime="2018-02-08T06:02:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-change-App-icon" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>苹果在iOS10.3系统中为我们带来了更改App图标的功能， 主要接口定义如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Pass `nil` to use the primary application icon. The completion handler will be invoked asynchronously on an arbitrary background queue; be sure to dispatch back to the main queue before doing any further UI work.</span></div><div class="line"><span class="meta">@available</span>(iOS <span class="number">10.3</span>, *)</div><div class="line">open <span class="function"><span class="keyword">func</span> <span class="title">setAlternateIconName</span><span class="params">(<span class="number">_</span> alternateIconName: String?, completionHandler: <span class="params">(<span class="params">(Error?)</span></span></span></span> -&gt; <span class="type">Swift</span>.<span class="type">Void</span>)? = <span class="literal">nil</span>)</div></pre></td></tr></table></figure>
-<p>在使用该功能前，我们需要注意一下几点：</p>
-<ul>
-<li>iOS10.3或以上系统版本</li>
-<li>在Info.plist中声明了主图标和备用图标，只能使用声明过的图标，并且iPhone和iPad需要分别声明</li>
-<li><code>UIApplication.shared.supportsAlternateIcons</code>返回true时才能修改图标</li>
-<li>备用图标不能放在<code>Assets.xcassets</code>，必须是直接拖到Xcode左侧的项目导航栏上</li>
-<li>图标修改成功后，系统会自动弹出一个弹窗进行提示</li>
-</ul>
-<h2 id="下面让我们搞起来吧～～～"><a href="#下面让我们搞起来吧～～～" class="headerlink" title="下面让我们搞起来吧～～～"></a>下面让我们搞起来吧～～～</h2><h3 id="1-把备用图标拖入项目中"><a href="#1-把备用图标拖入项目中" class="headerlink" title="1. 把备用图标拖入项目中"></a>1. 把备用图标拖入项目中</h3><p>看起来应该是这样的</p>
-<p><img src="/images/201801/alternateicon.png" alt=""></p>
-<h3 id="2-在Info-plist中声明主图标和备用图标"><a href="#2-在Info-plist中声明主图标和备用图标" class="headerlink" title="2. 在Info.plist中声明主图标和备用图标"></a>2. 在Info.plist中声明主图标和备用图标</h3><p><code>CFBundleIcons</code>声明的是iPhone使用的图标，iPad需要使用<code>CFBundleIcons~ipad</code>进行声明。</p>
-<p><code>CFBundlePrimaryIcon</code>声明的就是我们App的主图标（在iOS11.2模拟器上测试，发现不添加该字段程序也能正常运行），而<code>CFBundleAlternateIcons</code>声明的就是我们的备用图标，该字段对应的值是一个字典值，字典下面又是字典:)，你可以通过添加多个字典来添加多个备用图标。</p>
-<p>下面的示例中我声明了两个备用图标。</p>
-<p>字段含义可参考官方文档: <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW10" target="_blank" rel="external">👇戳这里</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;CFBundleIcons&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIcon2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIcon2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon60x60&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div><div class="line">&lt;key&gt;CFBundleIcons~ipad&lt;/key&gt;</div><div class="line">&lt;dict&gt;</div><div class="line">    &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">        &lt;key&gt;AppAlternateIconiPad2&lt;/key&gt;</div><div class="line">        &lt;dict&gt;</div><div class="line">            &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">            &lt;array&gt;</div><div class="line">                &lt;string&gt;AppAlternateIconiPad2&lt;/string&gt;</div><div class="line">            &lt;/array&gt;</div><div class="line">            &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;</div><div class="line">            &lt;false/&gt;</div><div class="line">        &lt;/dict&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">    &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;</div><div class="line">    &lt;dict&gt;</div><div class="line">        &lt;key&gt;CFBundleIconFiles&lt;/key&gt;</div><div class="line">        &lt;array&gt;</div><div class="line">            &lt;string&gt;AppIcon83.5x83.5&lt;/string&gt;</div><div class="line">        &lt;/array&gt;</div><div class="line">    &lt;/dict&gt;</div><div class="line">&lt;/dict&gt;</div></pre></td></tr></table></figure>
-<h3 id="3-万事俱备，现在开始更换图标"><a href="#3-万事俱备，现在开始更换图标" class="headerlink" title="3. 万事俱备，现在开始更换图标"></a>3. 万事俱备，现在开始更换图标</h3><p>直接上代码(点击按钮，然后生成一个随机数，根据随机数获取相应的备用图标)：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">buttonAction</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">10.3</span>, *) &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">UIApplication</span>.shared.supportsAlternateIcons &#123;</div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> random = arc4random_uniform(<span class="number">3</span>)</div><div class="line">        <span class="keyword">let</span> iPad = (<span class="type">UI_USER_INTERFACE_IDIOM</span>() == .pad)</div><div class="line">        <span class="keyword">var</span> iconName: <span class="type">String</span>? <span class="comment">// nil表示使用App原来的图标</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> random == <span class="number">1</span> &#123; <span class="comment">// 图标1</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad"</span> : <span class="string">"AppAlternateIcon"</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> random == <span class="number">2</span> &#123; <span class="comment">// 图标2</span></div><div class="line">            iconName = iPad ? <span class="string">"AppAlternateIconiPad2"</span> : <span class="string">"AppAlternateIcon2"</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> <span class="type">UIApplication</span>.shared.alternateIconName == iconName &#123;</div><div class="line">            <span class="comment">// App图标已是当前选中的图标，无需更换</span></div><div class="line">            <span class="keyword">return</span></div><div class="line">        &#125;</div><div class="line">        <span class="type">UIApplication</span>.shared.setAlternateIconName(iconName, completionHandler: <span class="literal">nil</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="4-No-Demo-No-BB"><a href="#4-No-Demo-No-BB" class="headerlink" title="4. No Demo No BB"></a>4. No Demo No BB</h3><p>最后附上<a href="https://github.com/xiaopin/AlternateIconDemo.git" target="_blank" rel="external">Demo</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
 </a>
       
 	<div class="article-tag tagcloud">

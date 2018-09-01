@@ -6,21 +6,32 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>iOS JSON解析换行符(\r、\n、\r\n) | 吴品诚的技术博客</title>
+  <title>iOS 导航栏颜色渐变 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
-服务器采用的是 Windows +">
+  <meta name="description" content="效果图
+代码
+渐变的导航栏
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667@interface XPGradientNavigationBar : UINavigationBar&amp;#123;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS JSON解析换行符(\r、\n、\r\n)">
-<meta property="og:url" content="http://www.0daybug.com/2018/08/27/iOS-JSON-return-character/index.html">
+<meta property="og:title" content="iOS 导航栏颜色渐变">
+<meta property="og:url" content="http://www.0daybug.com/2018/09/01/iOS-gradient-navigationbar/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
-服务器采用的是 Windows +">
+<meta property="og:description" content="效果图
+代码
+渐变的导航栏
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667@interface XPGradientNavigationBar : UINavigationBar&amp;#123;">
+<meta property="og:image" content="http://www.0daybug.com/images/201809/gradient-navigation-bar.png">
 <meta property="og:updated_time" content="2018-09-01T12:25:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS JSON解析换行符(\r、\n、\r\n)">
-<meta name="twitter:description" content="项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法[NSJSONSerialization JSONObjectWithData:options:error:]，AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。
-服务器采用的是 Windows +">
+<meta name="twitter:title" content="iOS 导航栏颜色渐变">
+<meta name="twitter:description" content="效果图
+代码
+渐变的导航栏
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667@interface XPGradientNavigationBar : UINavigationBar&amp;#123;">
+<meta name="twitter:image" content="http://www.0daybug.com/images/201809/gradient-navigation-bar.png">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -140,7 +151,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-iOS-JSON-return-character" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-iOS-gradient-navigationbar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -150,7 +161,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      iOS JSON解析换行符(\r、\n、\r\n)
+      iOS 导航栏颜色渐变
     </h1>
   
 
@@ -158,16 +169,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法<code>[NSJSONSerialization JSONObjectWithData:options:error:]</code>，<br>AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。</p>
-<p>服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：<code>\r\n</code>，通过 Android 应用提交的回车符则是：<code>\n</code>，而 iOS 平台则是：<code>\r</code>，我统一将回车符替换成 <code>\r</code> ，进行转义后再次尝试解析JSON。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/message.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        Method originalMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(JSONObjectWithData:options:error:));</div><div class="line">        Method swizlledMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(sc_JSONObjectWithData:options:error:));</div><div class="line">        method_exchangeImplementations(originalMethod, swizlledMethod);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">id</span>)sc_JSONObjectWithData:(<span class="built_in">NSData</span> *)data options:(<span class="built_in">NSJSONReadingOptions</span>)opt error:(<span class="built_in">NSError</span> * _Nullable __autoreleasing *)error &#123;</div><div class="line">    <span class="keyword">if</span> (!data.length) <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">NSError</span> *serializationError = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">id</span> responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:data options:opt error:&amp;serializationError];</div><div class="line">    <span class="keyword">if</span> (!responseObject) &#123;</div><div class="line">        <span class="keyword">if</span> (error) &#123;</div><div class="line">            *error = serializationError;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (serializationError &amp;&amp; serializationError.code == <span class="number">3840</span>) &#123;</div><div class="line">            <span class="built_in">NSString</span> *serializationString = [[<span class="built_in">NSString</span> alloc] initWithData:data encoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            <span class="keyword">if</span> (!serializationString) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"(\\r\\n|\\r|\\n)"</span> withString:<span class="string">@"\\\\r"</span> options:<span class="built_in">NSRegularExpressionSearch</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, serializationString.length)];</div><div class="line">            </div><div class="line">            <span class="built_in">NSData</span> *serializationData = [serializationString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:serializationData options:opt error:<span class="literal">nil</span>];</div><div class="line"><span class="meta">#ifndef DEBUG</span></div><div class="line">            <span class="keyword">if</span> (responseObject &amp;&amp; error) &#123;</div><div class="line">                *error = <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line"><span class="meta">#endif</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> responseObject;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+        <h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/201809/gradient-navigation-bar.png" alt="PNG"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li>渐变的导航栏</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPGradientNavigationBar</span> : <span class="title">UINavigationBar</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">CAGradientLayer</span> *_gradientLayer;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPGradientNavigationBar</span></span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark - Lifecycle</span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame]) &#123;</div><div class="line">        [<span class="keyword">self</span> commonInit];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)awakeFromNib &#123;</div><div class="line">    [<span class="keyword">super</span> awakeFromNib];</div><div class="line">    [<span class="keyword">self</span> commonInit];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)layoutSubviews &#123;</div><div class="line">    [<span class="keyword">super</span> layoutSubviews];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!_gradientLayer.superlayer) &#123;</div><div class="line">        <span class="built_in">UIView</span> *barBackgroundView = <span class="keyword">self</span>.subviews.firstObject;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="built_in">UIView</span> *backgroundEffectView = [barBackgroundView valueForKey:<span class="string">@"_backgroundEffectView"</span>];</div><div class="line">            <span class="built_in">UIView</span> *gradientView = backgroundEffectView.subviews.lastObject;</div><div class="line">            [gradientView.layer addSublayer:_gradientLayer];</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="built_in">UIView</span> *subview <span class="keyword">in</span> barBackgroundView.subviews) &#123;</div><div class="line">                <span class="keyword">if</span> ([subview isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"_UIBackdropView"</span>)]) &#123;</div><div class="line">                    [subview.layer addSublayer:_gradientLayer];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (_gradientLayer.superlayer) &#123;</div><div class="line">        _gradientLayer.frame = <span class="keyword">self</span>.subviews.firstObject.bounds;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - Private</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)commonInit &#123;</div><div class="line">    <span class="keyword">self</span>.translucent = <span class="literal">YES</span>;</div><div class="line">    _gradientLayer = [<span class="built_in">CAGradientLayer</span> layer];</div><div class="line">    _gradientLayer.colors = @[</div><div class="line">                              (__bridge <span class="keyword">id</span>)<span class="built_in">UIColor</span>.purpleColor.CGColor,</div><div class="line">                              (__bridge <span class="keyword">id</span>)<span class="built_in">UIColor</span>.orangeColor.CGColor</div><div class="line">                              ];</div><div class="line">    _gradientLayer.locations = @[@<span class="number">0.0</span>, @<span class="number">1.0</span>];</div><div class="line">    _gradientLayer.startPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.0</span>, <span class="number">0.5</span>);</div><div class="line">    _gradientLayer.endPoint = <span class="built_in">CGPointMake</span>(<span class="number">1.0</span>, <span class="number">0.5</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - setter &amp; getter</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setTranslucent:(<span class="built_in">BOOL</span>)translucent &#123;</div><div class="line">    [<span class="keyword">super</span> setTranslucent:<span class="literal">YES</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ul>
+<li>配合 UINavigationController 使用效果更佳 (非必须)</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPGradientNavigationController</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithRootViewController:(<span class="built_in">UIViewController</span> *)rootViewController &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">self</span> initWithNavigationBarClass:<span class="literal">nil</span> toolbarClass:<span class="literal">nil</span>];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (rootViewController) &#123;</div><div class="line">            [<span class="keyword">super</span> pushViewController:rootViewController animated:<span class="literal">NO</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> initWithNavigationBarClass:XPGradientNavigationBar.class toolbarClass:toolbarClass];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithCoder:aDecoder]) &#123;</div><div class="line">        <span class="built_in">NSAssert</span>([<span class="keyword">self</span>.navigationBar isKindOfClass:XPGradientNavigationBar.class], <span class="string">@"self.navigationBar must be XPGradientNavigationBar"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>如果你是通过可视化方式创建的导航栏控制器，则需要在 Storyboard/xib 中手动将 <code>Navigation Bar</code> 的 Class 指定为 <code>XPGradientNavigationBar</code>，如果是通过代码创建 UINavigationController，则使用 <code>XPGradientNavigationController</code> 即可。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2018/08/27/iOS-JSON-return-character/" class="archive-article-date">
-  	<time datetime="2018-08-27T08:54:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-08-27</time>
+      <a href="/2018/09/01/iOS-gradient-navigationbar/" class="archive-article-date">
+  	<time datetime="2018-09-01T01:14:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-01</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -185,18 +203,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/08/31/iOS-UITableViewHeaderFooterView/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          UITableViewHeaderFooterView 修改背景色/文字
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/25/iOS-safe-value/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">为 NSArray/NSDictionary 优雅地过滤 nil 值</div>
+    <a href="/2018/08/31/iOS-UITableViewHeaderFooterView/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UITableViewHeaderFooterView 修改背景色/文字</div>
       <i class="icon-circle-right"></i>
     </a>
   

@@ -138,6 +138,120 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-gradient-navigationbar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/01/iOS-gradient-navigationbar/">iOS 导航栏颜色渐变</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/201809/gradient-navigation-bar.png" alt="PNG"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><ul>
+<li>渐变的导航栏</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">XPGradientNavigationBar</span> : <span class="title">UINavigationBar</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">CAGradientLayer</span> *_gradientLayer;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPGradientNavigationBar</span></span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark - Lifecycle</span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithFrame:(<span class="built_in">CGRect</span>)frame &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithFrame:frame]) &#123;</div><div class="line">        [<span class="keyword">self</span> commonInit];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)awakeFromNib &#123;</div><div class="line">    [<span class="keyword">super</span> awakeFromNib];</div><div class="line">    [<span class="keyword">self</span> commonInit];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)layoutSubviews &#123;</div><div class="line">    [<span class="keyword">super</span> layoutSubviews];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!_gradientLayer.superlayer) &#123;</div><div class="line">        <span class="built_in">UIView</span> *barBackgroundView = <span class="keyword">self</span>.subviews.firstObject;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="built_in">UIView</span> *backgroundEffectView = [barBackgroundView valueForKey:<span class="string">@"_backgroundEffectView"</span>];</div><div class="line">            <span class="built_in">UIView</span> *gradientView = backgroundEffectView.subviews.lastObject;</div><div class="line">            [gradientView.layer addSublayer:_gradientLayer];</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="built_in">UIView</span> *subview <span class="keyword">in</span> barBackgroundView.subviews) &#123;</div><div class="line">                <span class="keyword">if</span> ([subview isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"_UIBackdropView"</span>)]) &#123;</div><div class="line">                    [subview.layer addSublayer:_gradientLayer];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (_gradientLayer.superlayer) &#123;</div><div class="line">        _gradientLayer.frame = <span class="keyword">self</span>.subviews.firstObject.bounds;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - Private</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)commonInit &#123;</div><div class="line">    <span class="keyword">self</span>.translucent = <span class="literal">YES</span>;</div><div class="line">    _gradientLayer = [<span class="built_in">CAGradientLayer</span> layer];</div><div class="line">    _gradientLayer.colors = @[</div><div class="line">                              (__bridge <span class="keyword">id</span>)<span class="built_in">UIColor</span>.purpleColor.CGColor,</div><div class="line">                              (__bridge <span class="keyword">id</span>)<span class="built_in">UIColor</span>.orangeColor.CGColor</div><div class="line">                              ];</div><div class="line">    _gradientLayer.locations = @[@<span class="number">0.0</span>, @<span class="number">1.0</span>];</div><div class="line">    _gradientLayer.startPoint = <span class="built_in">CGPointMake</span>(<span class="number">0.0</span>, <span class="number">0.5</span>);</div><div class="line">    _gradientLayer.endPoint = <span class="built_in">CGPointMake</span>(<span class="number">1.0</span>, <span class="number">0.5</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - setter &amp; getter</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setTranslucent:(<span class="built_in">BOOL</span>)translucent &#123;</div><div class="line">    [<span class="keyword">super</span> setTranslucent:<span class="literal">YES</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ul>
+<li>配合 UINavigationController 使用效果更佳 (非必须)</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">XPGradientNavigationController</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithRootViewController:(<span class="built_in">UIViewController</span> *)rootViewController &#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">self</span> initWithNavigationBarClass:<span class="literal">nil</span> toolbarClass:<span class="literal">nil</span>];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (rootViewController) &#123;</div><div class="line">            [<span class="keyword">super</span> pushViewController:rootViewController animated:<span class="literal">NO</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> initWithNavigationBarClass:XPGradientNavigationBar.class toolbarClass:toolbarClass];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)aDecoder &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> initWithCoder:aDecoder]) &#123;</div><div class="line">        <span class="built_in">NSAssert</span>([<span class="keyword">self</span>.navigationBar isKindOfClass:XPGradientNavigationBar.class], <span class="string">@"self.navigationBar must be XPGradientNavigationBar"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>如果你是通过可视化方式创建的导航栏控制器，则需要在 Storyboard/xib 中手动将 <code>Navigation Bar</code> 的 Class 指定为 <code>XPGradientNavigationBar</code>，如果是通过代码创建 UINavigationController，则使用 <code>XPGradientNavigationController</code> 即可。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/01/iOS-gradient-navigationbar/" class="archive-article-date">
+  	<time datetime="2018-09-01T01:14:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-UITableViewHeaderFooterView" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/31/iOS-UITableViewHeaderFooterView/">UITableViewHeaderFooterView 修改背景色/文字</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>注意点：</p>
+<ul>
+<li>修改背景色只能通过修改 <code>contentView</code> 或 <code>backgroundView</code> 的背景色实现，修改 UITableViewHeaderFooterView 自身背景色无效果</li>
+<li>只能在 <code>tableView:willDisplayHeaderView:forSection:</code> 代理方法中进行设置，在 <code>tableView:didEndDisplayingHeaderView:forSection:</code> 设置无效</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView willDisplayHeaderView:(<span class="built_in">UIView</span> *)view forSection:(<span class="built_in">NSInteger</span>)section &#123;</div><div class="line">    <span class="built_in">UITableViewHeaderFooterView</span> *headerView = (<span class="built_in">UITableViewHeaderFooterView</span> *)view;</div><div class="line">    headerView.contentView.backgroundColor = [<span class="built_in">UIColor</span> brownColor];</div><div class="line">    headerView.textLabel.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">14.0</span>];</div><div class="line">    headerView.textLabel.textColor = [<span class="built_in">UIColor</span> orangeColor];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/08/31/iOS-UITableViewHeaderFooterView/" class="archive-article-date">
+  	<time datetime="2018-08-31T09:15:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-08-31</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-JSON-return-character" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -157,8 +271,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法<code>[NSJSONSerialization JSONObjectWithData:options:error:]</code>，<br>AFNetworking 内部也是采用该方法来解析服务器返回的内容。所以，我只需要 hook 该系统方法，当解析失败的时候进行处理就行了，这样就可以一劳永逸，也无需修改其他地方的代码。</p>
-<p>服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：<code>\r\n</code>，通过 Android 应用提交的回车符则是：<code>\n</code>，而 iOS 平台则是：<code>\r</code>，<br>所以我统一将回车符替换成 <code>\r</code> (达到兼容 Windows/Linux 的目的)，然后再进行转义操作并再次尝试解析JSON。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/message.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        Method originalMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(JSONObjectWithData:options:error:));</div><div class="line">        Method swizlledMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(sc_JSONObjectWithData:options:error:));</div><div class="line">        method_exchangeImplementations(originalMethod, swizlledMethod);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">id</span>)sc_JSONObjectWithData:(<span class="built_in">NSData</span> *)data options:(<span class="built_in">NSJSONReadingOptions</span>)opt error:(<span class="built_in">NSError</span> * _Nullable __autoreleasing *)error &#123;</div><div class="line">    <span class="keyword">if</span> (!data.length) <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">NSError</span> *serializationError = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">id</span> responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:data options:opt error:&amp;serializationError];</div><div class="line">    <span class="keyword">if</span> (!responseObject) &#123;</div><div class="line">        <span class="keyword">if</span> (error) &#123;</div><div class="line">            *error = serializationError;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (serializationError &amp;&amp; serializationError.code == <span class="number">3840</span>) &#123;</div><div class="line">            <span class="built_in">NSString</span> *serializationString = [[<span class="built_in">NSString</span> alloc] initWithData:data encoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            <span class="keyword">if</span> (!serializationString) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// Windows</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\r\n"</span> withString:<span class="string">@"\r"</span>];</div><div class="line">            <span class="comment">// Linux(Android)</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\n"</span> withString:<span class="string">@"\r"</span>];</div><div class="line">            <span class="comment">// Escape string</span></div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"\r"</span> withString:<span class="string">@"\\r"</span>];</div><div class="line">            </div><div class="line">            <span class="built_in">NSData</span> *serializationData = [serializationString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:serializationData options:opt error:<span class="literal">nil</span>];</div><div class="line"><span class="meta">#ifndef DEBUG</span></div><div class="line">            <span class="keyword">if</span> (responseObject &amp;&amp; error) &#123;</div><div class="line">                *error = <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line"><span class="meta">#endif</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> responseObject;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>服务器采用的是 Windows + C# 组合，通过后台添加的数据回车符为：<code>\r\n</code>，通过 Android 应用提交的回车符则是：<code>\n</code>，而 iOS 平台则是：<code>\r</code>，我统一将回车符替换成 <code>\r</code> ，进行转义后再次尝试解析JSON。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/message.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSJSONSerialization</span> (<span class="title">SpecialCharacters</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        Method originalMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(JSONObjectWithData:options:error:));</div><div class="line">        Method swizlledMethod = class_getClassMethod(<span class="keyword">self</span>, <span class="keyword">@selector</span>(sc_JSONObjectWithData:options:error:));</div><div class="line">        method_exchangeImplementations(originalMethod, swizlledMethod);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">id</span>)sc_JSONObjectWithData:(<span class="built_in">NSData</span> *)data options:(<span class="built_in">NSJSONReadingOptions</span>)opt error:(<span class="built_in">NSError</span> * _Nullable __autoreleasing *)error &#123;</div><div class="line">    <span class="keyword">if</span> (!data.length) <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    <span class="built_in">NSError</span> *serializationError = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">id</span> responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:data options:opt error:&amp;serializationError];</div><div class="line">    <span class="keyword">if</span> (!responseObject) &#123;</div><div class="line">        <span class="keyword">if</span> (error) &#123;</div><div class="line">            *error = serializationError;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> (serializationError &amp;&amp; serializationError.code == <span class="number">3840</span>) &#123;</div><div class="line">            <span class="built_in">NSString</span> *serializationString = [[<span class="built_in">NSString</span> alloc] initWithData:data encoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            <span class="keyword">if</span> (!serializationString) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line">            serializationString = [serializationString stringByReplacingOccurrencesOfString:<span class="string">@"(\\r\\n|\\r|\\n)"</span> withString:<span class="string">@"\\\\r"</span> options:<span class="built_in">NSRegularExpressionSearch</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, serializationString.length)];</div><div class="line">            </div><div class="line">            <span class="built_in">NSData</span> *serializationData = [serializationString dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</div><div class="line">            responseObject = [<span class="keyword">self</span> sc_JSONObjectWithData:serializationData options:opt error:<span class="literal">nil</span>];</div><div class="line"><span class="meta">#ifndef DEBUG</span></div><div class="line">            <span class="keyword">if</span> (responseObject &amp;&amp; error) &#123;</div><div class="line">                *error = <span class="literal">nil</span>;</div><div class="line">            &#125;</div><div class="line"><span class="meta">#endif</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> responseObject;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
       
     </div>
     <div class="article-info article-info-index">
@@ -635,163 +750,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-using-unwind-segues" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/25/using-unwind-segues/">使用 unwind segues 关闭当前页面</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。</p>
-<p>其实，我们可以不需要这么麻烦，可以通过 <a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external"><code>Unwind Segue</code></a> 在 Storyboard 上拖拖线即可达到关闭控制器的效果。</p>
-<h2 id="创建一个-Unwind-Segue"><a href="#创建一个-Unwind-Segue" class="headerlink" title="创建一个 Unwind Segue"></a>创建一个 Unwind Segue</h2><p>unwind是一个实例方法，以<code>UIStoryboardSegue</code>作为其唯一的方法参数，返回类型为<code>IBAction</code>，它对方法名称不作要求，也不需要在头文件中进行声明。</p>
-<p>需要注意的是，我们需要将 uniwnd action 定义在 UIStoryboardSegue 的 sourceViewController 上，而非当前控制器。例如 A push B 然后从 B 返回 A 这个场景，我们需要将 unwind action 定义在 A 上。</p>
-<p>但是我们可以通过扩展 UIViewController 以便所有控制器均可以使用，从而不用关心具体写在哪个控制器上。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">IBAction</span>)unwindSegue:(<span class="built_in">UIStoryboardSegue</span>*)sender &#123;</div><div class="line">    <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">unwindSegue</span><span class="params">(<span class="number">_</span> sender: UIStoryboardSegue)</span></span> &#123;</div><div class="line">        <span class="comment">// Pull any data from the view controller which initiated the unwind segue.</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="将-Unwind-Segue-添加到故事板"><a href="#将-Unwind-Segue-添加到故事板" class="headerlink" title="将 Unwind Segue 添加到故事板"></a>将 Unwind Segue 添加到故事板</h2><ul>
-<li>方法1</li>
-</ul>
-<p>a. 选中退出图标，右击弹出 Segues 列表</p>
-<p><img src="/images/201804/52B0EF013.png" alt=""></p>
-<p>b. 将 <code>unwindSegue:</code> 拖线到控制器图标上</p>
-<p><img src="/images/201804/70FA52B0EF01384A.png" alt=""></p>
-<p>c. 设置一个 identifier</p>
-<p><img src="/images/201804/801A47A16506.png" alt=""></p>
-<p>经过这样的拖线绑定之后，我们就可以在代码中通过发送一个 <code>performSegue(withIdentifier:sender:)</code> 消息来关闭当前控制器。</p>
-<ul>
-<li>方法2</li>
-</ul>
-<p>a. 选中按钮，然后按住 control 拖线到退出图标上</p>
-<p><img src="/images/201804/968888BC3109.png" alt=""></p>
-<p>b. 在弹出的 Action Segues 中选择 <code>unwindSegue:</code></p>
-<p><img src="/images/201804/F84E8854.png" alt=""></p>
-<p>这样，当我们点击按钮的时候，就会自动关闭当前控制器了。</p>
-<p><a href="https://developer.apple.com/library/content/technotes/tn2298/_index.html" target="_blank" rel="external">Technical Note TN2298 Using Unwind Segues</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/04/25/using-unwind-segues/" class="archive-article-date">
-  	<time datetime="2018-04-25T03:59:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-markdown-table" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/19/markdown-table/">在Markdown中创建表格</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。</p>
-<p>语法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">| Name | Score |</div><div class="line">| :- | :-: |</div><div class="line">| zhangsan | 90 |</div><div class="line">| lisi | 100 |</div></pre></td></tr></table></figure></p>
-<p>效果:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Name</th>
-<th style="text-align:center">Score</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">zhangsan</td>
-<td style="text-align:center">90</td>
-</tr>
-<tr>
-<td style="text-align:center">lisi</td>
-<td style="text-align:center">100</td>
-</tr>
-</tbody>
-</table>
-<p>语法说明:</p>
-<ul>
-<li>第一行为表头，第二行为分割表头和表格内容，第三行开始每一行表示一个表格行</li>
-<li>列与列之间用<code>|</code>进行分割</li>
-<li>第二行中可以指定内容对其模式<ul>
-<li><code>-</code> 默认对其</li>
-<li><code>:-</code> 左对齐</li>
-<li><code>-:</code> 右对齐</li>
-<li><code>:-:</code> 居中对齐</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/04/19/markdown-table/" class="archive-article-date">
-  	<time datetime="2018-04-19T07:51:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-19</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Other/">Other</a></li></ul>
 	</div>
 
       

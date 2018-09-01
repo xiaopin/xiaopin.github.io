@@ -138,6 +138,133 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-break-multilayer-nested-loop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/01/iOS-break-multilayer-nested-loop/">Objective-C/Swift退出多层循环</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果有多层嵌套的情况下，有时候我们需要在某处直接退出多层循环，在Objective-C下并没有比较好的方式实现；而在Swfit中可以通过标签语句来比较优雅地实现，首先需要使用标签标识不同的循环体，形式如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">LabelName</span>: <span class="keyword">while</span> condition &#123;</div><div class="line">	statements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift退出多层循环示例代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> arr = [[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>]]</div><div class="line">for1: <span class="keyword">for</span> items <span class="keyword">in</span> arr &#123;</div><div class="line">    for2: <span class="keyword">for</span> item <span class="keyword">in</span> items &#123;</div><div class="line">        <span class="built_in">print</span>(item)</div><div class="line">        <span class="keyword">if</span> item == <span class="number">3</span> &#123;</div><div class="line">            <span class="keyword">break</span> for1</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>break for1</code>即可退出最外层循环，控制台将依次打印<code>1、2、3</code>。</p>
+<p>说完了Swift，下面来说说Objective-C下如何实现这种操作。Objective-C既不支持标签语句，也没有类似PHP中<code>break 2</code>这种黑科技，但是Objective-C是C的超集，而C语言提供了强大的<code>goto</code>语句，虽然很多人都不建议使用goto，但是既然存在就必然有它存在的道理，是不？针对这种情况，goto就很适合。但是还是强烈建议你谨慎使用goto，除非你清楚你的代码在干什么。</p>
+<p>Objective-C退出多层循环示例代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span>&lt;<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *&gt; *items = @[@[<span class="string">@"1"</span>,<span class="string">@"2"</span>], @[<span class="string">@"3"</span>,<span class="string">@"4"</span>], @[<span class="string">@"5"</span>,<span class="string">@"6"</span>]];</div><div class="line"><span class="keyword">for</span> (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *array <span class="keyword">in</span> items) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *item <span class="keyword">in</span> array) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, item);</div><div class="line">        <span class="keyword">if</span> ([item intValue] == <span class="number">3</span>) &#123;</div><div class="line">            <span class="comment">// 跳出外层循环</span></div><div class="line">            <span class="keyword">goto</span> finally;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">finally: &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"goto label."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台还是会依次打印出1、2、3的值，并且当item的intValue等于3的时候跳出多层for循环，直接执行finally语句块内的代码。</p>
+<blockquote>
+<p>使用goto时需要注意：goto语句只能在函数内部进行转移，不能够跨越函数；label代码块的定义位置。</p>
+</blockquote>
+<p>goto语句使用的一般格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">goto label;</div><div class="line">label: &#123; statements &#125;</div><div class="line">或者</div><div class="line">label: &#123; statements &#125;</div><div class="line">goto label;</div></pre></td></tr></table></figure></p>
+<p>前一种定义方式参见上面的示例，后一种定义方式的代码示例如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">first: &#123;</div><div class="line">    i++;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, i);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 代码执行到这里时i等于1，控制台输出1</span></div><div class="line"><span class="keyword">if</span> (i &lt; <span class="number">3</span>) &#123;</div><div class="line">    <span class="keyword">goto</span> first;</div><div class="line">&#125;</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"--end--"</span>);</div><div class="line"><span class="comment">// 控制台将输出1、2、3、--end--</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/01/iOS-break-multilayer-nested-loop/" class="archive-article-date">
+  	<time datetime="2017-08-01T07:44:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iOS-screenshot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/24/iOS-screenshot/">iOS截屏分享</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在把玩<code>支付宝</code>和<code>小米商城</code>App时发现了个好玩的东西，在支付宝首页中截屏，则会在屏幕右侧弹出一个小窗口来展示首页截屏图片，点击图片就会进入求助反馈页面，再点击意见反馈，截屏的图片就会自动被选上作为反馈图片使用；而小米商城的做法则更好玩，在任意页面中进行截屏，则会在屏幕右下角中弹出一个<code>分享截图给好友</code>的提示框，点击则会弹出分享页面，在此可以看到我们刚才截取的屏幕图片，接下来你就可以把截屏图片分享给你的微信朋友、QQ好友、发到朋友圈、发微博等等，任君选择。</p>
+<p>查了下资料，发现苹果在iOS7中新增了<code>UIApplicationUserDidTakeScreenshotNotification</code>通知，只要注册了这个通知，在用户截屏的时候App就会收到截屏的通知，接下来就可以做你想做的事情了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// This notification is posted after the user takes a screenshot (for example by pressing both the home and lock screen buttons)</span></div><div class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="built_in">NSNotificationName</span> <span class="keyword">const</span> <span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">7</span>_0);</div></pre></td></tr></table></figure>
+<p>下面我们自己来撸一个自己的截屏分享功能。打开首页控制器，重写viewDidAppear和viewDidDisappear方法。因为我们只需要在首页中进行截屏分享，在其他页面截屏时不处理，所以我们在viewDidAppear方法中注册通知并且在viewDidDisappear方法中移除通知。</p>
+<p>示例中通过<code>[UIApplication sharedApplication].keyWindow</code>来获取截屏图片，因为如果App中存在导航栏/TabBar的情况下，只有通过keyWindow生成的图片才能包含导航栏/TabBar，如果你仅仅想分享首页内容，不包含导航栏/TabBar的话，那你也可以直接用首页控制器的<code>self.view</code>来生成截屏图片，甚至如果你想分享一个长图片，如:首页是一个滚动视图，那么你完全可以通过滚动视图来生成一个长图片然后进行分享，这个完全可以根据你的需求来决定。</p>
+<blockquote>
+<p>自己生成的截屏图片有一点很遗憾，就是生成的图片并不能包含顶部状态栏内容，支付宝和小米商城都有这个问题，这个应该是没辙了。或许只能去系统相册拿图片了，这个你就自己去测试吧。</p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidAppear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidAppear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(userDidTakeScreenshotNotification:) name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span> name:<span class="built_in">UIApplicationUserDidTakeScreenshotNotification</span> object:<span class="literal">nil</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)userDidTakeScreenshotNotification:(<span class="built_in">NSNotification</span> *)sender &#123;</div><div class="line">    <span class="built_in">UIWindow</span> *window = [<span class="built_in">UIApplication</span> sharedApplication].keyWindow;</div><div class="line">    <span class="built_in">UIImage</span> *screenshotImage = [<span class="built_in">UIImage</span> snapshotImageWithView:window];</div><div class="line">    <span class="comment">// <span class="doctag">TODO:</span> 将screenshotImage进行分享，可以调用友盟SDK或自己集成第三方SDK实现，这里就不做演示了</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面附上从UIView获取图片的代码:</p>
+<p>Objectie-C版本</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  通过视图获取视图快照</div><div class="line"> *</div><div class="line"> *  @param view 需要生成快照的视图</div><div class="line"> *</div><div class="line"> *  @return 快照图片</div><div class="line"> */</div><div class="line">+ (<span class="keyword">instancetype</span>)snapshotImageWithView:(<span class="built_in">UIView</span> * __<span class="keyword">nonnull</span>)view &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="literal">nil</span> == view) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">YES</span>, [<span class="built_in">UIScreen</span> mainScreen].scale);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    [view.layer renderInContext:context];</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Swift版本</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIImage</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 获取视图快照图片</span></div><div class="line">    <span class="comment">/// 必须在主线程上执行</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameter view: 需要生成快照的视图</span></div><div class="line">    <span class="comment">/// - Returns: 快照图片</span></div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">snapshot</span><span class="params">(<span class="number">_</span> view: UIView)</span></span> -&gt; <span class="type">UIImage</span>? &#123;</div><div class="line">        <span class="keyword">if</span> !<span class="type">Thread</span>.isMainThread &#123;</div><div class="line">            <span class="built_in">assert</span>(<span class="literal">false</span>, <span class="string">"UIImage.<span class="subst">\(#function)</span> must be called from main thread only."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="type">UIGraphicsBeginImageContextWithOptions</span>(view.bounds.size, <span class="literal">true</span>, <span class="type">UIScreen</span>.main.scale)</div><div class="line">        <span class="keyword">defer</span> &#123; <span class="type">UIGraphicsEndImageContext</span>() &#125;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> context = <span class="type">UIGraphicsGetCurrentContext</span>() <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        view.layer.render(<span class="keyword">in</span>: context)</div><div class="line">        <span class="keyword">return</span> <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/07/24/iOS-screenshot/" class="archive-article-date">
+  	<time datetime="2017-07-24T02:36:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-07-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-reloadData-completion" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -576,119 +703,6 @@
       
       <a href="/2017/03/22/photo-camera-authorization/" class="archive-article-date">
   	<time datetime="2017-03-22T06:30:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-uiswitchsize" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/28/uiswitchsize/">修改UISwitch大小</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>UISwitch大小是不能修改的，iOS7开始，系统将UISwitch大小固定为51x31。</p>
-</blockquote>
-<p>尽管UISwitch不能通过修改<code>frame</code>的方式修改大小，但是可以通过<code>transform</code>来进行缩放，变相达到我们想要的效果。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UISwitch</span> *aSwitch = [[<span class="built_in">UISwitch</span> alloc] init];</div><div class="line">[aSwitch setFrame:<span class="built_in">CGRectMake</span>(<span class="number">100.0</span>, <span class="number">100.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>)];</div><div class="line">[aSwitch setTransform:<span class="built_in">CGAffineTransformMakeScale</span>(<span class="number">0.5</span>, <span class="number">0.5</span>)];</div><div class="line">[<span class="keyword">self</span>.view addSubview:aSwitch];</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/28/uiswitchsize/" class="archive-article-date">
-  	<time datetime="2016-12-28T12:51:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-navigationbar-transparent" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/09/navigationbar-transparent/">iOS导航栏透明效果</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>你可以直接将下面的代码粘贴到<code>viewDidLoad</code>里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的<code>viewWillAppear:</code>方法中将导航栏设置成透明，在<code>viewWillDisappear:</code>中恢复导航栏样式。</p>
-<p>废话不多说，直接上代码。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 去除导航栏底部黑色线条</span></div><div class="line"><span class="built_in">UIImage</span> *shadowImage = [<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[<span class="keyword">self</span>.navigationController.navigationBar setShadowImage:shadowImage];</div><div class="line"><span class="comment">// 设置透明</span></div><div class="line">[<span class="keyword">self</span> setAutomaticallyAdjustsScrollViewInsets:<span class="literal">NO</span>];</div><div class="line"><span class="built_in">UINavigationBar</span> *navigationBar = <span class="keyword">self</span>.navigationController.navigationBar;</div><div class="line">[navigationBar setBarTintColor:[<span class="built_in">UIColor</span> clearColor]];</div><div class="line">[navigationBar setBackgroundImage:[<span class="built_in">UIImage</span> pc_imageWithColor:[<span class="built_in">UIColor</span> clearColor]] forBarPosition:<span class="built_in">UIBarPositionAny</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
-<h3 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h3><p>这是iOS导航栏的默认效果，半透明。</p>
-<p><img src="/images/20161209/default.png" alt="默认效果"></p>
-<p>这是将UINavigationBar的tintColor和背景图片设置为<code>[UIColor clearColor]</code>之后的效果，可以看到导航栏确实是变成完全透明的了，但是导航栏底部会有一个分割线。</p>
-<p><img src="/images/20161209/transparent.png" alt="透明效果"></p>
-<p>这是设置了<code>UINavigationBar</code>的<code>shadowImage</code>之后的效果，可以看到底部分割线已经不见了，整个导航栏完全透明了，堪称<code>perfect</code>。</p>
-<p><img src="/images/20161209/transparent2.png" alt="透明效果"></p>
-<h3 id="附上将UIColor转成UIImage的代码"><a href="#附上将UIColor转成UIImage的代码" class="headerlink" title="附上将UIColor转成UIImage的代码"></a>附上将UIColor转成UIImage的代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color;</div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIImage</span> (<span class="title">PC</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span> pc_imageWithColor:color size:<span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)pc_imageWithColor:(<span class="built_in">UIColor</span> *)color size:(<span class="built_in">CGSize</span>)size &#123;</div><div class="line">    <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, size&#125;;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</div><div class="line">    <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">    <span class="built_in">UIImage</span> *image = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> image;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/09/navigationbar-transparent/" class="archive-article-date">
-  	<time datetime="2016-12-09T09:04:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-09</time>
 </a>
       
 	<div class="article-tag tagcloud">
