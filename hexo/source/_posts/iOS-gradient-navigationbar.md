@@ -1,9 +1,17 @@
 ---
 title: iOS 导航栏颜色渐变
-date: 2018-08-31 18:04:07
+date: 2018-09-01 09:14:07
 tags:
 	- iOS
 ---
+
+## 效果图
+
+![PNG](/images/201809/gradient-navigation-bar.png)
+
+## 代码
+
+- 渐变的导航栏
 
 ```ObjC
 @interface XPGradientNavigationBar : UINavigationBar
@@ -48,9 +56,7 @@ tags:
     }
 
     if (_gradientLayer.superlayer) {
-        CGRect frame = (CGRect){CGPointZero, self.frame.size};
-        frame.size.height += self.frame.origin.y;
-        _gradientLayer.frame = frame;
+        _gradientLayer.frame = self.subviews.firstObject.bounds;
     }
 }
 
@@ -76,3 +82,34 @@ tags:
 
 @end
 ```
+
+- 配合 UINavigationController 使用效果更佳 (非必须)
+
+```ObjC
+@implementation XPGradientNavigationController
+
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
+    self = [self initWithNavigationBarClass:nil toolbarClass:nil];
+    if (self) {
+        if (rootViewController) {
+            [super pushViewController:rootViewController animated:NO];
+        }
+    }
+    return self;
+}
+
+- (instancetype)initWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass {
+    return [super initWithNavigationBarClass:XPGradientNavigationBar.class toolbarClass:toolbarClass];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        NSAssert([self.navigationBar isKindOfClass:XPGradientNavigationBar.class], @"self.navigationBar must be XPGradientNavigationBar");
+    }
+    return self;
+}
+
+@end
+```
+
+如果你是通过可视化方式创建的导航栏控制器，则需要在 Storyboard/xib 中手动将 `Navigation Bar` 的 Class 指定为 `XPGradientNavigationBar`，如果是通过代码创建 UINavigationController，则使用 `XPGradientNavigationController` 即可。
