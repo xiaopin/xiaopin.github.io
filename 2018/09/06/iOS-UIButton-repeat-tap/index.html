@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.0daybug.com">
+  <title>解决 UIButton 快速点击后重复提交数据 | 吴品诚的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="有时候我们快速点击按钮多次，会触发多次点击事件，最终导致数据提交多次，这是很没必要的。
+说明
+默认开启防重复点击功能，默认间隔时间 0.5 秒
+一旦开启该功能，则无法同时触发多次 UIControlEvents 的事件，比如按钮同时绑定了 UIControlEventTouchUpInside 和 UIControlEventTouchDownRepeat 事件，但是只会触发 UIControlE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决 UIButton 快速点击后重复提交数据">
+<meta property="og:url" content="http://www.0daybug.com/2018/09/06/iOS-UIButton-repeat-tap/index.html">
+<meta property="og:site_name" content="吴品诚的技术博客">
+<meta property="og:description" content="有时候我们快速点击按钮多次，会触发多次点击事件，最终导致数据提交多次，这是很没必要的。
+说明
+默认开启防重复点击功能，默认间隔时间 0.5 秒
+一旦开启该功能，则无法同时触发多次 UIControlEvents 的事件，比如按钮同时绑定了 UIControlEventTouchUpInside 和 UIControlEventTouchDownRepeat 事件，但是只会触发 UIControlE">
+<meta property="og:updated_time" content="2018-09-06T13:53:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决 UIButton 快速点击后重复提交数据">
+<meta name="twitter:description" content="有时候我们快速点击按钮多次，会触发多次点击事件，最终导致数据提交多次，这是很没必要的。
+说明
+默认开启防重复点击功能，默认间隔时间 0.5 秒
+一旦开启该功能，则无法同时触发多次 UIControlEvents 的事件，比如按钮同时绑定了 UIControlEventTouchUpInside 和 UIControlEventTouchDownRepeat 事件，但是只会触发 UIControlE">
+  
+    <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/images/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">吴品诚</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">记录点滴码农生活</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">吴品诚</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/images/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">吴品诚</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">记录点滴码农生活</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/xiaopin" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/u/2637356434" title="weibo">weibo</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-iOS-UIButton-repeat-tap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      解决 UIButton 快速点击后重复提交数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候我们快速点击按钮多次，会触发多次点击事件，最终导致数据提交多次，这是很没必要的。</p>
+<h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><ul>
+<li>默认开启防重复点击功能，默认间隔时间 <code>0.5</code> 秒</li>
+<li>一旦开启该功能，则无法同时触发多次 <code>UIControlEvents</code> 的事件，比如按钮同时绑定了 <code>UIControlEventTouchUpInside</code> 和 <code>UIControlEventTouchDownRepeat</code> 事件，但是只会触发 UIControlEventTouchUpInside 的事件；但是并不影响长按手势以及通过 <code>UITapGestureRecognizer</code> 实现的双击手势</li>
+</ul>
+<p>总之，如果你的按钮有特殊的需求，可以通过将 <code>enabledRejectRepeatTap</code> 设置为 <code>NO</code> 来禁用该功能。</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ul>
+<li><code>UIButton+RejectRepeatTapGesture.h</code> 头文件代码</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIButton</span> (<span class="title">RejectRepeatTapGesture</span>)</span></div><div class="line"></div><div class="line"><span class="comment">/// 重复点击的时间间隔, 默认`0.5s`</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) IBInspectable <span class="keyword">double</span> repeatTimeInterval;</div><div class="line"><span class="comment">/// 是否启用防重复功能, 默认`YES`</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">getter</span>=isEnabledRejectRepeatTap) IBInspectable <span class="built_in">BOOL</span> enabledRejectRepeatTap;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/// 回调, 按钮的`target`对象遵守该协议即可接收回调事件</span></div><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">UIButtonRejectRepeatTapGestureCallback</span> &lt;<span class="title">NSObject</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> 当重复点击时的回调方法</div><div class="line"></div><div class="line"> @param button 被点击的按钮</div><div class="line"> @param timeInterval 两次点击之间的时间间隔</div><div class="line"> */</div><div class="line">- (<span class="keyword">void</span>)rejectRepeatTapGestureFromButton:(<span class="built_in">UIButton</span> *)button timeInterval:(<span class="built_in">NSTimeInterval</span>)timeInterval;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<ul>
+<li><code>UIButton+RejectRepeatTapGesture.m</code> 代码</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"UIButton+RejectRepeatTapGesture.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;objc/message.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> <span class="keyword">const</span> kLasttimeTapTimeKey = <span class="string">'\0'</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIButton</span> (<span class="title">RejectRepeatTapGesture</span>)</span></div><div class="line"></div><div class="line"><span class="meta">#pragma mark - Lifecycle</span></div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        SEL originalSelector = <span class="keyword">@selector</span>(sendAction:to:forEvent:);</div><div class="line">        SEL swizllingSelector = <span class="keyword">@selector</span>(rrtg_sendAction:to:forEvent:);</div><div class="line">        Method originalMethod = class_getInstanceMethod(<span class="keyword">self</span>, originalSelector);</div><div class="line">        Method swizllingMethod = class_getInstanceMethod(<span class="keyword">self</span>, swizllingSelector);</div><div class="line">        <span class="built_in">BOOL</span> flag = class_addMethod(<span class="keyword">self</span>, originalSelector, method_getImplementation(swizllingMethod), method_getTypeEncoding(swizllingMethod));</div><div class="line">        <span class="keyword">if</span> (flag) &#123;</div><div class="line">            class_replaceMethod(<span class="keyword">self</span>, swizllingSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            method_exchangeImplementations(originalMethod, swizllingMethod);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)rrtg_sendAction:(SEL)action to:(<span class="keyword">id</span>)target forEvent:(<span class="built_in">UIEvent</span> *)event &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.isEnabledRejectRepeatTap) &#123;</div><div class="line">        <span class="built_in">NSTimeInterval</span> lasttimeTapTime = [objc_getAssociatedObject(<span class="keyword">self</span>, &amp;kLasttimeTapTimeKey) doubleValue];</div><div class="line">        <span class="keyword">if</span> (lasttimeTapTime &gt; <span class="number">0.0</span>) &#123;</div><div class="line">            <span class="built_in">NSTimeInterval</span> currentTime = [[<span class="built_in">NSDate</span> date] timeIntervalSince1970];</div><div class="line">            <span class="built_in">NSTimeInterval</span> interval = currentTime - lasttimeTapTime;</div><div class="line">            <span class="keyword">if</span> (interval &lt;= <span class="keyword">self</span>.repeatTimeInterval) &#123;</div><div class="line">                <span class="keyword">if</span> ([target conformsToProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UIButtonRejectRepeatTapGestureCallback</span>)]) </span>&#123;</div><div class="line">                    <span class="keyword">id</span>&lt;<span class="built_in">UIButtonRejectRepeatTapGestureCallback</span>&gt; delegate = (<span class="keyword">id</span>&lt;<span class="built_in">UIButtonRejectRepeatTapGestureCallback</span>&gt;)target;</div><div class="line">                    [delegate rejectRepeatTapGestureFromButton:<span class="keyword">self</span> timeInterval:interval];</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        objc_setAssociatedObject(<span class="keyword">self</span>,</div><div class="line">                                 &amp;kLasttimeTapTimeKey,</div><div class="line">                                 @(<span class="built_in">NSDate</span>.date.timeIntervalSince1970),</div><div class="line">                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">self</span> rrtg_sendAction:action to:target forEvent:event];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - setter &amp; getter</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setRepeatTimeInterval:(<span class="built_in">NSTimeInterval</span>)repeatTimeInterval &#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>,</div><div class="line">                             <span class="keyword">@selector</span>(repeatTimeInterval),</div><div class="line">                             @(repeatTimeInterval),</div><div class="line">                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">NSTimeInterval</span>)repeatTimeInterval &#123;</div><div class="line">    <span class="built_in">NSTimeInterval</span> timeInterval = [objc_getAssociatedObject(<span class="keyword">self</span>, _cmd) doubleValue];</div><div class="line">    <span class="keyword">if</span> (timeInterval &gt;= <span class="number">0.01</span>) &#123;</div><div class="line">        <span class="keyword">return</span> timeInterval;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0.5</span>; <span class="comment">// default.</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setEnabledRejectRepeatTap:(<span class="built_in">BOOL</span>)enabledRejectRepeatTap &#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>,</div><div class="line">                             <span class="keyword">@selector</span>(isEnabledRejectRepeatTap),</div><div class="line">                             @(enabledRejectRepeatTap),</div><div class="line">                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)isEnabledRejectRepeatTap &#123;</div><div class="line">    <span class="keyword">id</span> obj = objc_getAssociatedObject(<span class="keyword">self</span>, _cmd);</div><div class="line">    <span class="keyword">if</span> (obj) &#123;</div><div class="line">        <span class="keyword">return</span> [obj boolValue];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>; <span class="comment">// default.</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/06/iOS-UIButton-repeat-tap/" class="archive-article-date">
+  	<time datetime="2018-09-06T08:03:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/01/iOS-gradient-navigationbar/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS 导航栏颜色渐变</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 吴品诚
+    	</div>
+      <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18042388号-1</a>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Other/" style="font-size: 12.5px;">Other</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Swift/" style="font-size: 17.5px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/macOS/" style="font-size: 12.5px;">macOS</a> <a href="/tags/随记/" style="font-size: 10px;">随记</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://onevcat.com/#blog">王巍博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.devtang.com/">唐巧博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰的官方网站</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.skyfox.org/">天狐博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.kittenyang.com/">Kitten博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.limboy.me/">李忠(蘑菇街)博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://blog.sunnyyoung.net/">Sunnyyoung博客</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://objccn.io/">ObjC中国</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://nshipster.cn/">NSHipster</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://es6.ruanyifeng.com/">阮一峰ECMAScript6入门</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://git-scm.com/book/zh/v2/">Git Document</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://tinypng.com/">图片在线压缩</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.cockos.com/licecap/">屏幕录制GIF</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/">Apple Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/app-store/review/guidelines/cn/">App Store 审核指南</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developers.google.cn/">Google Developer</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.iconfont.cn/">阿里巴巴矢量图标库</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.nsdateformatter.com/">NSDate日期格式</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/support/app-store/">iOS版本分布情况</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213">iOS符号表</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6">iPhone尺寸</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">我是吴品诚，我喂自己袋盐......</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
