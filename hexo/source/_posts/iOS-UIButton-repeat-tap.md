@@ -75,6 +75,12 @@ static char const kLasttimeTapTimeKey = '\0';
 
 - (void)rrtg_sendAction:(SEL)action to:(id)target forEvent:(UIEvent *)event {
     if (self.isEnabledRejectRepeatTap) {
+    	if (@available(iOS 11.0, *)) {
+            // Fix: UITableViewCell left-slide the delete button click is invalid on iOS 11.0 or later
+            if (self.class == NSClassFromString(@"UISwipeActionStandardButton")) {
+                return [self rrtg_sendAction:action to:target forEvent:event];
+            }
+        }
         NSTimeInterval lasttimeTapTime = [objc_getAssociatedObject(self, &kLasttimeTapTimeKey) doubleValue];
         if (lasttimeTapTime > 0.0) {
             NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
