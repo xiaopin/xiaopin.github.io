@@ -49,7 +49,6 @@ tags:
 }
 
 static char const XPButtonLoadingIndicatorKey       = '\0';
-static char const XPButtonLoadingClearCompleteKey   = '\0';
 
 /// 重写 `setEnabled:` 方法, 当按钮被禁用时显示一个菊花提示
 - (void)xp_setEnabled:(BOOL)enabled {
@@ -58,8 +57,17 @@ static char const XPButtonLoadingClearCompleteKey   = '\0';
             UIActivityIndicatorView *indicatorView = objc_getAssociatedObject(self, &XPButtonLoadingIndicatorKey);
             [indicatorView stopAnimating];
         } else {
-            BOOL isClearComplete = [objc_getAssociatedObject(self, &XPButtonLoadingClearCompleteKey) boolValue];
-            if (!isClearComplete) {
+            // 显示菊花
+            UIActivityIndicatorView *indicatorView = objc_getAssociatedObject(self, &XPButtonLoadingIndicatorKey);
+            if (nil == indicatorView) {
+                indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                [indicatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
+                [indicatorView setHidesWhenStopped:YES];
+                [self addSubview:indicatorView];
+                [indicatorView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = YES;
+                [indicatorView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
+                objc_setAssociatedObject(self, &XPButtonLoadingIndicatorKey, indicatorView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
                 // 清除禁用状态下的图片/文字(设置`hidden`属性无效)
                 CGRect rect = (CGRect){CGPointZero, CGSizeMake(1.0, 1.0)};
                 UIGraphicsBeginImageContext(rect.size);
@@ -71,19 +79,6 @@ static char const XPButtonLoadingClearCompleteKey   = '\0';
                 [self setImage:clearImage forState:UIControlStateDisabled];
                 [self setBackgroundImage:clearImage forState:UIControlStateDisabled];
                 [self setTitle:NSString.new forState:UIControlStateDisabled];
-                objc_setAssociatedObject(self, &XPButtonLoadingClearCompleteKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-            }
-            
-            // 显示菊花
-            UIActivityIndicatorView *indicatorView = objc_getAssociatedObject(self, &XPButtonLoadingIndicatorKey);
-            if (nil == indicatorView) {
-                indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                [indicatorView setTranslatesAutoresizingMaskIntoConstraints:NO];
-                [indicatorView setHidesWhenStopped:YES];
-                [self addSubview:indicatorView];
-                [indicatorView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = YES;
-                [indicatorView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = YES;
-                objc_setAssociatedObject(self, &XPButtonLoadingIndicatorKey, indicatorView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
             [indicatorView startAnimating];
         }
