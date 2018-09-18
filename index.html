@@ -138,6 +138,75 @@
       <div class="body-wrap">
         
   
+    <article id="post-UIButton-loading" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/14/UIButton-loading/">UIButton 被禁用时显示一个菊花提示用户正在加载中</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当点击按钮后，可能会执行一个比较耗时的操作，但是又不方便在整个页面进行提示时，此时如果我们仅仅只是把按钮禁用了以防用户重复点击，但是用户并不知道操作是否还在继续，用户体验不够友好；但是如果我们在按钮被禁用时，自动显示一个转圈圈的小菊花进行提示，那用户体验就会好很多，用户一看就知道当前操作正在进行中。</p>
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><p>附上我项目中的一个使用场景：重新定位的按钮，点击后重新定位用户的位置，但是不影响页面的其他操作。</p>
+<p><img src="/images/201809/button-loading.gif" alt="gif"></p>
+<h2 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h2><ul>
+<li>iOS 9.0+ (使用了 <code>NSLayoutAnchor</code>, 如需要兼容低版本 iOS, 请自行改用 NSLayoutConstraint)</li>
+</ul>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>新建一个 UIButton 的分类</p>
+<ul>
+<li><code>.h</code> 头文件</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// 当按钮被禁用时, 是否显示正在加载的状态提示, 默认`NO`</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>, <span class="keyword">getter</span>=isShowLoadingWhenDisabled) IBInspectable <span class="built_in">BOOL</span> showLoadingWhenDisabled;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>.m</code> 文件</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)load &#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        SEL originalSelector = <span class="keyword">@selector</span>(setEnabled:);</div><div class="line">        SEL swizllingSelector = <span class="keyword">@selector</span>(xp_setEnabled:);</div><div class="line">        Method originalMethod = class_getInstanceMethod(<span class="keyword">self</span>, originalSelector);</div><div class="line">        Method swizllingMethod = class_getInstanceMethod(<span class="keyword">self</span>, swizllingSelector);</div><div class="line">        <span class="built_in">BOOL</span> flag = class_addMethod(<span class="keyword">self</span>, originalSelector, method_getImplementation(swizllingMethod), method_getTypeEncoding(swizllingMethod));</div><div class="line">        <span class="keyword">if</span> (flag) &#123;</div><div class="line">            class_replaceMethod(<span class="keyword">self</span>, swizllingSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            method_exchangeImplementations(originalMethod, swizllingMethod);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> <span class="keyword">const</span> XPButtonLoadingIndicatorKey       = <span class="string">'\0'</span>;</div><div class="line"></div><div class="line"><span class="comment">/// 重写 `setEnabled:` 方法, 当按钮被禁用时显示一个菊花提示</span></div><div class="line">- (<span class="keyword">void</span>)xp_setEnabled:(<span class="built_in">BOOL</span>)enabled &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.isShowLoadingWhenDisabled) &#123;</div><div class="line">        <span class="keyword">if</span> (enabled) &#123;</div><div class="line">            <span class="built_in">UIActivityIndicatorView</span> *indicatorView = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;XPButtonLoadingIndicatorKey);</div><div class="line">            [indicatorView stopAnimating];</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 显示菊花</span></div><div class="line">            <span class="built_in">UIActivityIndicatorView</span> *indicatorView = objc_getAssociatedObject(<span class="keyword">self</span>, &amp;XPButtonLoadingIndicatorKey);</div><div class="line">            <span class="keyword">if</span> (<span class="literal">nil</span> == indicatorView) &#123;</div><div class="line">                indicatorView = [[<span class="built_in">UIActivityIndicatorView</span> alloc] initWithActivityIndicatorStyle:<span class="built_in">UIActivityIndicatorViewStyleGray</span>];</div><div class="line">                [indicatorView setTranslatesAutoresizingMaskIntoConstraints:<span class="literal">NO</span>];</div><div class="line">                [indicatorView setHidesWhenStopped:<span class="literal">YES</span>];</div><div class="line">                [<span class="keyword">self</span> addSubview:indicatorView];</div><div class="line">                [indicatorView.centerXAnchor constraintEqualToAnchor:<span class="keyword">self</span>.centerXAnchor].active = <span class="literal">YES</span>;</div><div class="line">                [indicatorView.centerYAnchor constraintEqualToAnchor:<span class="keyword">self</span>.centerYAnchor].active = <span class="literal">YES</span>;</div><div class="line">                objc_setAssociatedObject(<span class="keyword">self</span>, &amp;XPButtonLoadingIndicatorKey, indicatorView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line"></div><div class="line">                <span class="comment">// 清除禁用状态下的图片/文字(设置`hidden`属性无效)</span></div><div class="line">                <span class="built_in">CGRect</span> rect = (<span class="built_in">CGRect</span>)&#123;<span class="built_in">CGPointZero</span>, <span class="built_in">CGSizeMake</span>(<span class="number">1.0</span>, <span class="number">1.0</span>)&#125;;</div><div class="line">                <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</div><div class="line">                <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</div><div class="line">                <span class="built_in">CGContextSetFillColorWithColor</span>(context, <span class="built_in">UIColor</span>.clearColor.CGColor);</div><div class="line">                <span class="built_in">CGContextFillRect</span>(context, rect);</div><div class="line">                <span class="built_in">UIImage</span> *clearImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">                <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">                [<span class="keyword">self</span> setImage:clearImage forState:<span class="built_in">UIControlStateDisabled</span>];</div><div class="line">                [<span class="keyword">self</span> setBackgroundImage:clearImage forState:<span class="built_in">UIControlStateDisabled</span>];</div><div class="line">                [<span class="keyword">self</span> setTitle:<span class="built_in">NSString</span>.new forState:<span class="built_in">UIControlStateDisabled</span>];</div><div class="line">            &#125;</div><div class="line">            [indicatorView startAnimating];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    [<span class="keyword">self</span> xp_setEnabled:enabled];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)setShowLoadingWhenDisabled:(<span class="built_in">BOOL</span>)showLoadingWhenDisabled &#123;</div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(isShowLoadingWhenDisabled), @(showLoadingWhenDisabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">if</span> (showLoadingWhenDisabled &amp;&amp; <span class="keyword">self</span>.state == <span class="built_in">UIControlStateDisabled</span>) &#123;</div><div class="line">        [<span class="keyword">self</span> setEnabled:<span class="keyword">self</span>.isEnabled];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)isShowLoadingWhenDisabled &#123;</div><div class="line">    <span class="keyword">return</span> [objc_getAssociatedObject(<span class="keyword">self</span>, _cmd) boolValue];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>1、 设置按钮的 <code>showLoadingWhenDisabled</code> 属性为 <code>YES</code></p>
+<p>2、 设置按钮的启用/禁用 <code>setEnabled:</code></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>不建议将按钮默认为禁用状态</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/14/UIButton-loading/" class="archive-article-date">
+  	<time datetime="2018-09-14T02:51:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-UIButton-repeat-tap" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -686,70 +755,6 @@
       
       <a href="/2018/07/06/iOS-subway-map/" class="archive-article-date">
   	<time datetime="2018-07-06T06:25:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hex2UIColor" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>支持十六进制字符串的格式有：</p>
-<ul>
-<li>#FFF</li>
-<li>#FFFF</li>
-<li>#FFFFFF</li>
-<li>#FFFFFFFF</li>
-<li>0xFFF</li>
-<li>0xFFFF</li>
-<li>0xFFFFFF</li>
-<li>0xFFFFFFFF</li>
-<li>可省略<code>#</code>、<code>0x</code>符号</li>
-<li>不区分大小写</li>
-</ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex &#123;</div><div class="line">    <span class="built_in">NSString</span> *str = hex;</div><div class="line">    <span class="keyword">if</span> ([hex hasPrefix:<span class="string">@"#"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">1</span>];</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([hex.lowercaseString hasPrefix:<span class="string">@"0x"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSScanner</span> *scanner = [[<span class="built_in">NSScanner</span> alloc] initWithString:str];</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hexValue;</div><div class="line">    <span class="keyword">if</span> ([scanner scanHexInt:&amp;hexValue]) &#123;</div><div class="line">        <span class="built_in">CGFloat</span> r, g, b, a = <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">switch</span> (str.length) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF00</span>) &gt;&gt; <span class="number">8</span>)       / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F0</span>) &gt;&gt; <span class="number">4</span>)       / <span class="number">15.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x00F</span>)              / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">4</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF000</span>) &gt;&gt; <span class="number">12</span>)     / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F00</span>) &gt;&gt; <span class="number">8</span>)      / <span class="number">15.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x00F0</span>) &gt;&gt; <span class="number">4</span>)      / <span class="number">15.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000F</span>)             / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">6</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF0000</span>) &gt;&gt; <span class="number">16</span>)   / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF00</span>) &gt;&gt; <span class="number">8</span>)    / <span class="number">255.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x0000FF</span>)           / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">8</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF000000</span>) &gt;&gt; <span class="number">24</span>) / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF0000</span>) &gt;&gt; <span class="number">16</span>) / <span class="number">255.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x0000FF00</span>) &gt;&gt; <span class="number">8</span>)  / <span class="number">255.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000000FF</span>)         / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithDisplayP3Red:r green:g blue:b alpha:a];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithRed:r green:g blue:b alpha:a];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
-  	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
 </a>
       
 	<div class="article-tag tagcloud">

@@ -138,6 +138,70 @@
       <div class="body-wrap">
         
   
+    <article id="post-hex2UIColor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/03/hex2UIColor/">十六进制字符串转UIColor</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>支持十六进制字符串的格式有：</p>
+<ul>
+<li>#FFF</li>
+<li>#FFFF</li>
+<li>#FFFFFF</li>
+<li>#FFFFFFFF</li>
+<li>0xFFF</li>
+<li>0xFFFF</li>
+<li>0xFFFFFF</li>
+<li>0xFFFFFFFF</li>
+<li>可省略<code>#</code>、<code>0x</code>符号</li>
+<li>不区分大小写</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIColor</span> (<span class="title">XP</span>)</span></div><div class="line"></div><div class="line">+ (<span class="keyword">instancetype</span>)hexColor:(<span class="built_in">NSString</span> *)hex &#123;</div><div class="line">    <span class="built_in">NSString</span> *str = hex;</div><div class="line">    <span class="keyword">if</span> ([hex hasPrefix:<span class="string">@"#"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">1</span>];</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([hex.lowercaseString hasPrefix:<span class="string">@"0x"</span>]) &#123;</div><div class="line">        str = [hex substringFromIndex:<span class="number">2</span>];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSScanner</span> *scanner = [[<span class="built_in">NSScanner</span> alloc] initWithString:str];</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hexValue;</div><div class="line">    <span class="keyword">if</span> ([scanner scanHexInt:&amp;hexValue]) &#123;</div><div class="line">        <span class="built_in">CGFloat</span> r, g, b, a = <span class="number">1.0</span>;</div><div class="line">        <span class="keyword">switch</span> (str.length) &#123;</div><div class="line">            <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF00</span>) &gt;&gt; <span class="number">8</span>)       / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F0</span>) &gt;&gt; <span class="number">4</span>)       / <span class="number">15.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x00F</span>)              / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">4</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xF000</span>) &gt;&gt; <span class="number">12</span>)     / <span class="number">15.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x0F00</span>) &gt;&gt; <span class="number">8</span>)      / <span class="number">15.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x00F0</span>) &gt;&gt; <span class="number">4</span>)      / <span class="number">15.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000F</span>)             / <span class="number">15.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">6</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF0000</span>) &gt;&gt; <span class="number">16</span>)   / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF00</span>) &gt;&gt; <span class="number">8</span>)    / <span class="number">255.0</span>;</div><div class="line">                b = (hexValue &amp; <span class="number">0x0000FF</span>)           / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="number">8</span>:</div><div class="line">                r = ((hexValue &amp; <span class="number">0xFF000000</span>) &gt;&gt; <span class="number">24</span>) / <span class="number">255.0</span>;</div><div class="line">                g = ((hexValue &amp; <span class="number">0x00FF0000</span>) &gt;&gt; <span class="number">16</span>) / <span class="number">255.0</span>;</div><div class="line">                b = ((hexValue &amp; <span class="number">0x0000FF00</span>) &gt;&gt; <span class="number">8</span>)  / <span class="number">255.0</span>;</div><div class="line">                a = (hexValue &amp; <span class="number">0x000000FF</span>)         / <span class="number">255.0</span>;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">                <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">            <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithDisplayP3Red:r green:g blue:b alpha:a];</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> [<span class="built_in">UIColor</span> colorWithRed:r green:g blue:b alpha:a];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/03/hex2UIColor/" class="archive-article-date">
+  	<time datetime="2018-06-03T08:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-03</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-DZNEmptyDataSet-button-frame" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -796,95 +860,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iOS-SafariServices" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/14/iOS-SafariServices/">SafariServices框架</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。</p>
-<p>SafariServices的可定制性很差，可以说毫无定制性可言，我们只能控制一下导航栏和底部工具栏的颜色，以及通过SFSafariViewControllerDelegate可以添加自定的分享功能(UIActivity)。</p>
-<h3 id="SFSafariViewController"><a href="#SFSafariViewController" class="headerlink" title="SFSafariViewController"></a><strong><em>SFSafariViewController</em></strong></h3><p>一个特殊的UIViewController，为我们使用Safari的UI框架加载网页内容，同时还能享受到Safari的一些便利性：</p>
-<ul>
-<li>高度一致的用户体验性</li>
-<li>和Safari共享Cookie</li>
-<li>密码、证书自动填充</li>
-<li>Safari阅读器(可选是否默认进入阅读器模式)</li>
-</ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SFSafariViewController *safariVC;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    SFSafariViewControllerConfiguration *configuration = [[SFSafariViewControllerConfiguration alloc] init];</div><div class="line">    configuration.entersReaderIfAvailable = <span class="literal">NO</span>;</div><div class="line">    configuration.barCollapsingEnabled = <span class="literal">YES</span>;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url configuration:configuration];</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">    safariVC = [[SFSafariViewController alloc] initWithURL:url];</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">11.0</span>, *)) &#123;</div><div class="line">    safariVC.dismissButtonStyle = SFSafariViewControllerDismissButtonStyleClose;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (@available(iOS <span class="number">10.0</span>, *)) &#123;</div><div class="line">    safariVC.preferredBarTintColor = [<span class="built_in">UIColor</span> orangeColor];</div><div class="line">    safariVC.preferredControlTintColor = [<span class="built_in">UIColor</span> redColor];</div><div class="line">&#125;</div><div class="line"><span class="comment">// [self.navigationController pushViewController:safariVC animated:true];</span></div><div class="line">[<span class="keyword">self</span> presentViewController:safariVC animated:<span class="literal">true</span> completion:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
-<p>SFSafariViewController在push和present上有些许区别。</p>
-<ul>
-<li>push方式<ol>
-<li>点击左上角的按钮并不会关闭网页，需要自行处理</li>
-<li>不支持屏幕左侧滑动返回上一页的手势</li>
-</ol>
-</li>
-<li>present方式<ol>
-<li>点击左上角按钮会关闭网页返回上一个页面</li>
-<li>支持屏幕左侧滑动返回上一页的手势</li>
-</ol>
-</li>
-</ul>
-<h3 id="SFSafariViewControllerConfiguration"><a href="#SFSafariViewControllerConfiguration" class="headerlink" title="SFSafariViewControllerConfiguration"></a><strong><em>SFSafariViewControllerConfiguration</em></strong></h3><p>iOS11新增的配置类，目前的可配置选项仅有两个：</p>
-<ul>
-<li>entersReaderIfAvailable<ol>
-<li>在当前网页支持阅读器时是否自动进入阅读器模式浏览网页</li>
-<li>默认NO</li>
-</ol>
-</li>
-<li>barCollapsingEnabled<ol>
-<li>当拖动网页进行滚动时，是否折叠导航栏和隐藏底部工具栏</li>
-<li>默认YES</li>
-</ol>
-</li>
-</ul>
-<h3 id="SSReadingList"><a href="#SSReadingList" class="headerlink" title="SSReadingList"></a><strong><em>SSReadingList</em></strong></h3><p>添加URL链接到Safari浏览器的阅读列表。需要注意一点的是相同的URL可以添加多次，系统并不会过滤相同的URL。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.0daybug.com"</span>];</div><div class="line">SSReadingList *readingList = [SSReadingList defaultReadingList];</div><div class="line">[readingList addReadingListItemWithURL:url title:<span class="string">@"我的博客"</span> previewText:<span class="string">@"记录日常开发生涯中的点滴"</span> error:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
-<h3 id="SFContentBlockerManager"><a href="#SFContentBlockerManager" class="headerlink" title="SFContentBlockerManager"></a><strong><em>SFContentBlockerManager</em></strong></h3><p>Content Blocker，据说是一个Browser Extension之类的玩意，和广告过滤的作用类似，目前功能不明，更多信息可以看<a href="https://webkit.org/blog/3476/content-blockers-first-look/" target="_blank" rel="external">这里</a>。</p>
-<h3 id="效果演示"><a href="#效果演示" class="headerlink" title="效果演示"></a>效果演示</h3><p><img src="/images/201802/SafariServices.gif" alt="GIF"></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/03/14/iOS-SafariServices/" class="archive-article-date">
-  	<time datetime="2018-03-14T07:46:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       
