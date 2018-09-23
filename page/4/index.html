@@ -138,6 +138,74 @@
       <div class="body-wrap">
         
   
+    <article id="post-iOS-NSPhotoLibraryAddUsageDescription" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/">iOS11保存图片应用闪退</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天产品经理向我反馈在iOS11上点击保存图片后App闪退了，通过调试发现控制台输出了如下错误信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[access] This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app&apos;s Info.plist must contain an NSPhotoLibraryAddUsageDescription key with a string value explaining to the user how the app uses this data.</div></pre></td></tr></table></figure>
+<p>根据控制台输出的错误日志，已经很明确知道原因所在了，那就是Info.plist中缺少了一个<code>NSPhotoLibraryAddUsageDescription</code>的键值对。打开Info.plist，点击<code>+</code>添加一个键值对，在Key中输入<code>Privacy - Photo Library Additions Usage Description</code>，Value类型为<code>String</code>并输入相应的提示语即可。</p>
+<p>你也可以直接以<code>Source Code</code>方式打开Info.plist文件，然后复制以下内容并粘贴到Info.plist中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;key&gt;NSPhotoLibraryAddUsageDescription&lt;/key&gt;</div><div class="line">&lt;string&gt;此App需要您的授权才能保存图片&lt;/string&gt;</div></pre></td></tr></table></figure></p>
+<p>iOS11中新增了以下的Key：</p>
+<ul>
+<li>NFCReaderUsageDescription</li>
+<li>NSFaceIDUsageDescription</li>
+<li>NSPhotoLibraryAddUsageDescription</li>
+</ul>
+<p>如果你的App使用到了NFC、FaceID、保存图片的功能，记得添加相应的Key。</p>
+<p>注意：</p>
+<ul>
+<li>iOS10上图库的访问和写入权限依然依赖于<code>NSPhotoLibraryUsageDescription</code>Key，如果在iOS10上只添加了<code>NSPhotoLibraryAddUsageDescription</code>而没有添加<code>NSPhotoLibraryUsageDescription</code>，当访问图库或者保存图片时应用依然会发生Crash</li>
+<li>iOS11上只要添加了<code>NSPhotoLibraryAddUsageDescription</code>即具备图库的访问和写入权限，无需增加<code>NSPhotoLibraryUsageDescription</code></li>
+<li>iOS11上即使不添加<code>NSPhotoLibraryUsageDescription</code>和<code>NSPhotoLibraryAddUsageDescription</code>也可以通过<code>UIImagePickerController</code>来访问图库(其他API方式未测试，真机和模拟器均可访问到图库数据)，也不知道是否是Bug，居然不需要申请权限就可以访问系统图片。</li>
+</ul>
+<p>综上所述，如果App需要兼容iOS10，则添加<code>NSPhotoLibraryUsageDescription</code>和<code>NSPhotoLibraryAddUsageDescription</code>，如果只兼容iOS11则只添加<code>NSPhotoLibraryAddUsageDescription</code>即可。</p>
+<p>有关Key的说明请参考这里：<br><a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html" target="_blank" rel="external">https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/" class="archive-article-date">
+  	<time datetime="2017-10-09T03:12:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-file-sharing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -649,67 +717,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Swift3-Playground-UI" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/Swift3-Playground-UI/">Xcode8 Swift3通过Playground运行UI</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们都知道在Playground上能够一边写代码一边预览代码运行效果（所见即所得），如果我们需要在Playground上调试UI，就得借助于PlaygroundSupport系统库了。</p>
-<p>1、导入PlaygroundSupport库</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> PlaygroundSupport</div></pre></td></tr></table></figure>
-<p>2、创建UIView，在这一步你可以创建你自己想要的视图</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">100</span>, height: <span class="number">50</span>)</div><div class="line"><span class="keyword">let</span> view = <span class="type">UIView</span>(frame: frame)</div><div class="line">view.backgroundColor = <span class="type">UIColor</span>.purple</div></pre></td></tr></table></figure>
-<p>3、将UIView赋值给liveView</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="type">PlaygroundPage</span>.current.liveView = view</div></pre></td></tr></table></figure>
-<p>4、Xcode打开UI测试界面：</p>
-<blockquote>
-<p>View —&gt; Assistant Editor —&gt; Show Assistant Editor</p>
-<p>快捷键：<code>Option</code>+<code>Command</code>+<code>Enter</code></p>
-</blockquote>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/Swift3-Playground-UI/" class="archive-article-date">
-  	<time datetime="2017-03-27T06:28:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
 	</div>
 
       

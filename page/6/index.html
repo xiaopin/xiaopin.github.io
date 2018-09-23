@@ -138,6 +138,59 @@
       <div class="body-wrap">
         
   
+    <article id="post-textlength-js" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/12/textlength-js/">JavaScript实时统计输入框字符数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="该插件提供一下功能"><a href="#该插件提供一下功能" class="headerlink" title="该插件提供一下功能"></a>该插件提供一下功能</h2><ul>
+<li>实时统计文本字符数，提醒用户当前还可输入多少字符</li>
+<li>限制用户输入的文本长度</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*!</span></div><div class="line"> * 字符统计工具</div><div class="line"> * @example</div><div class="line"> * &lt;textarea name="desc" id="desc"&gt;&lt;/textarea&gt;&lt;p&gt;还可以输入&lt;em&gt;&lt;/em&gt;字符&lt;/p&gt;</div><div class="line"> * new WordCountTool(&#123;id:'#desc', charset:'UTF-8', maxlength:2000&#125;);</div><div class="line"> */</div><div class="line">;(<span class="function"><span class="keyword">function</span>(<span class="params">window, $</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> WordCountTool = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> config = <span class="literal">null</span>;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line">            config = $.extend(&#123;&#125;, &#123;<span class="attr">id</span>:<span class="string">'#wordcount'</span>, <span class="attr">charset</span>:<span class="string">'UTF-8'</span>, <span class="attr">maxlength</span>: <span class="number">1000</span>&#125;, options);</div><div class="line">            $(config.id).on(<span class="string">'keyup'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                startStatistics.call(self, <span class="keyword">this</span>);</div><div class="line">            &#125;);</div><div class="line">            $(config.id).trigger(<span class="string">'keyup'</span>);</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> startStatistics = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">            <span class="keyword">var</span> val = $(obj).val(),</div><div class="line">                curLength = config.maxlength,</div><div class="line">                strLength = strlen(val),</div><div class="line">                isUtf8 = config.charset.toUpperCase() == <span class="string">'UTF-8'</span>;</div><div class="line">                <span class="keyword">if</span> ($.trim(val) == <span class="string">''</span>) val = <span class="string">''</span>;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; val.length; i++) &#123;</div><div class="line">                    <span class="keyword">var</span> charCode = val.charCodeAt(i);</div><div class="line">                    <span class="keyword">if</span> (charCode &lt; <span class="number">0</span> || charCode &gt; <span class="number">255</span>) &#123;</div><div class="line">                        curLength -= (isUtf8 ? <span class="number">2</span> : <span class="number">1</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"> </div><div class="line">                <span class="keyword">if</span> (curLength &gt;= strLength) &#123;</div><div class="line">                    $(obj).next(<span class="string">'p'</span>).children(<span class="string">'em'</span>).html(curLength - strLength);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    $(obj).val(strcut(val, config.maxlength));</div><div class="line">                &#125;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> strlen = <span class="function"><span class="keyword">function</span>(<span class="params">str</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span>($.trim(str) == <span class="string">''</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            <span class="keyword">return</span> ($.browser.msie &amp;&amp; str.indexOf(<span class="string">'\n'</span>) != <span class="number">-1</span>) ? str.replace(<span class="regexp">/\r?\n/g</span>, <span class="string">'_'</span>).length : str.length;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        <span class="keyword">var</span> strcut = <span class="function"><span class="keyword">function</span>(<span class="params">str, maxlen</span>) </span>&#123;</div><div class="line">            <span class="keyword">var</span> curLength = <span class="number">0</span>,</div><div class="line">                result = <span class="string">''</span>,</div><div class="line">                charByteLength = config.charset.toUpperCase() == <span class="string">'UTF-8'</span> ? <span class="number">3</span> : <span class="number">2</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</div><div class="line">                <span class="keyword">var</span> charCode = str.charCodeAt(i);</div><div class="line">                curLength += (charCode &lt; <span class="number">0</span> || charCode &gt; <span class="number">255</span>) ? charByteLength : <span class="number">1</span>;</div><div class="line">                <span class="keyword">if</span> (curLength &gt; maxlen) &#123;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">                result += str.substr(i, <span class="number">1</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;;</div><div class="line"> </div><div class="line">        init.call(<span class="keyword">this</span>, options);</div><div class="line">    &#125;;</div><div class="line"> </div><div class="line">    <span class="built_in">window</span>.WordCountTool = WordCountTool;</div><div class="line">&#125;(<span class="built_in">window</span>, jQuery));</div></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/12/textlength-js/" class="archive-article-date">
+  	<time datetime="2016-01-12T08:34:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-carousel-js" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
