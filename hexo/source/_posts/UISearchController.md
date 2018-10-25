@@ -131,4 +131,19 @@ self.definesPresentationContext = YES;
 [self.presentingViewController.navigationController pushViewController:vc animated:YES];
 ```
 
+## 2018-10-25 更新
 
+> 场景：C (UISearchController) 作为控制器 A (UIViewController) 的成员属性，B (UIViewController) 作为 C 的 searchResultsController。
+
+如果 `hidesNavigationBarDuringPresentation` 属性设置为 `NO` 并且 UISearchController 处于激活状态（`isActive` 属性为 YES），如果此时通过导航栏返回上一个页面（不管是点击导航栏返回按钮或是通过滑动手势返回上一页）将会导致 `searchResultsController` 不会被释放，也就是内存泄漏了。对应于上面的场景就是 A、B、C 都不会被释放。
+
+那么如何解决这个问题呢，可以重写 A 的 `viewDidDisappear:` 方法，在 A 消失的时候进行处理，如果此时 UISearchController 处于激活状态，只需要关闭激活状态即可。
+
+```ObjC
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.searchController.isActive && ![self.navigationController.viewControllers containsObject:self]) {
+        [self.searchController setActive:NO];
+    }
+}
+```
