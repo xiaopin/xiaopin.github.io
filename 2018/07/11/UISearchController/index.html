@@ -21,7 +21,7 @@ FirstViewController，展示数据
 FirstViewController，展示数据
 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354@interface FirstViewController : UITableViewController&amp;lt;UISearch">
 <meta property="og:image" content="http://www.0daybug.com/images/201807/UISearchController.gif">
-<meta property="og:updated_time" content="2018-07-11T13:36:55.000Z">
+<meta property="og:updated_time" content="2018-10-25T12:59:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UISearchController使用示例(push到下一个页面)">
 <meta name="twitter:description" content="GIF效果图
@@ -180,6 +180,12 @@ FirstViewController，展示数据
 </ul>
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>1、<code>definesPresentationContext</code> 属性必须设置为<code>YES</code>，否则跳转不成功或者跳转后新页面处于搜索结果页面之下<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.definesPresentationContext = <span class="literal">YES</span>;</div></pre></td></tr></table></figure></p>
 <p>2、正确的 push 姿势，使用 <code>self.presentingViewController.navigationController</code> 进行跳转<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span>.presentingViewController.navigationController pushViewController:vc animated:<span class="literal">YES</span>];</div></pre></td></tr></table></figure></p>
+<h2 id="2018-10-25-更新"><a href="#2018-10-25-更新" class="headerlink" title="2018-10-25 更新"></a>2018-10-25 更新</h2><blockquote>
+<p>场景：C (UISearchController) 作为控制器 A (UIViewController) 的成员属性，B (UIViewController) 作为 C 的 searchResultsController。</p>
+</blockquote>
+<p>如果 <code>hidesNavigationBarDuringPresentation</code> 属性设置为 <code>NO</code> 并且 UISearchController 处于激活状态（<code>isActive</code> 属性为 YES），如果此时通过导航栏返回上一个页面（不管是点击导航栏返回按钮或是通过滑动手势返回上一页）将会导致 <code>searchResultsController</code> 不会被释放，也就是内存泄漏了。对应于上面的场景就是 A、B、C 都不会被释放。</p>
+<p>那么如何解决这个问题呢，可以重写 A 的 <code>viewDidDisappear:</code> 方法，在 A 消失的时候进行处理，如果此时 UISearchController 处于激活状态，只需要关闭激活状态即可。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)viewDidDisappear:(<span class="built_in">BOOL</span>)animated &#123;</div><div class="line">    [<span class="keyword">super</span> viewDidDisappear:animated];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.searchController.isActive &amp;&amp; ![<span class="keyword">self</span>.navigationController.viewControllers containsObject:<span class="keyword">self</span>]) &#123;</div><div class="line">        [<span class="keyword">self</span>.searchController setActive:<span class="literal">NO</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
