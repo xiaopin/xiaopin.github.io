@@ -138,6 +138,68 @@
       <div class="body-wrap">
         
   
+    <article id="post-UITableViewCell-copy-menu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/26/UITableViewCell-copy-menu/">UITableViewCell长按拷贝菜单选项</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>运营推广人员向我们反馈说需要一个能方便拷贝会员手机号码的功能，方便进行其他操作。由于会员信息是采用UITableView来进行展示的，而系统已经为我们准备好了UITableViewCell长按功能菜单的API，我们只需实现对应的代理方法即可。</p>
+</blockquote>
+<p>要实现该功能，主要步骤为：</p>
+<ul>
+<li>遵守<code>UITableViewDelegate</code>协议；</li>
+<li>实现<code>- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath</code>方法并返回YES；</li>
+<li>实现<code>- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action决定对应的菜单按钮是否需要显示；</li>
+<li>实现<code>- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action判断用户做出了什么操作。</li>
+</ul>
+<p>具体实现代码：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView shouldShowMenuForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    <span class="keyword">return</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span> &amp;&amp; action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView performAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        [[<span class="built_in">UIPasteboard</span> generalPasteboard] setString:<span class="string">@"需要拷贝的内容"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最后来一张效果图:</p>
+<p><img src="/images/201710/UITableViewCell-copy.png" alt="效果图"></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/10/26/UITableViewCell-copy-menu/" class="archive-article-date">
+  	<time datetime="2017-10-26T01:14:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-NSPhotoLibraryAddUsageDescription" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -656,62 +718,6 @@
       
       <a href="/2017/03/27/macos-window-center/" class="archive-article-date">
   	<time datetime="2017-03-27T07:00:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/macOS/">macOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-macos-titlebar-hide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/27/macos-titlebar-hide/">隐藏NSWindow的titleBar</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>新建一个macOS应用项目，编译运行后默认出现的界面是如下图所示的样子：</p>
-<p><img src="/images/201703/titlebar-default.png" alt="默认效果"></p>
-<p>有时候我们需要去掉titleBar，类似QQ登录界面那种，此时我们可以在继承自NSWindowController的自定义类的-windowDidLoad方法中通过下面的代码实现效果：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)windowDidLoad &#123;</div><div class="line">  [<span class="keyword">super</span> windowDidLoad];</div><div class="line">  [<span class="keyword">self</span>.window setTitleVisibility:<span class="built_in">NSWindowTitleHidden</span>];</div><div class="line">  [<span class="keyword">self</span>.window setTitlebarAppearsTransparent:<span class="literal">YES</span>];</div><div class="line">  [<span class="keyword">self</span>.window setStyleMask:<span class="built_in">NSWindowStyleMaskFullSizeContentView</span>|<span class="built_in">NSWindowStyleMaskTitled</span>|<span class="built_in">NSWindowStyleMaskClosable</span>|<span class="built_in">NSWindowStyleMaskMiniaturizable</span>|<span class="built_in">NSWindowStyleMaskResizable</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>我们也可以直接在IB中进行设置，打开Storyboard并选中NSWindowController中的NSWindow，展开右侧工具栏并切换至属性面板，勾选上<code>Full Size Content View</code>选项即可。如果在IB中进行设置，则无需在代码中调用<code>-setStyleMask:</code>方法。</p>
-<p>最终效果如下图所示：</p>
-<p><img src="/images/201703/titlebar-hide.png" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/27/macos-titlebar-hide/" class="archive-article-date">
-  	<time datetime="2017-03-27T06:46:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
 </a>
       
 	<div class="article-tag tagcloud">

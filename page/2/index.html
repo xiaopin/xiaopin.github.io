@@ -138,6 +138,61 @@
       <div class="body-wrap">
         
   
+    <article id="post-WKWebView-crash-on-iOS9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/06/WKWebView-crash-on-iOS9/">WKWebView在iOS9上崩溃</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。</p>
+<p>具体操作：通过 push 网页控制器，然后在 pop 之后，程序就崩了。</p>
+<p>打断点也定位不到 crash 代码行，打开 Xcode 的僵尸模式之后，控制台也仅输出以下信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">-[XPWebViewController retain]: message sent to deallocated instance 0x7fa1974a33f0</div></pre></td></tr></table></figure></p>
+<p>经过排查发现是因为 WKWebView 的 UIScrollView 代理惹的祸，因为我需要实时监听网页的滚动区域来处理一些事情，所以我把 <code>WKWebView.scrollView.delegate</code> 设置为当前控制器。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.webView.scrollView.delegate = <span class="keyword">self</span>;</div></pre></td></tr></table></figure>
+<p>既然知道了症结所在，那么只需要在控制器销毁的时候及时清掉代理就行了：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)dealloc &#123;</div><div class="line">    <span class="keyword">self</span>.webView.scrollView.delegate = <span class="literal">nil</span>; <span class="comment">// Fix iOS9 crash.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/06/WKWebView-crash-on-iOS9/" class="archive-article-date">
+  	<time datetime="2018-07-06T10:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-iOS-subway-map" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -739,59 +794,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-swift-substr" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/29/swift-substr/">Swift截取子字符串</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在Swift中截取子串，一直是个头疼的问题，毕竟牵涉到<code>String.Index</code>这个鬼东西，而且API还不好用。现在连<code>substring(to:)</code>、<code>substring(from:)</code>、<code>substring(width:)</code>这几个方法也被废弃了。</p>
-<h3 id="One-sided-Slicing"><a href="#One-sided-Slicing" class="headerlink" title="One-sided Slicing"></a><strong><em>One-sided Slicing</em></strong></h3><p>好在Swift4之后，苹果为String增加了一个语法糖<code>...</code>，可以对字符串进行单侧边界取子串。注意返回的类型是<code>Substring</code>而不是<code>String</code>。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">String</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 截取子字符串</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameters:</span></div><div class="line">    <span class="comment">///   - start: 要抽取的子串的起始下标。如果是负数，那么该参数声明从字符串的尾部开始算起的位置。</span></div><div class="line">    <span class="comment">///            也就是说，-1 指字符串中最后一个字符，-2 指倒数第二个字符，以此类推。</span></div><div class="line">    <span class="comment">///   - length: 截取长度。如果省略了该参数，那么返回从`start`开始到结尾的子串。</span></div><div class="line">    <span class="comment">/// - Returns: 子字符串</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">substr</span><span class="params">(<span class="number">_</span> start: Int, length: UInt? = <span class="literal">nil</span>)</span></span> -&gt; <span class="type">String</span>? &#123;</div><div class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(start) &gt;= <span class="built_in">count</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        <span class="keyword">let</span> offset = (start &gt;= <span class="number">0</span>) ? start : <span class="built_in">count</span>+start</div><div class="line">        <span class="keyword">let</span> s = <span class="keyword">self</span>.index(startIndex, offsetBy: offset)</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> length = length <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// length==nil,直接截取到字符串结尾</span></div><div class="line">            <span class="keyword">return</span> <span class="type">String</span>(<span class="keyword">self</span>[s...])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> e = <span class="keyword">self</span>.index(startIndex, offsetBy: <span class="built_in">min</span>(offset+<span class="type">Int</span>(length), <span class="built_in">count</span>))</div><div class="line">        <span class="keyword">return</span> <span class="type">String</span>(<span class="keyword">self</span>[s..&lt;e])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果懂JavaScript的话，一看就懂，这函数和JS的substr是一样的用法。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/03/29/swift-substr/" class="archive-article-date">
-  	<time datetime="2018-03-29T06:57:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
 	</div>
 
       

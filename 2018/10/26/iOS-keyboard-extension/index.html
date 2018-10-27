@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.0daybug.com">
-  <title>Tag: iOS | 吴品诚的技术博客</title>
+  <title>iOS禁用第三方输入法 | 吴品诚的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="吴品诚的技术博客">
-<meta property="og:url" content="http://www.0daybug.com/tags/iOS/page/3/index.html">
+  <meta name="description" content="当我们需要用户输入数字时，我们会将键盘类型设置为 UIKeyboardTypeNumberPad 、 UIKeyboardTypePhonePad 或 UIKeyboardTypeDecimalPad 等数字类型的键盘。但是如果用户使用了第三方输入法（比如搜狗），那就无法达到强制输入数字的目的了，因为搜狗输入法在这些 UIKeyboardType 枚举类型中，除了常规的 0～9 数字键外，还额外带">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS禁用第三方输入法">
+<meta property="og:url" content="http://www.0daybug.com/2018/10/26/iOS-keyboard-extension/index.html">
 <meta property="og:site_name" content="吴品诚的技术博客">
-<meta property="og:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta property="og:description" content="当我们需要用户输入数字时，我们会将键盘类型设置为 UIKeyboardTypeNumberPad 、 UIKeyboardTypePhonePad 或 UIKeyboardTypeDecimalPad 等数字类型的键盘。但是如果用户使用了第三方输入法（比如搜狗），那就无法达到强制输入数字的目的了，因为搜狗输入法在这些 UIKeyboardType 枚举类型中，除了常规的 0～9 数字键外，还额外带">
+<meta property="og:updated_time" content="2018-10-27T00:16:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="吴品诚的技术博客">
-<meta name="twitter:description" content="希望通过这个博客，能够将自己的学习成果总结出来，与大家分享交流。">
+<meta name="twitter:title" content="iOS禁用第三方输入法">
+<meta name="twitter:description" content="当我们需要用户输入数字时，我们会将键盘类型设置为 UIKeyboardTypeNumberPad 、 UIKeyboardTypePhonePad 或 UIKeyboardTypeDecimalPad 等数字类型的键盘。但是如果用户使用了第三方输入法（比如搜狗），那就无法达到强制输入数字的目的了，因为搜狗输入法在这些 UIKeyboardType 枚举类型中，除了常规的 0～9 数字键外，还额外带">
   
     <link rel="alternative" href="/atom.xml" title="吴品诚的技术博客" type="application/atom+xml">
   
@@ -136,356 +137,90 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-iOS-keyboard-extension" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      iOS禁用第三方输入法
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
       
+        <p>当我们需要用户输入数字时，我们会将键盘类型设置为 <code>UIKeyboardTypeNumberPad</code> 、 <code>UIKeyboardTypePhonePad</code> 或 <code>UIKeyboardTypeDecimalPad</code> 等数字类型的键盘。但是如果用户使用了第三方输入法（比如搜狗），那就无法达到强制输入数字的目的了，因为搜狗输入法在这些 UIKeyboardType 枚举类型中，除了常规的 0～9 数字键外，还额外带了其他符号键，用户可以输入一些特殊字符，此时如果想要达到效果，就只能通过重写遵守 <code>UITextFieldDelegate</code> 并实现 <code>- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string</code> 方法，在这里通过正则判断用户输入的是否为数字。</p>
+<p>如果不想这么麻烦，那就干脆直接禁用第三方输入法吧 :)</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application shouldAllowExtensionPointIdentifier:(<span class="built_in">UIApplicationExtensionPointIdentifier</span>)extensionPointIdentifier &#123;</div><div class="line">    <span class="keyword">if</span> ([extensionPointIdentifier isEqualToString:<span class="built_in">UIApplicationKeyboardExtensionPointIdentifier</span>]) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>PS：如果 <code>secureTextEntry</code> 属性为 YES，那么将会强制使用系统键盘，不管你有没有禁用第三方输入法，苹果这是为了安全考虑。</p>
+<ul>
+<li><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/CustomKeyboard.html" target="_blank" rel="external">https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/CustomKeyboard.html</a></li>
+</ul>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/08/iOS-weibo-usercenter/" class="archive-article-date">
-  	<time datetime="2018-02-08T06:02:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/08/iOS-weibo-usercenter/">iOS仿新浪微博个人页面</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/iOS-change-App-icon/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:50:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/iOS-change-App-icon/">iOS更改App图标</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/16/iOS-open-QQ-chat/" class="archive-article-date">
-  	<time datetime="2018-01-16T07:03:50.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-01-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/iOS-open-QQ-chat/">iOS打开QQ临时会话窗口</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
+    </div>
+    <div class="article-info article-info-index">
       
-        </div></section>
+      <a href="/2018/10/26/iOS-keyboard-extension/" class="archive-article-date">
+  	<time datetime="2018-10-26T07:28:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-10-26</time>
+</a>
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/14/UIColor2UIImage/" class="archive-article-date">
-  	<time datetime="2017-12-14T09:13:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-12-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/14/UIColor2UIImage/">UIColor转UIImage</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/17/UITextView-return-character/" class="archive-article-date">
-  	<time datetime="2017-11-17T08:40:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/17/UITextView-return-character/">UITextView禁用回车符</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/09/21/iOS-adapt-shaped-screen/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS 刘海屏适配</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/" class="archive-article-date">
-  	<time datetime="2017-11-07T03:05:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/">IB_DESIGNABLE引起Xcode编写代码时异常卡顿</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/26/UITableViewCell-copy-menu/" class="archive-article-date">
-  	<time datetime="2017-10-26T01:14:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/26/UITableViewCell-copy-menu/">UITableViewCell长按拷贝菜单选项</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/" class="archive-article-date">
-  	<time datetime="2017-10-09T03:12:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/09/iOS-NSPhotoLibraryAddUsageDescription/">iOS11保存图片应用闪退</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/09/iOS-file-sharing/" class="archive-article-date">
-  	<time datetime="2017-10-09T01:36:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/09/iOS-file-sharing/">iOS添加文件共享</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/10/tableHeaderView-frame/" class="archive-article-date">
-  	<time datetime="2017-08-10T08:16:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/10/tableHeaderView-frame/">UITableView动态修改tableHeaderView的高度</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/tags/iOS/page/2/">&laquo; Prev</a><a class="page-number" href="/tags/iOS/">1</a><a class="page-number" href="/tags/iOS/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/tags/iOS/page/4/">4</a><a class="page-number" href="/tags/iOS/page/5/">5</a><a class="extend next" rel="next" href="/tags/iOS/page/4/">Next &raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -509,9 +244,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

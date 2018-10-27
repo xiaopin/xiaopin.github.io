@@ -138,6 +138,59 @@
       <div class="body-wrap">
         
   
+    <article id="post-swift-substr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/29/swift-substr/">Swift截取子字符串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Swift中截取子串，一直是个头疼的问题，毕竟牵涉到<code>String.Index</code>这个鬼东西，而且API还不好用。现在连<code>substring(to:)</code>、<code>substring(from:)</code>、<code>substring(width:)</code>这几个方法也被废弃了。</p>
+<h3 id="One-sided-Slicing"><a href="#One-sided-Slicing" class="headerlink" title="One-sided Slicing"></a><strong><em>One-sided Slicing</em></strong></h3><p>好在Swift4之后，苹果为String增加了一个语法糖<code>...</code>，可以对字符串进行单侧边界取子串。注意返回的类型是<code>Substring</code>而不是<code>String</code>。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">String</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/// 截取子字符串</span></div><div class="line">    <span class="comment">///</span></div><div class="line">    <span class="comment">/// - Parameters:</span></div><div class="line">    <span class="comment">///   - start: 要抽取的子串的起始下标。如果是负数，那么该参数声明从字符串的尾部开始算起的位置。</span></div><div class="line">    <span class="comment">///            也就是说，-1 指字符串中最后一个字符，-2 指倒数第二个字符，以此类推。</span></div><div class="line">    <span class="comment">///   - length: 截取长度。如果省略了该参数，那么返回从`start`开始到结尾的子串。</span></div><div class="line">    <span class="comment">/// - Returns: 子字符串</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">substr</span><span class="params">(<span class="number">_</span> start: Int, length: UInt? = <span class="literal">nil</span>)</span></span> -&gt; <span class="type">String</span>? &#123;</div><div class="line">        <span class="keyword">if</span> <span class="built_in">abs</span>(start) &gt;= <span class="built_in">count</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</div><div class="line">        <span class="keyword">let</span> offset = (start &gt;= <span class="number">0</span>) ? start : <span class="built_in">count</span>+start</div><div class="line">        <span class="keyword">let</span> s = <span class="keyword">self</span>.index(startIndex, offsetBy: offset)</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> length = length <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// length==nil,直接截取到字符串结尾</span></div><div class="line">            <span class="keyword">return</span> <span class="type">String</span>(<span class="keyword">self</span>[s...])</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> e = <span class="keyword">self</span>.index(startIndex, offsetBy: <span class="built_in">min</span>(offset+<span class="type">Int</span>(length), <span class="built_in">count</span>))</div><div class="line">        <span class="keyword">return</span> <span class="type">String</span>(<span class="keyword">self</span>[s..&lt;e])</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果懂JavaScript的话，一看就懂，这函数和JS的substr是一样的用法。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/29/swift-substr/" class="archive-article-date">
+  	<time datetime="2018-03-29T06:57:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-swift4-Codable" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -785,68 +838,6 @@
       
       <a href="/2017/11/07/iOS-IB-DESIGNABLE-Caton/" class="archive-article-date">
   	<time datetime="2017-11-07T03:05:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-UITableViewCell-copy-menu" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/26/UITableViewCell-copy-menu/">UITableViewCell长按拷贝菜单选项</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>运营推广人员向我们反馈说需要一个能方便拷贝会员手机号码的功能，方便进行其他操作。由于会员信息是采用UITableView来进行展示的，而系统已经为我们准备好了UITableViewCell长按功能菜单的API，我们只需实现对应的代理方法即可。</p>
-</blockquote>
-<p>要实现该功能，主要步骤为：</p>
-<ul>
-<li>遵守<code>UITableViewDelegate</code>协议；</li>
-<li>实现<code>- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath</code>方法并返回YES；</li>
-<li>实现<code>- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action决定对应的菜单按钮是否需要显示；</li>
-<li>实现<code>- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(nullable id)sender</code>方法，根据action判断用户做出了什么操作。</li>
-</ul>
-<p>具体实现代码：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView shouldShowMenuForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    <span class="keyword">return</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">BOOL</span>)tableView:(<span class="built_in">UITableView</span> *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (indexPath.section == <span class="number">1</span> &amp;&amp; indexPath.row == <span class="number">0</span> &amp;&amp; action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView performAction:(SEL)action forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath withSender:(<span class="keyword">id</span>)sender &#123;</div><div class="line">    <span class="keyword">if</span> (action == <span class="keyword">@selector</span>(<span class="keyword">copy</span>:)) &#123;</div><div class="line">        [[<span class="built_in">UIPasteboard</span> generalPasteboard] setString:<span class="string">@"需要拷贝的内容"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>最后来一张效果图:</p>
-<p><img src="/images/201710/UITableViewCell-copy.png" alt="效果图"></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/10/26/UITableViewCell-copy-menu/" class="archive-article-date">
-  	<time datetime="2017-10-26T01:14:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-10-26</time>
 </a>
       
 	<div class="article-tag tagcloud">
