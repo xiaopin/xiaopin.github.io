@@ -12,7 +12,7 @@ tags:
 - 使用 UITabBarController + UINavigationController 组合
 - UITabBar带半透明效果，`isTranslucent` 属性为 YES
 - UIViewController的 `hidesBottomBarWhenPushed` 属性为 YES
-- 通过导航栏返回上一页时(导航栏返回按钮 or 苹果左侧的滑动返回手势)
+- 通过导航栏返回上一页时(导航栏返回按钮 or 屏幕左侧的滑动返回手势)
 
 
 ## Bug演示
