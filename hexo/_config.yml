@@ -12,9 +12,10 @@ timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.0daybug.com
+url: https://www.0daybug.com
 root: /
-permalink: :year/:month/:day/:title/
+# 阿里云OSS服务访问需要添加index.html结尾(绝对路径)
+permalink: :year/:month/:day/:title/index.html
 permalink_defaults:
 
 # Directory

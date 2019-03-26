@@ -2,7 +2,7 @@
 
 menu:
   主页: /
-  随笔: /tags/随笔
+  # 随笔: /tags/随笔
 
 # SubNav
 subnav:
@@ -75,5 +75,6 @@ friends:
   iOS版本分布情况: https://developer.apple.com/support/app-store/
   iOS符号表: https://bugly.qq.com/docs/user-guide/symbol-configuration-ios/?v=20170627170213
   iPhone尺寸: https://developer.apple.com/library/content/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html#//apple_ref/doc/uid/TP40013599-CH108-SW6
+  JavaScript MDN Doc: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/
 
 aboutme: 我是吴品诚，我喂自己袋盐......
