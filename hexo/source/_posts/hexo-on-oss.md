@@ -77,6 +77,8 @@ permalink: :year/:month/:day/:title/index.html
 
 - 修改首页底部的分页链接：/node_modules/hexo/lib/plugins/helper/paginator.js 修改 `link` 函数，在28行代码中拼接 index.html
 
+> 针对修改 hexo 源码的问题，由于使用不同的主题会有所不同，请根据实际情况进行修改即可。上面的修改针对默认主题有效。
+
 #### HTTPS
 
 OSS 支持 HTTPS 访问，如果你的域名是在万网上面购买的，则可以申请阿里云的免费 HTTPS 证书。
