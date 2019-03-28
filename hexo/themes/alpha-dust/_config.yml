@@ -1,0 +1,45 @@
+# Logo (Font Awesome Class)
+fa_logo: fa-cube
+
+# Header
+menu:
+  Home: /
+  Archives: /archives/index.html
+  # About: /about.html
+  Tags: /tags/index.html
+  # Categories: /categories/index.html
+  Friends: /friends/index.html
+
+# Default post title
+default_post_title: Untitled
+
+# Archive Date Format
+archive_date_format: MMM YYYY
+
+# Comments.
+comments:
+  # Disqus comments
+  disqus_shortname:
+
+# Google Analytics Tracking ID
+google_analytics:
+
+# Social Accounts
+# twitter_url:
+# facebook_url:
+# instagram_url:
+# dribble_url:
+github_url: https://github.com/xiaopin
+# googleplus_url:
+# behance_url:
+# fivehundredpx_url:
+email_url: pincheng23@hotmail.com
+rss_url: \#
+# weibo_url: http://weibo.com/u/2637356434
+
+# Footer About Text
+footer_about: "我是吴品诚，我喂自己袋盐......"
+
+# Footer Copyright Line
+footer_copyright: "<p>由 <a href=\"https://hexo.io/\">Hexo</a> 强力驱动<span>|</span>主题 - <a href=\"https://github.com/klugjo/hexo-theme-alpha-dust\">alpha-dust</a></p> Copyright 0daybug.com all rights reserved. <a href=\"http://www.miitbeian.gov.cn/\" target=\"_blank\">粤ICP备18042388号-1</a>"
+
