@@ -15,7 +15,7 @@ timezone: Asia/Shanghai
 url: https://www.0daybug.com
 root: /
 # 阿里云OSS服务访问需要添加index.html结尾(绝对路径)
-permalink: :year/:month/:day/:title/index.html
+permalink: :year/:month:day/:title/index.html
 permalink_defaults:
 
 # Directory
