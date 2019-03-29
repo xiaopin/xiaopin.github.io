@@ -105,6 +105,15 @@
                         </a>
                     </li>
                     <% } %>
+                    <% if(theme.weibo_url) { %>
+                    <li class="list-inline-item">
+                        <a href="<%- theme.weibo_url %>">
+                            <span class="footer-icon-container">
+                                <i class="fa fa-weibo"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -112,6 +121,10 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="footer-copyright">
                     <%- theme.footer_copyright %>
+                    <p>
+                        <span>© 2014 – <%- date(Date.now(), 'YYYY') %></span>&nbsp;
+                        <a href=\"http://www.miitbeian.gov.cn/\" target=\"_blank\">粤ICP备18042388号-1</a>
+                    </p>
                 </div>
             </div>
         </div>
