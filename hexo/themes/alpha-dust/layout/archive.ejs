@@ -24,6 +24,11 @@
     } else {
         postList = site.posts;
     }
+
+    // 文章按新建日期倒序排序(by xiaopin)
+    postList.data.sort(function(a, b) {
+        return b.date.valueOf() - a.date.valueOf();
+    });
 %>
 
 <div class="row">
