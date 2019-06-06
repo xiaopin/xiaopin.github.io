@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>房贷计算</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=1.0, viewport-fit=cover">
+		<meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="email=no">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="content" class="container-fluid">
+			<p class="text-left"><a href="/">返回首页</a></p>
+			<form @submit.prevent='onSubmitEvent' method="post" v-show='!loanEqualPayment.length && !loanDecrementPayment.length'>
+				<div class="form-group">
+					<label>贷款金额(万元)</label>
+					<input type="number" min="1" max="1000" step="0.01" class="form-control" v-model.number='money' placeholder="请输入贷款金额(万元)">
+				</div>
+				<div class="form-group">
+					<label>年利率(基准利率: 4.9%)</label>
+					<select class="form-control" v-model='discount' @change='onDiscountChanged'>
+						<option v-for='item in discountMessages' :value="item.value">{{item.caption}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="number" min="0.01" max="100" step="0.01" class="form-control" v-model.number='rate' placeholder="请输入年利率(%)" v-show='isCustomRate'>
+				</div>
+				<button type="submit" class="btn btn-primary container-fluid">开始计算</button>
+				<p class="text-left" style="margin-top: 40px;">
+					<small style="color: #999999;">
+						你只需填写贷款金额和年利率即可，我会为你自动计算：
+						<ol>
+							<li>商业贷款/公积金贷款<s>(暂不支持混合贷)</s></li>
+							<li>等额本息和等额本金两种贷款方式</li>
+							<li>5～30年的贷款数据</li>
+						</ol>
+						注：默认是商业贷款年利率，如果需要计算公积金贷款你可以通过手动输入年利率的方式来获取相关贷款数据。
+					</small>
+				</p>
+				<!-- 利率表 -->
+				<div>
+					<p class="text-left" style="margin-top: 40px;">
+						利率表<small style="color: #999999;"> (实际贷款利率以当地银行为准)</small>
+					</p>
+					<table class="container-fluid table table-bordered" style="color: #999999; font-size: 12px;">
+						<tbody>
+							<tr class="active">
+								<th>贷款年限</th>
+								<th>商业贷款</th>
+								<th>公积金贷款</th>
+							</tr>
+							<tr>
+								<td>一年内(含)</td>
+								<td>4.35</td>
+								<td>2.75</td>
+							</tr>
+							<tr>
+								<td>1~5年(含)</td>
+								<td>4.75</td>
+								<td>2.75</td>
+							</tr>
+							<tr>
+								<td>5年以上</td>
+								<td>4.90</td>
+								<td>3.25</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+			<!-- 结果展示 -->
+			<div v-show='loanEqualPayment.length'>
+				<p class="text-center">
+					等额本息<small>（仅供参考）</small>
+				</p>
+				<div id="container-fluid row">
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						贷款金额: {{money}}万元
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						年利率: {{rateText}} <small>(保留两位小数, 四舍五入)</small>
+					</div>
+				</div>
+				<table class="container-fluid table table-bordered">
+					<tbody>
+						<tr class="active">
+							<th>年限</th>
+							<th>月供</th>
+							<th>总利息</th>
+							<th>还款总额</th>
+						</tr>
+						<template v-for="item in loanEqualPayment">
+							<tr>
+								<td>{{item.year}}</td>
+								<td>{{item.monthlyRepayment.toFixed(2)}}</td>
+								<td>{{item.totalInterest.toFixed(2)}}</td>
+								<td>{{item.totalRepayment.toFixed(2)}}</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+			<div v-show='loanDecrementPayment.length'>
+				<p class="text-center">
+					等额本金<small>（仅供参考）</small>
+				</p>
+				<div id="container-fluid row">
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						贷款金额: {{money}}万元
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-6">
+						年利率: {{rateText}} <small>(保留两位小数, 四舍五入)</small>
+					</div>
+				</div>
+				<table class="container-fluid table table-bordered">
+					<tbody>
+						<tr class="active">
+							<th>年限</th>
+							<th>首月月供</th>
+							<th>总利息</th>
+							<th>还款总额</th>
+						</tr>
+						<template v-for="item in loanDecrementPayment">
+							<tr>
+								<td>{{item.year}}</td>
+								<td>
+									{{item.monthlyRepayment.toFixed(2)}}
+									<br/>
+									<small>每月递减{{item.decrement.toFixed(2)}}元</small>
+								</td>
+								<td>{{item.totalInterest.toFixed(2)}}</td>
+								<td>{{item.totalRepayment.toFixed(2)}}</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+
+			<button type="submit" class="btn btn-primary container-fluid" @click='loanEqualPayment=[], loanDecrementPayment=[]' v-show='loanEqualPayment.length || loanDecrementPayment.length'>重新计算</button>
+		</div>
+	</body>
+	<style type="text/css">
+		body {
+			margin: 20px 0;
+		}
+	</style>
+	<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		const app = new Vue({
+			el: '#content',
+			data: {
+				money: '', // 贷款金额
+				rate: '', // 年利率
+				discount: 1.0, // 折扣
+				discountsArray: [0.7, 0.75, 0.8, 0.85, 0.9, 0.92, 0.95, 0.97, 1.0, 1.1, 1.2],
+				isCustomRate: false, // 是否自定义年利率
+				loanEqualPayment: [], // 等额本息贷款数据
+				loanDecrementPayment: [], // 等额本金贷款数据
+			},
+			computed: {
+				discountMessages: function() {
+					let ret = this.discountsArray.map(num => {
+						let n = (num < 1.0) ? num * 100 : num;
+						let caption = n.toString().replace(/0*$/, '') + (num < 1.0 ? '折' : '倍');
+						return {
+							caption: caption,
+							value: num
+						};
+					});
+					ret.push({
+						caption: '自定义',
+						value: 0.0
+					});
+					return ret;
+				},
+				
+				rateText: function() {
+					const base_rate = 4.9;
+					const discount = parseFloat(this.discount);
+					const rate = discount ? base_rate * discount : parseFloat(this.rate);
+					return rate.toFixed(2) + '%';
+				}
+			},
+			methods: {
+				onDiscountChanged: function(event) {
+					const discount = parseFloat(event.target.value);
+					this.discount = discount;
+					this.isCustomRate = !discount;
+				},
+
+				onSubmitEvent: function(event) {
+					const base_rate = 4.9;
+					const money = parseFloat(this.money) * 10000;
+					const discount = parseFloat(this.discount);
+					const rate = discount ? base_rate * discount : parseFloat(this.rate);
+					if (isNaN(money) || money <= 0.0) {
+						alert('请输入贷款金额');
+						return;
+					}
+					if (isNaN(rate) || rate < 0.0) {
+						alert('请输入年利率');
+						return;
+					}
+					let loanEqualPayment = [];
+					let loanDecrementPayment = [];
+					for (let year = 5; year <= 30; year++) {
+						loanEqualPayment.push(equalInstallmentsOfPrincipalAndInterest(money, year, rate));
+						loanDecrementPayment.push(equalPrincipal(money, year, rate));
+					}
+					this.loanEqualPayment = loanEqualPayment;
+					this.loanDecrementPayment = loanDecrementPayment;
+				}
+			}
+		});
+
+		/**
+		 * @method 等额本息贷款法
+		 *
+		 * 计划月还款额=(贷款本金×月利率×(1+月利率)^还款月数)÷((1+月利率)^还款月数-1)
+		 *
+		 * 还款月数=贷款年限×12
+		 * 月利率=年利率/12
+		 * 还款月数=贷款年限×12
+		 *
+		 * @param money {number} 贷款金额(元)
+		 * @param year {number} 贷款年限
+		 * @param rate {number} 年利率
+		 */
+		function equalInstallmentsOfPrincipalAndInterest(money, year, rate) {
+			// 总还款月数
+			const months = year * 12;
+			// 月利息
+			const monthlyInterest = rate / 100 / 12;
+			// 月供
+			const monthlyRepayment = money * monthlyInterest * Math.pow(1 + monthlyInterest, months) / (Math.pow(1 +
+				monthlyInterest, months) - 1);
+			// 总还款额
+			const totalRepayment = monthlyRepayment * months;
+			// 总利息
+			const totalInterest = totalRepayment - money;
+			return {
+				year: year,
+				monthlyRepayment: monthlyRepayment,
+				totalInterest: totalInterest,
+				totalRepayment: totalRepayment
+			};
+		}
+
+		/**
+		 * @method 等额本金贷款法
+		 *
+		 * 等额本金还款法:
+		 * 每月月供额=(贷款本金÷还款月数)+(贷款本金-已归还本金累计额)×月利率
+		 * 每月应还本金=贷款本金÷还款月数
+		 * 每月应还利息=剩余本金×月利率=(贷款本金-已归还本金累计额)×月利率
+		 * 每月月供递减额=每月应还本金×月利率=贷款本金÷还款月数×月利率
+		 * 总利息 = ((总贷款额÷还款月数+总贷款额×月利率)+总贷款额÷还款月数×(1+月利率))÷2×还款月数-总贷款额
+		 *
+		 * @param money {number} 贷款金额(元)
+		 * @param year {number} 贷款年限
+		 * @param rate {number} 年利率
+		 */
+		function equalPrincipal(money, year, rate) {
+			// 总还款月数
+			const months = year * 12;
+			// 月利息
+			const monthlyInterest = rate / 100 / 12;
+			// 根据月份计算月供
+			const func  = (month) => {
+				let m = money / months + (money - money / months * month) * monthlyInterest;
+				return m;
+			};
+			// 首月月供
+			const monthlyRepayment = func(0);
+			// 每月递减
+			const decrement = money / months * monthlyInterest;
+			// 总利息
+			const totalInterest = ((money / months + money * monthlyInterest) + money / months * (1 + monthlyInterest)) / 2 * months - money;
+			// 总还款额
+			const totalRepayment = money + totalInterest;
+
+			return {
+				year: year,
+				monthlyRepayment: monthlyRepayment,
+				decrement: decrement,
+				totalInterest: totalInterest,
+				totalRepayment: totalRepayment
+			};
+		}
+	</script>
+</html>
