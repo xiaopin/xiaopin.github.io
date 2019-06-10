@@ -9,34 +9,24 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<meta name="format-detection" content="telephone=no">
 		<meta name="format-detection" content="email=no">
-		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 		<style>
-			.btn-group {
+			.city-container {
+				padding: 10px;
+				background-color: rgba(0, 0, 0, 0.3);
 				position: absolute;
-				left: 10px;
-				top: 10px;
+				left: 0;
+				top: 0;
+				border-bottom-right-radius: 10px;
 				z-index: 999;
-				display: none;
-			}
-			li {
-				cursor: pointer;
-				color: #1E90FF;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="SubwayContainer"></div>
-		<div id="toggle-button" class="btn-group">
-			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="current-city-name">深圳</span>
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu"><!-- 城市列表 --></ul>
+		<div class="city-container" style="display: none;">
+			<select id="city-toggle" onchange="changedCity(this)"></select>
 		</div>
 	</body>
-	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.min.js"></script>
-	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="https://webapi.amap.com/subway?v=1.0&key=98cb8314168440c4de1169ffac3a53e7&callback=subwayCityLoaded"></script>
 	<script type="text/javascript">
 	var mysubway = null;
@@ -44,27 +34,47 @@
 	
 	// 地铁加载完毕的回调
 	window.subwayCityLoaded = function(){
-		mysubway = subway('SubwayContainer', {easy: 1, adcode: '4403'});
+		var defaultAdcode = '4403';
+		mysubway = subway('SubwayContainer', {easy: 1, adcode: defaultAdcode});
 		mysubway.getCityList(function(resp) {
 			for (var adcode in resp) {
 				var name = resp[adcode]['name'];
 				var pinyin = resp[adcode]['city'];
 				cities.push( {adcode: adcode, name: name, pinyin: pinyin} );
 			}
-			var str = cities.map((item, idx) => '<li data-index='+idx+'>'+item.name+'</li>').join('');
-			$('.dropdown-menu').append(str);
-			$('#toggle-button').show();
+			
+			var selectTag = document.getElementById('city-toggle');
+			cities.forEach(item => {
+				var option = document.createElement('option');
+				option.setAttribute('value', item.adcode);
+				option.innerHTML = item.name;
+				if (item.adcode == defaultAdcode) {
+					option.selected = true;
+				}
+				selectTag.appendChild(option);
+			});
+			selectTag.parentNode.removeAttribute('style');
 		});
 	};
-	
-	// 城市点击事件
-	$(function() {
-		$('.dropdown-menu').on('click', 'li', function(event) {
-			var index = $(this).data('index');
-			var city = cities[index];
-			mysubway.setAdcode(city.adcode);
-			$('.current-city-name').text(city.name);
-		});
-	});
+
+	// 切换城市
+	function changedCity(tag) {
+		var index = tag.selectedIndex;
+		var adcode = cities[index].adcode;
+		mysubway.setAdcode(adcode);
+	}
+
+	// if (window.addEventListener) {
+	//     window.addEventListener('DOMContentLoaded', function() {
+	//         if(/iPhone/ig.test(window.navigator.userAgent) && window.devicePixelRatio) {
+	//             var iPhoneX = window.devicePixelRatio === 3 && window.screen.width === 375 && window.screen.height === 812;
+	//             var iPhoneXSMax = window.devicePixelRatio === 3 && window.screen.width === 414 && window.screen.height === 896;
+	//             var iPhoneXR = window.devicePixelRatio === 2 && window.screen.width === 414 && window.screen.height === 896;
+	//             if (iPhoneX || iPhoneXSMax || iPhoneXR) {
+	//             	//
+	//             }
+	//         }
+	//     });
+	// }
 	</script>
 </html>
