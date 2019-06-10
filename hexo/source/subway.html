@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>地铁图</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=1.0, viewport-fit=cover">
+		<meta name="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="email=no">
+		<link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			.btn-group {
+				position: absolute;
+				left: 10px;
+				top: 10px;
+				z-index: 999;
+				display: none;
+			}
+			li {
+				cursor: pointer;
+				color: #1E90FF;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="SubwayContainer"></div>
+		<div id="toggle-button" class="btn-group">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="current-city-name">深圳</span>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu"><!-- 城市列表 --></ul>
+		</div>
+	</body>
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.min.js"></script>
+	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://webapi.amap.com/subway?v=1.0&key=98cb8314168440c4de1169ffac3a53e7&callback=subwayCityLoaded"></script>
+	<script type="text/javascript">
+	var mysubway = null;
+	var cities = [];
+	
+	// 地铁加载完毕的回调
+	window.subwayCityLoaded = function(){
+		mysubway = subway('SubwayContainer', {easy: 1, adcode: '4403'});
+		mysubway.getCityList(function(resp) {
+			for (var adcode in resp) {
+				var name = resp[adcode]['name'];
+				var pinyin = resp[adcode]['city'];
+				cities.push( {adcode: adcode, name: name, pinyin: pinyin} );
+			}
+			var str = cities.map((item, idx) => '<li data-index='+idx+'>'+item.name+'</li>').join('');
+			$('.dropdown-menu').append(str);
+			$('#toggle-button').show();
+		});
+	};
+	
+	// 城市点击事件
+	$(function() {
+		$('.dropdown-menu').on('click', 'li', function(event) {
+			var index = $(this).data('index');
+			var city = cities[index];
+			mysubway.setAdcode(city.adcode);
+			$('.current-city-name').text(city.name);
+		});
+	});
+	</script>
+</html>
