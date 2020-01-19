@@ -154,7 +154,7 @@ static const char kIsSetedModalPresentationStyleKey = '\0';
 
 ## Dark Mode
 
-> 这里并不是要教你怎么适配 Dark Mode。
+> 适配可以参看 UIView 和 UIViewController 的 `overrideUserInterfaceStyle` 属性。
 
 项目并不打算适配暗黑模式，但是如果在 iPhone 中开启了 Dark Mode，将会导致 App 的部分视图变黑，UI很难看，所以这里需要关闭 Dark Mode 功能，告诉系统，我的 App 不支持暗黑模式，你别给我变黑了...
 
@@ -181,6 +181,87 @@ Terminating app due to uncaught exception 'NSGenericException', reason: 'UISearc
 
 在以前，App 可以直接使用蓝牙功能，不会出现权限的提示弹窗，在 iOS13 中，想使用蓝牙，则需要申请权限才行了，和相机、定位一样。
 
+## Sign With Apple
+
+[Authenticating Users with Sign in with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple?language=data)
+[WWDC2019](https://developer.apple.com/videos/play/wwdc2019/706/)
+
+## 导航栏样式的定制
+
+一般项目中都会有自定义导航栏的需求（修改标题文字样式、UIBarButtonItem样式、返回按钮等），在 iOS13 之前都是通过 `UIAppearance` 协议获取到一个全局的外观代理对象，然后通过该代理进行样式自定义，用法如下：
+```ObjC
+@implementation UINavigationController
+
++ (void)initialize {
+    UIImage *backImage = [[UIImage imageNamed:@"icon-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UINavigationBar *navigationBar = [UINavigationBar appearance];
+    navigationBar.translucent = YES;
+    navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    navigationBar.backIndicatorImage = backImage;
+    navigationBar.backIndicatorTransitionMaskImage = backImage;
+    
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName: [UIFont systemFontOfSize:15.0],
+                                 NSForegroundColorAttributeName: [UIColor whiteColor]
+                                 };
+    UIBarButtonItem *barButtonItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
+    [barButtonItem setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    [barButtonItem setTitleTextAttributes:attributes forState:UIControlStateHighlighted];
+}
+
+@end
+```
+
+在 iOS13 中，苹果新增了几个类：`UINavigationBarAppearance`、`UIBarAppearance`、`UIBarButtonItemAppearance`、`UIBarButtonItemStateAppearance`，通过这几个类，可以定制导航栏的标题、背景、返回按钮(参看[UINavigationBarAppearance](https://developer.apple.com/documentation/uikit/uinavigationbarappearance)类所提供的接口)，以及UIBarButtonItem在`normal`、`highlighted`、`disabled`、`focused`几种状态下的样式(参看[UIBarButtonItemAppearance](https://developer.apple.com/documentation/uikit/uibarbuttonitemappearance)类所提供的接口)。
+
+苹果已经在 UINavigationBar 中提供了相关的接口来访问这些类：
+```ObjC
+/*
+ Fallback Behavior:
+ 1) Appearance objects are used in whole – that is, all values will be sourced entirely from an instance of UINavigationBarAppearance defined by one of these named properties (standardAppearance, compactAppearance, scrollEdgeAppearance) on either UINavigationBar (self) or UINavigationItem (self.topItem).
+ 2) The navigation bar will always attempt to use the most relevant appearance instances first, before falling back to less relevant ones. The fallback logic is:
+     AtScrollEdge: self.topItem.scrollEdgeAppearance => self.scrollEdgeAppearance => self.topItem.standardAppearance => self.standardAppearance
+     CompactSize: self.topItem.compactAppearance => self.compactAppearance => self.topItem.standardAppearance => self.standardAppearance
+     NormalSize: self.topItem.standardAppearance => self.standardAppearance
+ */
+
+/// Describes the appearance attributes for the navigation bar to use when it is displayed with its standard height.
+@property (nonatomic, readwrite, copy) UINavigationBarAppearance *standardAppearance UI_APPEARANCE_SELECTOR API_AVAILABLE(ios(13.0), tvos(13.0));
+/// Describes the appearance attributes for the navigation bar to use when it is displayed with its compact height. If not set, the standardAppearance will be used instead.
+@property (nonatomic, readwrite, copy, nullable) UINavigationBarAppearance *compactAppearance UI_APPEARANCE_SELECTOR API_AVAILABLE(ios(13.0));
+/// Describes the appearance attributes for the navigation bar to use when an associated UIScrollView has reached the edge abutting the bar (the top edge for the navigation bar). If not set, a modified standardAppearance will be used instead.
+@property (nonatomic, readwrite, copy, nullable) UINavigationBarAppearance *scrollEdgeAppearance UI_APPEARANCE_SELECTOR API_AVAILABLE(ios(13.0));
+```
+
+基本用法如下：
+```ObjC
+@implementation UINavigationBar
+
++ (void)initialize {
+    if (@available(iOS 13.0, *)) {
+        UINavigationBarAppearance *standardAppearance = [[UINavigationBarAppearance alloc] init];
+        standardAppearance.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor redColor]};
+        standardAppearance.backgroundColor = [UIColor orangeColor];
+        // 设置返回按钮(可以通过standardAppearance.backButtonAppearance进一步定制)
+        UIImage *backImage = [[UIImage imageNamed:@"icon-back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [standardAppearance setBackIndicatorImage:backImage transitionMaskImage:backImage];
+        // 设置UIBarButtonItem样式
+        NSDictionary *attributes = @{
+            NSFontAttributeName: [UIFont systemFontOfSize:15.0],
+            NSForegroundColorAttributeName: [UIColor whiteColor]
+        };
+        UIBarButtonItemAppearance *buttonAppearance = standardAppearance.buttonAppearance;
+        buttonAppearance.normal.titleTextAttributes = attributes;
+        buttonAppearance.highlighted.titleTextAttributes = attributes;
+        // 记得覆盖原来的样式
+        [[UINavigationBar appearance] setStandardAppearance:standardAppearance];
+    } else {
+        // 之前的做法
+    }
+}
+
+@end
+```
 
 参考：
 
