@@ -29,8 +29,6 @@ copyright: false ## for CC BY-NC 4.0 license
 theme_color: "#2d4356"
 
 menu:
-    - page: 首页
-      directory: /
     - page: 归档
       directory: archives/
     - page: 分类

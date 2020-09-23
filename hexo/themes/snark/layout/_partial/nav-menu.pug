@@ -11,8 +11,9 @@ nav.h-head.box
     .m-nav
         ul
             include common.pug
+            +menu-item('/', '首页')
             - for (var i in theme.menu)
-              +menu-item(theme.menu[i].directory, __(theme.menu[i].page))
+              +menu-item(theme.menu[i].directory+'/index.html', __(theme.menu[i].page))
 
             li.m-sch
                 include search.pug
