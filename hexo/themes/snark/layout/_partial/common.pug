@@ -1,0 +1,75 @@
+mixin menu-item(href, name)
+    - var url=url_for(href)
+    li
+        span.dot ●
+        a(href=url, class!=attributes.class)= name
+
+mixin title(page)
+    if page
+        if page.title
+            = page.title
+        else
+            = _p('no title')
+
+mixin post-date(post)
+    span.p-date
+        i(class=theme.icons.date)
+        a(href=url_for(post.path))= post.date.format(config.date_format)
+
+mixin post-categories(post)
+    - var numOfCategories = post.categories.length
+    if numOfCategories
+        span.p-category
+            i(class=theme.icons.category)
+            each category, index in post.categories.toArray()
+                a(href=url_for(category.path))= category.name
+                if index < numOfCategories - 1
+                    | &nbsp;&bull;&nbsp;
+
+mixin post-tags(post)
+    if post.tags.length
+        span.p-tags
+            if post.tags.length == 1
+                i(class=theme.icons.tag)
+            else
+                i(class=theme.icons.tags)
+
+            each tag in post.tags.toArray()
+                a(href=url_for(tag.path))= tag.name
+
+mixin post-meta(post)
+    .p-info.box
+        +post-date(post)
+        +post-categories(post)
+        +post-tags(post)
+
+mixin post-header(post)
+    .p-header.box
+        h1.p-title= post.title
+        .p-info
+            +post-date(post)
+            +post-categories(post)
+            if theme.busuanzi
+                span.p-view#busuanzi_container_page_pv
+                    i(class=theme.icons.view)
+                    span#busuanzi_value_page_pv
+
+mixin post-copyright(post)
+    .p-copyright: blockquote
+        .p-copyright-author
+            span.p-copyright-key= '本文作者：'
+            span.p-copytight-value: a(href='mailto:litreily@163.com')= config.author
+        .p-copyright-link
+            span.p-copyright-key= '本文链接：'
+            span.p-copytight-value: a(href=url_for(post.path))= config.url + '/' + post.path
+        .p-copyright-note
+            span.p-copyright-key= '版权声明：'
+            span.p-copytight-value= '本博客所有文章除特殊声明外，均采用'
+                a(rel='nofollow', target='_blank', href='https://creativecommons.org/licenses/by-nc/4.0/')  CC BY-NC 4.0 
+                | 许可协议。转载请注明出处 
+                a(href=config.url)= config.author + '的博客'
+                | ！
+
+mixin post-footer(post)
+    .p-info.box
+        +post-tags(post)
