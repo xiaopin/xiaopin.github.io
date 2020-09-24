@@ -22,7 +22,7 @@ mixin post-categories(post)
         span.p-category
             i(class=theme.icons.category)
             each category, index in post.categories.toArray()
-                a(href=url_for(category.path))= category.name
+                a(href=url_for(category.path+'/index.html'))= category.name
                 if index < numOfCategories - 1
                     | &nbsp;&bull;&nbsp;
 
@@ -35,7 +35,7 @@ mixin post-tags(post)
                 i(class=theme.icons.tags)
 
             each tag in post.tags.toArray()
-                a(href=url_for(tag.path))= tag.name
+                a(href=url_for(tag.path+'/index.html'))= tag.name
 
 mixin post-meta(post)
     .p-info.box

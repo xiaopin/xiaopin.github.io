@@ -1,8 +1,9 @@
 ---
 title: iOS 导航栏颜色渐变
-date: 2018-09-01 09:14:07
 tags:
-	- iOS
+  - iOS
+abbrlink: fde6c29a
+date: 2018-09-01 09:14:07
 ---
 
 ## 效果图

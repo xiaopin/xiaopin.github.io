@@ -1,8 +1,9 @@
 ---
 title: macOS's dark mode (暗黑模式)
-date: 2019-01-11 11:56:34
 tags:
-    - macOS
+  - macOS
+abbrlink: 3bdea784
+date: 2019-01-11 11:56:34
 ---
 
 > 苹果在 macOS 10.14 中为我们带来了 `dark mode` (暗黑模式) 功能

@@ -1,8 +1,9 @@
 ---
 title: Xcode8 Swift3通过Playground运行UI
-date: 2017-03-27 14:28:21
 tags:
-	- iOS
+  - iOS
+abbrlink: e8b298a1
+date: 2017-03-27 14:28:21
 ---
 
 我们都知道在Playground上能够一边写代码一边预览代码运行效果（所见即所得），如果我们需要在Playground上调试UI，就得借助于PlaygroundSupport系统库了。

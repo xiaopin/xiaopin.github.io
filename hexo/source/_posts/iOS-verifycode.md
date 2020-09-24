@@ -1,8 +1,9 @@
 ---
 title: iOS 验证码输入框
-date: 2019-11-12 18:03:53
 tags:
-	- iOS
+  - iOS
+abbrlink: e9d3da40
+date: 2019-11-12 18:03:53
 ---
 
 ## 特性

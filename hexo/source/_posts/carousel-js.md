@@ -1,8 +1,9 @@
 ---
 title: JavaScript广告轮播插件
-date: 2016-01-08 14:43:41
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: 60f6836d
+date: 2016-01-08 14:43:41
 ---
 
 ## 使用示例

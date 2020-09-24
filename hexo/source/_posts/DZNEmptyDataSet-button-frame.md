@@ -1,8 +1,9 @@
 ---
 title: 修改DZNEmptyDataSet按钮的宽高
-date: 2018-06-03 16:00:23
 tags:
-	- iOS
+  - iOS
+abbrlink: 912c0fee
+date: 2018-06-03 16:00:23
 ---
 
 相信没有哪款App是没有使用到滚动视图(UIScrollView、UITableView、UICollectionView)的吧，我相信大家用的最多的就是UITableView了，当需要展示列表数据时，我想大家第一次时间想到的就是UITableView。

@@ -1,8 +1,9 @@
 ---
 title: setTimeout 的时间限制
-date: 2019-03-25 09:40:48
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: '58e90930'
+date: 2019-03-25 09:40:48
 ---
 
 函数定义：

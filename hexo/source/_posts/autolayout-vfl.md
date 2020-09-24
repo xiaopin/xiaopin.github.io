@@ -1,8 +1,9 @@
 ---
 title: 通过VFL(Visual Format Language)使用AutoLayout
-date: 2016-12-02 21:26:47
 tags:
-	- iOS
+  - iOS
+abbrlink: 7b6013c8
+date: 2016-12-02 21:26:47
 ---
 
 Apple官网关于VFL的描述:[https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1](https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1)

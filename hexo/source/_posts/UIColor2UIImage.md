@@ -1,8 +1,9 @@
 ---
 title: UIColor转UIImage
-date: 2017-12-14 17:13:23
 tags:
-	- iOS
+  - iOS
+abbrlink: 16c591d7
+date: 2017-12-14 17:13:23
 ---
 
 没啥好说的，直接看代码

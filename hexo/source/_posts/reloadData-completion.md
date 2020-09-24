@@ -1,8 +1,9 @@
 ---
 title: UICollectionView监听reloadData完成状态
-date: 2017-07-14 10:42:39
 tags:
-	- iOS
+  - iOS
+abbrlink: 56cfe2af
+date: 2017-07-14 10:42:39
 ---
 
 > 如果你只想知道代码的正确使用姿势，请直接看文章底部的示例代码。

@@ -1,8 +1,9 @@
 ---
 title: 修改UISwitch大小
-date: 2016-12-28 20:51:24
 tags:
-	- iOS
+  - iOS
+abbrlink: b1d42444
+date: 2016-12-28 20:51:24
 ---
 
 > UISwitch大小是不能修改的，iOS7开始，系统将UISwitch大小固定为51x31。

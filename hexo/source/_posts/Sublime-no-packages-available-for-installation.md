@@ -1,8 +1,9 @@
 ---
 title: Sublime Text 报 There are no packages available for installation 错误
-date: 2019-05-27 17:53:23
 tags:
-	- Other
+  - Other
+abbrlink: 90f26031
+date: 2019-05-27 17:53:23
 ---
 
 #### 前言

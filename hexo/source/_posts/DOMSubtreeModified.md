@@ -1,8 +1,9 @@
 ---
 title: 通过 DOMSubtreeModified 事件接收 DOM 节点变化的回调
-date: 2019-11-12 17:23:19
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: f668727b
+date: 2019-11-12 17:23:19
 ---
 
 需求场景：通过 WKWebView 加载第三方网页，其中有一个录制人脸视频的功能，为了用户体验需要默认调用前摄像头，然而第三方的网页我们无法调整，只能通过注入 JS 来修改 input 标签，将 capture 属性改成 user 即可调用前摄像头。

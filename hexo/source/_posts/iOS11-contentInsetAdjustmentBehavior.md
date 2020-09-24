@@ -1,8 +1,9 @@
 ---
 title: UIScrollView在iOS11新增的contentInsetAdjustmentBehavior属性
-date: 2017-07-06 14:51:23
 tags:
-	- iOS
+  - iOS
+abbrlink: 15ca9f89
+date: 2017-07-06 14:51:23
 ---
 
 > 在iOS11中，苹果对UIScrollView新增了`contentInsetAdjustmentBehavior`属性来取代之前的UIViewController的`automaticallyAdjustsScrollViewInsets`属性。

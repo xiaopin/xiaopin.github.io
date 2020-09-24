@@ -1,9 +1,10 @@
 ---
 title: iOS 逆向之 Cycript 篇
-date: 2019-06-06 15:33:43
 tags:
-	- iOS
-	- 逆向
+  - iOS
+  - 逆向
+abbrlink: 19b70caf
+date: 2019-06-06 15:33:43
 ---
 
 Cycript 是由 saurik 推出的一款脚本语言，可以看作是 Objective-C 和 JavaScript 的结合物，可通过 Cydia 安装。

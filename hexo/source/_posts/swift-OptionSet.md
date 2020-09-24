@@ -1,8 +1,9 @@
 ---
 title: Swift选项集合(OptionSet)
-date: 2018-04-13 08:46:38
 tags:
-	- Swift
+  - Swift
+abbrlink: 9ac189da
+date: 2018-04-13 08:46:38
 ---
 
 ### Objective-C中的NS_OPTION宏

@@ -1,8 +1,9 @@
 ---
 title: 修复 iOS12.1 UITabBar 布局错乱的bug
-date: 2018-11-02 17:16:34
 tags:
-	- iOS
+  - iOS
+abbrlink: f15ece3d
+date: 2018-11-02 17:16:34
 ---
 
 > 此 Bug 是在 iOS 12.1 Beta2 版本中被引入的，没想到在 iOS 12.1 正式版中并未修复

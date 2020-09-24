@@ -1,8 +1,9 @@
 ---
 title: JavaScript实时统计输入框字符数
-date: 2016-01-12 16:34:32
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: c2ec592b
+date: 2016-01-12 16:34:32
 ---
 
 ## 该插件提供一下功能

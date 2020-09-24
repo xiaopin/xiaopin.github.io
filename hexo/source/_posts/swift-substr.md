@@ -1,8 +1,9 @@
 ---
 title: Swift截取子字符串
-date: 2018-03-29 14:57:02
 tags:
-	- Swift
+  - Swift
+abbrlink: a61eb680
+date: 2018-03-29 14:57:02
 ---
 
 在Swift中截取子串，一直是个头疼的问题，毕竟牵涉到`String.Index`这个鬼东西，而且API还不好用。现在连`substring(to:)`、`substring(from:)`、`substring(width:)`这几个方法也被废弃了。

@@ -1,8 +1,9 @@
 ---
 title: iOS地铁图
-date: 2018-07-06 14:25:51
 tags:
-	- iOS
+  - iOS
+abbrlink: 120b73eb
+date: 2018-07-06 14:25:51
 ---
 
 > 使用了高德地图的JS API，文档[戳这里](https://lbs.amap.com/api/subway-api/subway-summary/)

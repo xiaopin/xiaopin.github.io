@@ -1,8 +1,9 @@
 ---
 title: UITableViewHeaderFooterView 修改背景色/文字
-date: 2018-08-31 17:15:53
 tags:
-	- iOS
+  - iOS
+abbrlink: a223e3a0
+date: 2018-08-31 17:15:53
 ---
 
 注意点：

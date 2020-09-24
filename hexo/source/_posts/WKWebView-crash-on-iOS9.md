@@ -1,8 +1,9 @@
 ---
 title: WKWebView在iOS9上崩溃
-date: 2018-07-06 18:49:00
 tags:
-	- iOS
+  - iOS
+abbrlink: be7d7959
+date: 2018-07-06 18:49:00
 ---
 
 最近项目重构，所以采用了 WKWebView 来展示网页内容，但是发现在 iOS9 上程序会出现 crash，以前也用过 WKWebView 但是都没遇到这么坑的情况啊。

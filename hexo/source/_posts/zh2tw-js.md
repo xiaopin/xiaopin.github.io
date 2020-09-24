@@ -1,8 +1,9 @@
 ---
 title: JavaScript简体繁体互相转换
-date: 2015-12-18 11:16:41
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: 29c98b50
+date: 2015-12-18 11:16:41
 ---
 
 ## 使用示例：(简体转繁体)

@@ -1,8 +1,9 @@
 ---
 title: Homebrew
-date: 2019-05-29 09:15:50
 tags:
-	- macOS
+  - macOS
+abbrlink: 17ad264f
+date: 2019-05-29 09:15:50
 ---
 
 Homebrew 是 mac 平台的软件包管理器，它允许我们通过 `brew install xxx` 的方式安装软件。

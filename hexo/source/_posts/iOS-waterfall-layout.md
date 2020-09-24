@@ -1,9 +1,10 @@
 ---
 title: UICollectionView瀑布流布局
-date: 2018-04-10 16:28:58
 tags:
-	- iOS
-	- Swift
+  - iOS
+  - Swift
+abbrlink: cc4e55df
+date: 2018-04-10 16:28:58
 ---
 
 > 仅作为学习交流之用

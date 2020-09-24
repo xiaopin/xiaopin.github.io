@@ -1,8 +1,9 @@
 ---
 title: 重载jQuery的ajax方法解决JSON解析的问题
-date: 2019-03-25 09:23:12
 tags:
-	- JavaScript
+  - JavaScript
+abbrlink: f0ff470c
+date: 2019-03-25 09:23:12
 ---
 
 > 当服务器返回的JSON字符串中包含`回车符`等特殊字符时，ajax的解析会报错，导致程序执行异常。

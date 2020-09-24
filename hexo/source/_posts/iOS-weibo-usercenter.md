@@ -1,8 +1,9 @@
 ---
 title: iOS仿新浪微博个人页面
-date: 2018-02-08 14:02:01
 tags:
-	- iOS
+  - iOS
+abbrlink: dcdf803f
+date: 2018-02-08 14:02:01
 ---
 
 ## 代码

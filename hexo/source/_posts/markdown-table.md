@@ -1,8 +1,9 @@
 ---
 title: 在Markdown中创建表格
-date: 2018-04-19 15:51:40
 tags:
-	- Other
+  - Other
+abbrlink: 807fd854
+date: 2018-04-19 15:51:40
 ---
 
 越来越多人采用Markdown进行写作，而表格作为一种比较常见的需求，Markdown也支持快速创建表格。

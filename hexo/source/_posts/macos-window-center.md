@@ -1,8 +1,9 @@
 ---
 title: macOS应用窗口居中显示
-date: 2017-03-27 15:00:50
 tags:
-	- macOS
+  - macOS
+abbrlink: a5df9a68
+date: 2017-03-27 15:00:50
 ---
 
 > 调整窗口大小或居中显示，必须将NSWindow的`restorable`属性设置为NO，否则无效果。

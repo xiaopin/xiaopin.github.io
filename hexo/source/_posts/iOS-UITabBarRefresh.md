@@ -1,8 +1,9 @@
 ---
 title: UITabBar 点击刷新功能
-date: 2018-11-12 12:48:51
 tags:
-	- iOS
+  - iOS
+abbrlink: 8bfb49d7
+date: 2018-11-12 12:48:51
 ---
 
 我们都知道 UITabBar 只能添加 UITabBarItem，而 UITabBarItem 是继承自 NSObject 的，但是我们可以发现 UITabBarItem 内部有一个 [`_view`](https://github.com/nst/iOS-Runtime-Headers/blob/10.3/Frameworks/UIKit.framework/UITabBarItem.h) 属性与私有类 [`UITabBarButton`](https://github.com/nst/iOS-Runtime-Headers/blob/10.3/Frameworks/UIKit.framework/UITabBarButton.h) 关联着，而这个 UITabBarButton 正是我们在 UITabBar 上看到的一个个按钮对象。

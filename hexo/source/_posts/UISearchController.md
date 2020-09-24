@@ -1,8 +1,9 @@
 ---
 title: UISearchController使用示例(push到下一个页面)
-date: 2018-07-11 16:48:59
 tags:
-	- iOS
+  - iOS
+abbrlink: 95cb6083
+date: 2018-07-11 16:48:59
 ---
 
 ## GIF效果图

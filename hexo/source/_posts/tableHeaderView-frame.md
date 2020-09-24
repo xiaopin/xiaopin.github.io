@@ -1,8 +1,9 @@
 ---
 title: UITableView动态修改tableHeaderView的高度
-date: 2017-08-10 16:16:36
 tags:
-	- iOS
+  - iOS
+abbrlink: 91e945db
+date: 2017-08-10 16:16:36
 ---
 
 有时候我们会用表格的头部视图来做一些简单的UI展示，如果遇到高度固定的情况还好，并无任何问题。但是如果遇到高度需要动态调整的时候，那就有点蛋疼了，因为你不能通过直接修改tableHeaderView的frame属性来达到效果。直接修改frame会导致UI有时候正常有时候又不正常，完全把控不了。

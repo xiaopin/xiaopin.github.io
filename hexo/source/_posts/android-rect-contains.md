@@ -1,8 +1,9 @@
 ---
 title: Android判断点击区域
-date: 2016-12-02 21:26:47
 tags:
-	- Android
+  - Android
+abbrlink: ef258437
+date: 2016-12-02 21:26:47
 ---
 
 最近项目有这么个需求，后台返回一个图片URL，Android通过该URL加载网络图片，同时需要做到点击图片的不同区域，跳转到不同的Activity页面。此时就需要监听View的点击坐标点以及该坐标点所处的区域。

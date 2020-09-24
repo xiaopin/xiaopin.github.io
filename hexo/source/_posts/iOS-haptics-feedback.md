@@ -1,8 +1,9 @@
 ---
 title: iOS Haptics Feedback (触感反馈)
-date: 2018-08-22 14:17:42
 tags:
-	- iOS
+  - iOS
+abbrlink: acdb3c54
+date: 2018-08-22 14:17:42
 ---
 
 ## 要求

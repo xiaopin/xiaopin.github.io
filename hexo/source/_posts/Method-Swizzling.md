@@ -1,10 +1,11 @@
 ---
 title: Method Swizzling
-date: 2019-05-22 17:21:13
 tags:
-	- iOS
-	- macOS
-	- Objective-C
+  - iOS
+  - macOS
+  - Objective-C
+abbrlink: 1c7214e3
+date: 2019-05-22 17:21:13
 ---
 
 #### 交换方法实现

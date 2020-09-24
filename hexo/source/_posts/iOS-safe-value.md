@@ -1,8 +1,9 @@
 ---
 title: 为 NSArray/NSDictionary 优雅地过滤 nil 值
-date: 2018-08-25 16:46:51
 tags:
-	- iOS
+  - iOS
+abbrlink: 167292d1
+date: 2018-08-25 16:46:51
 ---
 
 作为一名 iOS 开发者，肯定知道 NSArray/NSDictionary 不能存储 `nil` 值，如果你试图往数组/字典中存储 nil，那么 App 也将毫不客气的为你闪退。

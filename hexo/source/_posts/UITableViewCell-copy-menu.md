@@ -1,8 +1,9 @@
 ---
 title: UITableViewCell长按拷贝菜单选项
-date: 2017-10-26 09:14:05
 tags:
-	- iOS
+  - iOS
+abbrlink: 8e5ab17e
+date: 2017-10-26 09:14:05
 ---
 
 > 运营推广人员向我们反馈说需要一个能方便拷贝会员手机号码的功能，方便进行其他操作。由于会员信息是采用UITableView来进行展示的，而系统已经为我们准备好了UITableViewCell长按功能菜单的API，我们只需实现对应的代理方法即可。

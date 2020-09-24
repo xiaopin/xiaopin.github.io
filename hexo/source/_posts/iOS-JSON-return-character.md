@@ -1,8 +1,9 @@
 ---
 title: iOS JSON解析换行符(\r、\n、\r\n)
-date: 2018-08-27 16:54:39
 tags:
-	- iOS
+  - iOS
+abbrlink: f1d2d9ae
+date: 2018-08-27 16:54:39
 ---
 
 项目需要对JSON返回的换行符进行解析，系统提供了解析JSON的方法`[NSJSONSerialization JSONObjectWithData:options:error:]`，

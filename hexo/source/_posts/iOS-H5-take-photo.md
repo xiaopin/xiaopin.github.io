@@ -1,9 +1,10 @@
 ---
 title: 修复 iOS 网页在拍照预览时图片被旋转的问题
-date: 2020-01-19 14:50:04
 tags:
-	- iOS
-	- JavaScript
+  - iOS
+  - JavaScript
+abbrlink: f8cd03c4
+date: 2020-01-19 14:50:04
 ---
 
 前几天用 uni-app 写了个上传图片的小案例(编译到 H5 端)，当在 iPhone 上拍照上传时，发现在页面上预览的图片是发生了旋转的。

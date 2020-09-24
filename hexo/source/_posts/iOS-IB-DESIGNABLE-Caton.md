@@ -1,8 +1,9 @@
 ---
 title: IB_DESIGNABLE引起Xcode编写代码时异常卡顿
-date: 2017-11-07 11:05:52
 tags:
-	- iOS
+  - iOS
+abbrlink: 5df24d0c
+date: 2017-11-07 11:05:52
 ---
 
 最近升级了Xcode9之后，发现Xcode经常性卡顿，菊花常现，已经严重影响到代码的编写了，一开始还以为是Xcode9的问题，后来在网上搜索了下，原来老版本的Xcode就存在这个问题，而且是由于`IB_DESIGNABLE`这个系统宏导致的。

@@ -1,8 +1,9 @@
 ---
 title: SafariServices框架
-date: 2018-03-14 15:46:51
 tags:
-	- iOS
+  - iOS
+abbrlink: 652a77d
+date: 2018-03-14 15:46:51
 ---
 
 相信大家在日常开发中，都离不开web吧，部分页面还是得用网页进行展示。在iOS7和之前我们可以用UIWebView来加载网页，在iOS8 Apple为我们带来了WKWebView(WebKit框架)，而在iOS9 Apple为我们提供了进一步的封装库SafariServices。

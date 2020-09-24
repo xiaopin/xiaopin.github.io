@@ -1,8 +1,9 @@
 ---
 title: SDWebImage 4.x 播放GIF图片
-date: 2018-12-14 15:07:16
 tags:
-	- iOS
+  - iOS
+abbrlink: 17c3bf1
+date: 2018-12-14 15:07:16
 ---
 
 今天产品部的突然说 iOS 版 App 播放不了 GIF，一接到这个反馈信息，我一开始是不相信的，因为之前的旧版也是用的 `SDWebImage` 这个库且未做任何代码适配就能够播放 GIF，所以我内心是极不愿相信这是我的锅。

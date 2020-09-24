@@ -1,8 +1,9 @@
 ---
 title: 基于阿里云 OSS 搭建 hexo 博客
-date: 2019-03-26 14:25:28
 tags:
-	- Other
+  - Other
+abbrlink: 62f4282a
+date: 2019-03-26 14:25:28
 ---
 
 时间过的真快，转眼`弹性Web托管`服务也即将到期了，但是每年 RMB199 的费用确实有点高了，所以今年不打算续费了，转战 OSS。
@@ -71,13 +72,49 @@ OSS 的计费方式分为 [按量付费](https://help.aliyun.com/document_detail
 permalink: :year/:month/:day/:title/index.html
 ```
 
-- 修改标签的链接：node_modules/hexo/lib/plugins/helper/tagcloud.js 在227行代码中拼接上 index.html
+- hexo V5.2.0修改
 
-- 修改文章详情内的标签链接：/node_modules/hexo/lib/plugins/helper/list_tags.js 分别在40/56行代码中拼接上 index.html
+  - 修改标签的链接：node_modules/hexo/lib/plugins/helper/tagcloud.js 在70行代码中拼接上 index.html
 
-- 修改首页底部的分页链接：/node_modules/hexo/lib/plugins/helper/paginator.js 修改 `link` 函数，在28行代码中拼接 index.html
+  - 修改文章详情内的标签链接：/node_modules/hexo/lib/plugins/helper/list_tags.js 分别在55/71行代码中拼接上 index.html
+
+  - 修改首页底部的分页链接：/node_modules/hexo/lib/plugins/helper/paginator.js 修改 `createLink` 函数，在第8行代码中拼接 index.html
+
+- hexo V3.8.0修改
+
+  - 修改标签的链接：node_modules/hexo/lib/plugins/helper/tagcloud.js 在227行代码中拼接上 index.html
+
+  - 修改文章详情内的标签链接：/node_modules/hexo/lib/plugins/helper/list_tags.js 分别在40/56行代码中拼接上 index.html
+
+  - 修改首页底部的分页链接：/node_modules/hexo/lib/plugins/helper/paginator.js 修改 `link` 函数，在28行代码中拼接 index.html
 
 > 针对修改 hexo 源码的问题，由于使用不同的主题会有所不同，请根据实际情况进行修改即可。上面的修改针对默认主题有效。
+
+#### 永久链接
+
+上面中通过指定 `permalink` 为 `:year/:month/:day/:title/index.html` 已经修改了永久链接的生成格式，但是这种格式目录太深了，并且标题是中文的话URL中也会出现中文，所以需要改进一下生成的最终链接格式。
+
+- 安装 hexo-abbrlink 插件
+```
+npm install hexo-abbrlink --save
+```
+
+- 修改配置文件 _config.yml
+```
+permalink: posts/:abbrlink/index.html
+# hexo-abbrlink 插件配置(用于生成唯一的永久链接)
+abbrlink:
+    alg: crc32 # 算法：crc16(default) and crc32
+    rep: hex # 进制：dec(default) and hex
+```
+
+- 重新打包
+```
+hexo clean
+hexo g
+```
+
+打包生成后你会发现原来的文章md文件已经添加了 `abbrlink` 字段，值为对应的唯一ID，所以能够确保我们修改标题、文章内容等不会改变最终的文章链接。
 
 #### HTTPS
 

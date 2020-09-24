@@ -1,8 +1,9 @@
 ---
 title: iOS编译MobileVLCKit.framework
-date: 2018-02-26 14:45:03
 tags:
-	- iOS
+  - iOS
+abbrlink: 970f7e8d
+date: 2018-02-26 14:45:03
 ---
 
 ## 我的编译环境

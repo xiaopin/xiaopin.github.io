@@ -1,8 +1,9 @@
 ---
 title: CSS设置宽高比
-date: 2019-11-26 14:40:49
 tags:
-	- CSS
+  - CSS
+abbrlink: 78d84c2d
+date: 2019-11-26 14:40:49
 ---
 
 ```html

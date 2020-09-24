@@ -1,8 +1,9 @@
 ---
 title: 十六进制字符串转UIColor
-date: 2018-06-03 16:02:06
 tags:
-	- iOS
+  - iOS
+abbrlink: 630b65bb
+date: 2018-06-03 16:02:06
 ---
 
 支持十六进制字符串的格式有：

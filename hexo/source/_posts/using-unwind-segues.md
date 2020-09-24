@@ -1,8 +1,9 @@
 ---
 title: 使用 unwind segues 关闭当前页面
-date: 2018-04-25 11:59:33
 tags:
-	- iOS
+  - iOS
+abbrlink: 688ee7ba
+date: 2018-04-25 11:59:33
 ---
 
 我们经常会遇到这样一种需求，在控制器上有一个关闭按钮，点击来关闭当前页面。而我们通常的做法都是在 Storyboard 上拖一个 UIButton 出来，然后将 UIButton 拖线到控制器上，新建一个 IBAction 方法，并在该方法中通过代码来关闭当前控制器。

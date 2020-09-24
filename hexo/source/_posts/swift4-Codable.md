@@ -1,9 +1,10 @@
 ---
 title: Swift4之Codable协议
-date: 2018-03-26 16:25:32
 tags:
-	- iOS
-	- Swift
+  - iOS
+  - Swift
+abbrlink: 27ac4916
+date: 2018-03-26 16:25:32
 ---
 
 最近公司新项目采用了Swift开发，在处理JSON数据时，一开始是准备采用阿里开源的[HandyJSON](https://github.com/alibaba/HandyJSON)，后来了解了下，随着Swift4的到来，苹果为我们带来了[`Codable`](https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types)协议，用于数据的编解码，虽然现在的Codable并不完善，使用上也并没有那么的友好，但是毕竟是官方出品，后期肯定会越来越完善的，所以决定采用Codable而弃用HandyJSON。

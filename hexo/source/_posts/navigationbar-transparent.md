@@ -1,8 +1,9 @@
 ---
 title: iOS导航栏透明效果
-date: 2016-12-09 17:04:15
 tags:
-	- iOS
+  - iOS
+abbrlink: 573eaa16
+date: 2016-12-09 17:04:15
 ---
 
 你可以直接将下面的代码粘贴到`viewDidLoad`里面。如果你的场景比较复杂，从A控制器push到B控制器时B控制器需要设置导航栏透明，然后从B控制器pop回A控制器时恢复导航栏原有样式，则建议在B控制器中的`viewWillAppear:`方法中将导航栏设置成透明，在`viewWillDisappear:`中恢复导航栏样式。

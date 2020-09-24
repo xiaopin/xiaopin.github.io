@@ -1,8 +1,9 @@
 ---
 title: 隐藏NSWindow的titleBar
-date: 2017-03-27 14:46:21
 tags:
-	- macOS
+  - macOS
+abbrlink: 88ba52d9
+date: 2017-03-27 14:46:21
 ---
 
 新建一个macOS应用项目，编译运行后默认出现的界面是如下图所示的样子：

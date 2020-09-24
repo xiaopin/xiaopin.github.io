@@ -1,8 +1,9 @@
 ---
 title: iOS打开QQ临时会话窗口
-date: 2018-01-16 15:03:50
 tags:
-	- iOS
+  - iOS
+abbrlink: 3c37c29d
+date: 2018-01-16 15:03:50
 ---
 
 > 前提条件：接收临时会话的QQ号码必须开通[QQ推广](http://shang.qq.com)功能，否则不能打开临时会话窗口。

@@ -1,8 +1,9 @@
 ---
 title: iOS 刘海屏适配
-date: 2018-09-21 16:21:12
 tags:
-	- iOS
+  - iOS
+abbrlink: a933fc8a
+date: 2018-09-21 16:21:12
 ---
 
 今年苹果发布了三款 iPhone，分别为 iPhone XS、iPhone XS Max 以及 iPhone XR，尽管大家都在吐槽刘海屏，但是苹果今年已经是 iPhone 系列标配刘海屏了。

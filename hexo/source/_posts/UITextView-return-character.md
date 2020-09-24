@@ -1,8 +1,9 @@
 ---
 title: UITextView禁用回车符
-date: 2017-11-17 16:40:36
 tags:
-	- iOS
+  - iOS
+abbrlink: 3c9a757e
+date: 2017-11-17 16:40:36
 ---
 
 最近项目有个需求，需要在UITextView中禁止用户输入回车符，因为后台不会过滤回车符号，所以当AFNetworking请求数据时，如果返回的数据中包含了回车符，那么JSON解析将会失败。既然后台不处理，那没办法，只能在UITextView上禁用回车符了。

@@ -1,8 +1,9 @@
 ---
 title: macOS/Linux 文本替换
-date: 2019-03-25 14:42:15
 tags:
-	- Other
+  - Other
+abbrlink: e884faf9
+date: 2019-03-25 14:42:15
 ---
 
 有时候我们需要将项目下的某个字符串全局替换成另一个字符串，可以借助 IDE 工具，当然也可以直接通过 `grep` + `sed` 命令完成。

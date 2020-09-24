@@ -1,8 +1,9 @@
 ---
 title: macOS中搭建PHP+MySQL环境
-date: 2019-09-17 10:16:35
 tags:
-	- macOS
+  - macOS
+abbrlink: 7083edfd
+date: 2019-09-17 10:16:35
 ---
 
 > 请先安装 [HomeBrew](https://brew.sh) 工具
