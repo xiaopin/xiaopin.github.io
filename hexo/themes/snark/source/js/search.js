@@ -26,10 +26,12 @@ var searchFunc = function(path, search_id, content_id) {
         success: function( xmlResponse ) {
             // get the contents from search data
             var datas = $( "entry", xmlResponse ).map(function() {
+                var url = $( "url" , this).text()
+                url = location.origin + url.substring(0, 1) === '/' ? '' : '/' + url
                 return {
                     title: $( "title", this ).text(),
                     content: $("content",this).text(),
-                    url: $( "url" , this).text()
+                    url: url
                 };
             }).get();
 
