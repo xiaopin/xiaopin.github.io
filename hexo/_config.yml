@@ -16,7 +16,7 @@ url: https://www.0daybug.com
 root: /
 # 阿里云OSS服务访问需要添加index.html结尾(绝对路径)
 # permalink: :year/:month:day/:title/index.html
-permalink: posts/:abbrlink/index.html
+permalink: :abbrlink/index.html
 permalink_defaults:
 # hexo-abbrlink 插件配置(用于生成唯一的永久链接)
 abbrlink:
