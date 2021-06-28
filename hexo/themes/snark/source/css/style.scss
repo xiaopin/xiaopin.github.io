@@ -9,6 +9,11 @@ html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,
     padding: 0;
 }
 
+// 解决首页的文章列表多了很多莫名其妙的黑色块块
+.l-postlist code.prettyprint {
+    background-color: transparent !important;
+}
+
 //html {
     //scroll-behavior: smooth;
 //}
