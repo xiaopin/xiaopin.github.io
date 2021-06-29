@@ -159,6 +159,8 @@ Can't open order file: /Applications/Xcode.app/Contents/Developer/Platforms/MacO
 
 ![PNG](/images/2021/06/002.png)
 
+补上头文件 [MissFiles.zip](/images/2021/06/MissFiles.zip)，请自取
+
 ## 参考
 
 - [最新 macOS 10.15 下 objc4-779.1 源码编译调试](https://juejin.cn/post/6844904082226806792)
