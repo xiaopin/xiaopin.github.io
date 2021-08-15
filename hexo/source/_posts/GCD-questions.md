@@ -65,7 +65,7 @@ date: 2021-08-03 22:04:57
 
 ```ObjC
 - (void)WBDemo1 {
-    dispatch_queue_t queue = dispatch_queue_create("com.demo", DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t queue = dispatch_queue_create("com.demo", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{ NSLog(@"1"); });
     dispatch_async(queue, ^{ NSLog(@"2"); });
     dispatch_sync(queue, ^{ NSLog(@"3"); });
@@ -95,6 +95,8 @@ date: 2021-08-03 22:04:57
   - 0 在 4、5、6 之前
 
 对于 A、B、C、D 来说，只有 A、C 符合上述两个条件。
+
+> 如果 queue 是 DISPATCH_QUEUE_SERIAL 类型的串行队列的话则答案是 A
 
 ***
 
