@@ -132,7 +132,13 @@ static void *PersonAgeContext = &PersonAgeContext;
 
 文档明确说明了会修改 isa 的指向，那么我们就来验证一下。
 
+- 通过代码验证
+
 ![png](/images/2021/07/210.png)
+
+- 通过 LLDB 进行验证
+
+![png](/images/2021/07/210-1.png)
 
 通过上图可以明确看出，当执行了 `addObserver:forKeyPath:options:context:` 方法后，isa 的指向从 `MYPerson` 改成了 `NSKVONotifying_MYPerson`。那么这个类是何时生成的呢，是编译时还是运行时？
 
