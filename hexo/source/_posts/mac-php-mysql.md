@@ -14,16 +14,45 @@ macOS自带了PHP，不过自带的PHP版本都是比较老的，我们可以通
 
 - 安装brew提供的最新版PHP(未必是PHP最新版本，只能是brew提供的最新版本)
 ```
-brew install php
+brew install php@7.4
 ```
 
-- 开启PHP
+- 替换默认版本
+
+```
+echo 'export PATH="/usr/local/opt/php@7.4/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/usr/local/opt/php@7.4/sbin:$PATH"' >> ~/.zshrc
+
+source ~/.zshrc
+```
+
+如果你用的是 bash, 请修改 `.bash_profile`
+
+- 修改 apache 配置文件
 
 ```
 sudo vi /etc/apache2/httpd.conf
 ```
-打开 `LoadModule php7_module libexec/apache2/libphp7.so` 功能(去掉前面的#号)
 
+添加以下内容
+
+```
+LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+
+<FilesMatch .php$>
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
+<IfModule php7_module>
+    AddType application/x-httpd-php .php
+    AddType application/x-httpd-php-source .phps
+    <IfModule dir_module>
+        DirectoryIndex index.html index.php
+    </IfModule>
+</IfModule>
+```
+
+`#LoadModule php7_module libexec/apache2/libphp7.so` 这行保持注释, 打开这个配置则加载的是系统自带的 PHP 版本。
 
 - apachectl命令的使用
 
@@ -48,9 +77,9 @@ sudo apachectl stop
 
 ## 安装MySQL
 
-安装
+安装(如果省略版本号, 默认安装的是8.x)
 ```
-brew install mysql
+brew install mysql@5.7
 ```
 
 启动MySQL
@@ -66,6 +95,12 @@ mysql.server restart
 关闭MySQL
 ```
 mysql.server stop
+```
+
+修改root密码
+```
+set password for root@localhost = password('pwd');
+flush privileges;
 ```
 
 ## 安装phpMyAdmin(目前下载的是4.9.0.1版本)
