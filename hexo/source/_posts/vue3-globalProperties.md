@@ -49,7 +49,7 @@ declare module '@vue/runtime-core' {
 
 ## 通过插件形式扩展(个人推荐做法)
 
-可在项目中新建 `plugins/VueEnhance.vue` 插件文件，然后编写插件内容：
+可在项目中新建 `plugins/VueEnhance.ts` 插件文件，然后编写插件内容：
 
 ```TypeScript
 import axios from 'axios'
