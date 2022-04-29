@@ -1,5 +1,6 @@
 ---
 title: 在 Vue3 中挂载全局属性
+abbrlink: f651d15a
 date: 2022-04-29 15:29:48
 tags:
     - Vue
