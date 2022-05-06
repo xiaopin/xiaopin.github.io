@@ -48,6 +48,8 @@ var searchFunc = function(path, search_id, content_id) {
                     }
                     // perform local searching
                     datas.forEach(function (data) {
+                        // Fix the problem that search results cannot be opened
+                        data.url = data.url.replace(/\/+/, '/')
                         var isMatch = true;
                         var content_index = [];
                         if (!data.title || data.title.trim() === '') {
