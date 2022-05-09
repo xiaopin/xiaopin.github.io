@@ -90,6 +90,41 @@ import VueEnhance from './plugins/VueEnhance'
 createApp(App).use(VueEnhance).mount('#app')
 ```
 
+## 使用 properties
+
+前面我们已经定义好了自己的功能扩展，现在就开始在项目中使用吧。
+
+### 在组合式API（Composition API）中使用
+
+在组合式API中，TypeScript 能正确推导出 this 的类型，所以可以直接通过 `this.$xxx` 的形式来访问。
+
+```TypeScript
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+    setup() {},
+    methods: {
+        test() {
+            console.log(this.$name)
+        }
+    }
+})
+</script>
+```
+
+### 在 script-setup 中使用
+
+由于 getCurrentInstance 返回值的类型为 `ComponentInternalInstance | null`，所以我们需要先强制转成 ComponentInternalInstance，这样在使用 proxy 的时候就能得到 TypeScript 的语法提示了。
+
+```TypeScript
+<script lang="ts" setup>
+import { ComponentInternalInstance, getCurrentInstance } from 'vue'
+
+const { proxy } = getCurrentInstance() as ComponentInternalInstance
+console.log(proxy?.$name)
+```
+
 ## 参考文档
 
 - [globalproperties](https://v3.cn.vuejs.org/api/application-config.html#globalproperties)
