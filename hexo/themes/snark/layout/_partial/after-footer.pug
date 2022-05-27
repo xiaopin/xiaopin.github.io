@@ -15,5 +15,6 @@ if theme.local_search == true
         searchFunc(path, 'local-search-input', 'local-search-result');
 
 if theme.fancybox == true
-    script(type='text/javascript', src='//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')
+    //- script(type='text/javascript', src='//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')
+    script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js')
     script(type='text/javascript', src=url_for(theme.js) + '/fancybox.js' + '?v=' + theme.version, async)
