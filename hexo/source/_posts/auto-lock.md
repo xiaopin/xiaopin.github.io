@@ -16,6 +16,7 @@ Web项目中有一个自动锁屏的功能，当用户停止操作页面超过�
 - 键盘按键
 - 鼠标滚轮滚动
 - 鼠标在页面中滑动
+- 浏览器窗口之间切换(`visibilitychange`)
 
 其中
 - 鼠标点击时会触发`mousedown`、`mouseup`、`click`事件
@@ -42,7 +43,7 @@ export type AutoLockOption = {
 
 export default class AutoLock {
     private isLocked: boolean = false;
-    private timer: NodeJS.Timer | undefined = undefined;
+    private timer: number | undefined = undefined;
     private latestTime: number | undefined = undefined;
     private option: AutoLockOption;
 
@@ -53,10 +54,17 @@ export default class AutoLock {
          */
         this.resetTimer = this.resetTimer.bind(this);
         this.handleTimerCallback = this.handleTimerCallback.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
 
         const defaultOption: AutoLockOption = { time: 5 * 60 * 1000 };
         this.option = Object.assign(defaultOption, option);
         this.addListener();
+        document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    }
+
+    destroy(): void {
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+        this.removeListenner();
     }
 
     /** 锁定(用于用户手动锁定页面时调用该方法停止计时) */
@@ -74,8 +82,7 @@ export default class AutoLock {
     /** 添加事件监听器并启动计时器 */
     private addListener(): void {
         EVENT_NAMES.forEach(element => window.addEventListener(element, this.resetTimer));
-        this.clearTimer();
-        this.timer = setInterval(this.handleTimerCallback, 1000);
+        this.startTimer();
         this.latestTime = new Date().getTime();
     }
 
@@ -86,6 +93,17 @@ export default class AutoLock {
         this.latestTime = undefined;
     }
 
+    /** 页面显示/隐藏的回调 */
+    private handleVisibilityChange(): void {
+        if (this.isLocked) return;
+        if (document.visibilityState === 'visible') {
+            this.startTimer();
+            this.handleTimerCallback();
+        } else {
+            this.clearTimer();
+        }
+    }
+
     /** 事件回调, 更新最后操作时间 */
     private resetTimer(event: Event): void {
         if (this.isLocked) return;
@@ -94,7 +112,6 @@ export default class AutoLock {
 
     /** 发送`autolock`事件通知外界进入自动锁定 */
     private dispatchLockEvent(): void {
-        this.removeListenner();
         const event = new CustomEvent('autolock', { detail: this });
         window.dispatchEvent(event);
     }
@@ -107,6 +124,12 @@ export default class AutoLock {
             this.lock();
             this.dispatchLockEvent();
         }
+    }
+
+    /** 开启计时器 */
+    private startTimer(): void {
+        this.clearTimer();
+        this.timer = setInterval(this.handleTimerCallback, 1000);
     }
 
     /** 清除计时器 */
@@ -149,6 +172,11 @@ window.addEventListener('autolock', {
         }, 5000)
     }
 })
+```
+
+- 在 App 卸载时销毁 AutoLock 对象
+```ts
+this.autoLock.destroy()
 ```
 
 > 当用户成功解锁页面后，记得调用`unlock()`方法重新开启计时，如果页面提供了手动锁定的按钮，当用户点击锁定按钮成功锁屏后，记得调用`lock()`方法停止计时器。
