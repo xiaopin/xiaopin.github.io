@@ -11,6 +11,12 @@ tags:
 
 假设我们已通过 `npx react-native init RNIconsExample --template react-native-template-typescript` 命令创建了一个名叫 `RNIconsExample` 的项目。
 
+## 安装环境
+
+- react-native 0.69.1
+- react 18.0.0
+- react-native-vector-icons 9.2.0
+
 ## 安装
 
 ```shell
