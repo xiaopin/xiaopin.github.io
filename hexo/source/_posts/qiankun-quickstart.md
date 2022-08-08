@@ -315,8 +315,9 @@ $ npm install npm-run-all -D
 
 ```shell
 $ cd qiankun-examples
-$ npm run install
-$ npm run start
+$ npm install // 安装 npm-run-all
+$ npm run install // 安装主应用和微应用(app/home/profile)的依赖
+$ npm run start // 启动主应用和微应用(app/home/profile)项目
 ```
 
 项目启动成功后，浏览器访问 `http://localhost:5173/` 即可看到效果（这个端口是Vite默认的，你根据实际情况访问你的地址即可）。
