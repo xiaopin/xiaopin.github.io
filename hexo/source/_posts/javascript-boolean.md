@@ -1,5 +1,5 @@
 ---
-title: JavaScript 条件判断之 boolean 类型值的骚操作
+title: JavaScript 条件判断之 boolean 类型值的骚操作(!!)
 abbrlink: 6262aff0
 date: 2022-08-22 16:21:10
 tags:
@@ -20,6 +20,11 @@ if (s.length) {}
 
 let v1 = undefined
 if (v1) {}
+
+// 通过 !! 运算符强转成 Boolean
+if (!!n) {}
+if (!!s) {}
+if (!!v1) {}
 ```
 
 有时候我们想要得到一个明确的 Boolean 来进行判断/处理逻辑，我们可以通过 `!!` 或者 `!!+` 运算符来强制转成 Boolean 类型，但是在不同的数据类型中，这两者的转换结果也会有所不同。
@@ -29,24 +34,27 @@ if (v1) {}
 测试代码：
 
 ```js
-const strings = ['', ' ', 'a', '0', '1', '1a', '.', '.34']
+const strings = ['', ' ', 'a', '0', '1', '1a', '.', '.34', '0o123', '0b0101', '0xabc']
 strings.forEach(element => console.log(element, !!element, !!+element))
 ```
 
 打印结果如下表所示：
 
-| 原始值 | !! | !!+ |
-| :-: | :-: | :-: |
-|  | false | false |
-|   | true | false |
-| a | true | false |
-| 0 | true | false |
-| 1 | true | true |
-| 1a | true | false |
-| . | true | false |
-| .34 | true | true |
+| 原始值 | !! | !!+ | 备注 |
+| :-: | :-: | :-: | :-: |
+|  | false | false | |
+|   | true | false | |
+| a | true | false | |
+| 0 | true | false | |
+| 1 | true | true | |
+| 1a | true | false | |
+| . | true | false | |
+| .34 | true | true | |
+| 0o123 | true | true | 八进制 |
+| 0b0101 | true | true | 二进制 |
+| 0xabc | true | true | 十六进制 |
 
-> 结论：对于 String 数据类型，空字符串时两者转换结果都为 false，但是在字符串长度不为空时，`!!` 的转换结果则永远为 true，`!!+` 在数字类型字符串且不等于`'0'`时为 true，其他情况均为 false
+> 结论：对于 String 数据类型，空字符串时两者转换结果都为 false，但是在字符串长度不为空时，`!!` 的转换结果则永远为 true，`!!+` 在数字类型字符串且不等于`'0'`时为 true，其他情况均为 false（数字类型字符串表示合法的十进制、二进制、八进制、十六进制字符串）
 
 可以简单理解为：
 - `!!` 等价于 string.length > 0
@@ -236,7 +244,7 @@ console.log(!!+symbol)
 | Symbol | true | 抛异常(TypeError: Cannot convert a Symbol value to a number) |
 
 注：
-1. 数字类型字符串表示由纯数字和单个点号组成的字符串，如：123、1.2、.34 均为合法格式；1a、1.2.3 这种则为不合法格式
+1. 数字类型字符串表示由数字和单个点号组成的字符串(即合法的十进制、二进制、八进制、十六进制字符串)，如：123、1.2、.34、0o12、0b01、0x123abc 均为合法格式；1a、1.2.3 这种则为不合法格式
 2. `!!` 和 `!!+` 两者转换只在 String/Array/Function/Object/Symbol 这几个数据类型中存在差异，其他数据类型的转换结果两者都保持一致
 3. `!!+` 是由[双重逻辑非(!!)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_NOT#double_not_!!)和[一元加法(+)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Unary_plus)两种运算符组合而成，但是一元加法的优先级比逻辑非的优先级要高，所以会先进行一元加法的运算，再进行双重逻辑非的运算，理解了优先级，那么这个转换结果就取决于一元加法了，因为一元加法会尝试将数据转成 Number 类型，转换失败时会返回 NaN，具体可以参考文档说明
 
